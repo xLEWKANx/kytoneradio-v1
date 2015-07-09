@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title= title
+    include styles
+  body
+    //- navbar
+    include ../parts/nav
+
+    //- - - - - - - - -
+    //- main  content -
+    //- - - - - - - - -
+    block content
+    
+    //- footer
+    include ../parts/footer
+
+    include scripts
