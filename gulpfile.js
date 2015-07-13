@@ -18,6 +18,7 @@ var _paths = {
   out: path.join(__dirname,'public')
 }
 
+
 gulp.task('styles',function(){
   return gulp
     .src(_paths.styles+'/*.less')
@@ -42,7 +43,11 @@ gulp.task('app',function(){
 
 gulp.task('app:lib',function(){
   return gulp
-    .src(_paths.app_lib + '/**/*.js')
+    .src([
+      _paths.app_lib + '/**/jquery*.js',
+      _paths.app_lib + '/**/angular*.js',
+      _paths.app_lib + '/**/*.js'
+      ])
     .pipe(concat('lib.js'))
     .pipe(gulp.dest(
         $dest('app')

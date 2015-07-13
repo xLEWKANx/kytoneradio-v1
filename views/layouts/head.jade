@@ -1,7 +1,14 @@
 doctype html
 html
   head
-    title= title
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Kytone radio station 
+    
+    //- adding application libs
+    script(src='/app/lib.js', type='text/javascript')
+    
     include styles
   body
     //- navbar
@@ -14,5 +21,8 @@ html
     
     //- footer
     include ../parts/footer
+    
+    //- audio
+    include ../parts/player
 
     include scripts

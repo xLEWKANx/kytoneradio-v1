@@ -1,5 +1,46 @@
-h1= title 
-ul
-  li Home
-  li About
-  li Login
+.margin-by-height
+.header-container
+  .left-side
+    .top-row
+      .left-cell
+        a.soc-icon.icon-s(href='')
+        a.soc-icon.icon-f(href='https://www.facebook.com/kytoneradio' target='_blank')
+        a.soc-icon.icon-y(href='#')
+        a.soc-icon.icon-m(href='#')
+    .top-timerow
+      .left-timecell
+      .right-timecell
+    .bot-timerow
+      .left-timecell
+        span#clock
+          | 17:22 KYIV (+2 GMT)
+      .right-timecell
+    .bottom-row
+      .left-cell
+      .right-cell#player_status
+        // player status text
+    .margin-by-height
+  .right-side
+    .top-row
+      .left-cell
+        span#image
+      .right-cell
+    .center-row#playlist
+      .left-cell
+        ul.timelist
+          li
+            span.numb
+              | 04:20
+      .right-cell
+        ul.playlist
+          li.playlist-item(href='#')
+            span(style="color:#F00") ON AIR
+            =" "
+            | test event name
+    .bottom-row
+      a(href='/').left-cell
+        .logo
+          include ../svg/ky-logo.svg
+      .right-cell
+        | KYTONE RADIO
+    .margin-by-height

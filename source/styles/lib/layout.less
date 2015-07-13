@@ -1,0 +1,286 @@
+@import "mixins";
+
+.margin-by-height {
+  height: 4%;
+}
+
+.header-container {
+  z-index: 1;
+  position: relative;
+  .table;
+  margin: 0 auto;
+  width: 90%;
+  min-height: @min-header-height;
+  height: 36%;
+  text-align: center;
+
+  .margin-by-height {
+  height: 10%;
+  }
+}
+
+.left-side, .right-side {
+
+  .table-cell;
+
+  width: 50%;
+  height: 100%;
+}
+
+.top-row, .center-row, .bottom-row {
+
+  .table;
+
+  .left-cell, .right-cell {
+
+    height: 100%;
+
+    .table-cell;
+  }
+}
+
+.top-row, .bottom-row  {
+  height: 15%;
+}
+
+.center-row {
+  height: 60%;
+}
+
+.left-side {
+  .border-right;
+
+  .top-row {
+
+    .border-left;
+
+    .left-cell {
+      text-align: left;
+      padding-left: 1.5em;
+
+    }
+  }
+
+  .bottom-row {
+    .left-cell{
+
+    }
+
+    .right-cell {
+      .border-left;
+    }
+  }
+}
+
+.right-side {
+
+  .top-row, .bottom-row {
+
+    .right-cell {
+
+      .border-left;
+    }
+  }
+
+  .center-row {
+    font-size: 1.5vh;
+    .left-cell {
+
+      padding-left: 1em;
+      width: 5em;
+      text-align: center;
+
+    }
+
+    .right-cell {
+
+
+      padding-right: 2em;
+    }
+  }
+
+  .bottom-row {
+
+    .left-cell{
+    }
+
+      .right-cell {
+      vertical-align: middle;
+
+    }
+  }
+
+}
+
+.playlist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+
+}
+
+
+.top-timerow, .bot-timerow {
+
+  .table;
+
+  height: 30%;
+
+  .left-timecell, .right-timecell {
+    .table-cell;
+
+    vertical-align: top;
+    height: 100%;
+  }
+}
+
+.top-timerow {
+
+  .left-timecell {
+
+    .border-bottom;
+  }
+}
+
+.player-place-one {
+  min-height: @min-player-height;
+  height: @player-height;
+}
+.player-place-two {
+  min-height: @min-player-height;
+  height: @player-height;
+    padding-bottom: 5%;
+}
+
+.cover-first-row {
+  .cover-row(35%);
+}
+
+.cover-second-row {
+  .cover-row(70%);
+}
+
+.cover-third-row {
+  .cover-row(35%);
+}
+
+.sponsor-row {
+
+  height: 10%;
+    width: 100%;
+  position: absolute;
+    top: 195%;
+  display: table;
+    table-layout: fixed;
+    text-align: center;
+
+    .sponsor-list {
+    display: table-cell;
+      vertical-align: middle;
+  }
+
+  .sponsor-list li {
+    display: inline-block;
+    vertical-align: middle;
+      padding: 0 1em;
+  }
+
+    .copyright {
+    position: absolute;
+    right: 2.5%;
+      bottom: 1em;
+      padding-right: 0!important;
+  }
+}
+
+@media (max-width: 1280px) {
+    .sponsor-row .copyright {
+    position: static;
+    right: 0;
+
+  }
+}
+
+
+.player {
+  position: fixed;
+  z-index: 10;
+  top: 75%;
+  min-height: @min-player-height;
+  height: @player-height;
+  min-width: @min-width;
+  width: 100%;
+  background-color: #fff;
+}
+
+.player-container {
+
+  z-index: 10;
+
+  .table;
+  text-align: center;
+  width: 90%;
+  margin: 0 auto;
+  height: 100%;
+
+  .left-side, .right-side {
+
+    height: 100%;
+
+    .table-cell;
+  }
+
+  .left-side {
+
+    .border-right;
+  }
+
+  .right-side {
+
+  font-size: 1.5vh;
+
+      .wrapper {
+        .border-right;
+    }
+
+    .now-play {
+      margin-left: 6em;
+        margin-right: 2em;
+      text-align: left;
+    }
+  }
+}
+
+.controls-row {
+
+  .table;
+
+
+  .left-controls, .right-controls {
+
+    .table-cell;
+
+
+  }
+
+    .controls-container {
+    .border-left;
+    padding: 0.5em;
+    .border-right;
+  }
+
+  .icon {
+    font-size: 0.7vh;
+
+  }
+
+  .right-controls {
+
+    .slider-container {
+      margin-left: 20%;
+      width: 60%;
+    }
+  }
+
+}
+
