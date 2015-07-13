@@ -6,7 +6,9 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     concat = require("gulp-concat");
 
-var path = require('path');
+var path = require('path'),
+      fs = require('fs');
+
 var _source = 'source/';
 var _dest = 'public/';
 var _paths = {
@@ -17,6 +19,7 @@ var _paths = {
   views: $path('views'),
   out: path.join(__dirname,'public')
 }
+
 
 
 gulp.task('styles',function(){
@@ -79,6 +82,14 @@ gulp.task('default', function(){
   return
 })
 
+gulp.task('config', function(){
+    var raw = fs.readFileSync('./paths.json', {
+        encoding : 'UTF-8'
+    });
+    var config = JSON.parse(raw);
+    return printcfg(config);
+});
+
 gulp.task('watch', function(){
 
   // server.run(['www']);
@@ -105,4 +116,15 @@ function $path(dir){
 }
 function $dest(dir){
   return path.join(__dirname,_dest+dir)
+}
+function printcfg(config){
+    for (var key in config){
+        if (typeof config[key] != 'object')
+            console.log('%s - %s', key, config[key] );
+        else{
+            console.log('%s :', key);
+            printcfg(config[key])
+        }
+    }
+
 }

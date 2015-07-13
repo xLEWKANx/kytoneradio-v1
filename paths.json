@@ -1,0 +1,16 @@
+{
+  "source": "source/",
+  "public": "public/",
+  "src": {
+    "styles": "testing",
+    "app" : "text",
+    "applib": "dfsfsd",
+    "views": "Fgsdfsd"
+  },
+  "dest": {
+    "styles": "**/*",
+    "app" : "*/**",
+    "applib": "543",
+    "views": "33444"
+  }
+}
