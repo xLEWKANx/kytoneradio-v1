@@ -1,3 +1,24 @@
 //- audio
 audio#player(autoplay='true')
   source(src='http://central-srv.p-s.org.ua:15002/stream',type="audio/ogg")
+
+.player
+  .player-container
+     .left-side
+        .controls-row
+           .left-controls
+              .controls-container
+                 button#play
+                    img.play.playtrue(data-src='img/icons/play.svg')
+                    img.play.playfalse(data-src='img/icons/play-active.svg')
+                 button#pause
+                    img.play.playfalse(data-src='img/icons/pause.svg')
+                    img.play.playtrue(data-src='img/icons/pause-active.svg')
+           .right-controls
+              .slider-container
+                 #slider
+     .right-side
+        .wrapper
+           .now-play.str_wrap
+              p#track-title
+                 span kytone radio (c)

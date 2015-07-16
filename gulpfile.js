@@ -27,6 +27,7 @@ gulp.task('styles',function(){
     .pipe(gulp.dest(
         $dest('styles')
       ))
+    .pipe(notify('Styles task complete'))
 })
 
 gulp.task('app',function(){

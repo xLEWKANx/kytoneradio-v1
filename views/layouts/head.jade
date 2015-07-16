@@ -4,8 +4,10 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Kytone radio station 
-    
+    title Kytone radio station
+
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js')
     //- adding application libs
     script(src='/app/lib.js', type='text/javascript')
     
@@ -18,10 +20,10 @@ html
     //- main  content -
     //- - - - - - - - -
     block content
-    
+
     //- footer
     include ../parts/footer
-    
+
     //- audio
     include ../parts/player
 

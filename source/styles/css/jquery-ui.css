@@ -168,8 +168,8 @@
 	font-size: 1em;
 }
 .ui-widget-content {
-	border: 1px solid #000;
-	background: #ffffff 50% 50% repeat-x;
+	/*border: 1px solid #000;*/
+	background: #000000 50% 50% repeat-x;
 	color: #222222;
 }
 .ui-widget-content a {
@@ -177,7 +177,7 @@
 }
 .ui-widget-header {
 	border: 1px solid #aaaaaa;
-	background: #cccccc 50% 50% repeat-x;
+	background: #000000 50% 50% repeat-x;
 	color: #222222;
 	font-weight: bold;
 }
@@ -211,6 +211,7 @@
 	background: #000 50% 50% repeat-x;
 	font-weight: normal;
 	color: #212121;
+	cursor: pointer;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
