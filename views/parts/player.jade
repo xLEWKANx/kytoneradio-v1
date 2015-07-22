@@ -2,23 +2,52 @@
 audio#player(autoplay='true')
   source(src='http://central-srv.p-s.org.ua:15002/stream',type="audio/ogg")
 
+//- .player
+//-   .player-container
+//-      .left-side
+//-         .controls-row
+//-            .left-controls
+//-               .controls-container
+//-                  button#play
+//-                     include ../svg/icons/play.svg
+//-                  button#pause
+//-                     include ../svg/icons/pause.svg
+//-            .right-controls
+//-               .slider-container
+//-                  #slider
+//-      .right-side
+//-         .wrapper
+//-            .now-play.str_wrap
+//-               p#track-title
+//-                  span kytone radio (c)
+
 .player
-  .player-container
-     .left-side
-        .controls-row
-           .left-controls
-              .controls-container
-                 button#play
-                    img.play.playtrue(data-src='img/icons/play.svg')
-                    img.play.playfalse(data-src='img/icons/play-active.svg')
-                 button#pause
-                    img.play.playfalse(data-src='img/icons/pause.svg')
-                    img.play.playtrue(data-src='img/icons/pause-active.svg')
-           .right-controls
-              .slider-container
-                 #slider
-     .right-side
-        .wrapper
-           .now-play.str_wrap
+  .player-wrapper
+    .player-left
+      table.player-table
+        tr.tech-row
+          td
+          td
+        tr.main-row
+          td.buttons
+            button#play
+              include ../svg/icons/play.svg
+            button#pause
+              include ../svg/icons/pause.svg
+          td.volume
+            .volume-container
+              #slider
+        tr.tech-row
+          td
+          td
+    .player-right
+      table.player-table
+        tr.tech-row
+          td
+        tr.main-row
+          td
+            .now-play
               p#track-title
-                 span kytone radio (c)
+                | Kyton Radio (c)
+        tr.tech-row
+          td

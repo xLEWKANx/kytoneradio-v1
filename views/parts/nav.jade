@@ -8,11 +8,15 @@
   .header-left
     table.header-table
       tr.top-row
-        td.border-left
-          a.soc-icon.icon-s(href='') a
-          a.soc-icon.icon-f(href='https://www.facebook.com/kytoneradio' target='_blank') b
-          a.soc-icon.icon-y(href='#') c
-          a.soc-icon.icon-m(href='#') d
+        td.soc-icons
+          a.soc-icon.icon-s(href='')
+            include ../svg/icons/soundcloud.svg
+          a.soc-icon.icon-f(href='https://www.facebook.com/kytoneradio' target='_blank')
+            include ../svg/icons/facebook.svg
+          a.soc-icon.icon-y(href='#')
+            include ../svg/icons/youtube.svg
+          a.soc-icon.icon-m(href='#')
+            include ../svg/icons/mistery.svg
         td
       tr.top-center-row
         td.border-bottom
@@ -49,7 +53,9 @@
               td.time 20:4
               td.title BA DUM TSS
       tr.bottom-row
-        td.logo
-           | Logo
+        td
+          .logo-cell
+            .logo
+              include ../svg/ky-logo.svg
         td.border-left
           | KYTONE RADIO
