@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     notify = require('gulp-notify'),
     jade = require('gulp-jade'),
+    clean = require('gulp-clean'),
     concat = require("gulp-concat");
 
 var path = require('path');
@@ -18,6 +19,11 @@ var _paths = {
   out: path.join(__dirname,'public')
 }
 
+gulp.task('clean', function(){
+    return gulp
+      .src(_paths.out, {read: false})
+      .pipe(clean());
+})
 
 gulp.task('styles',function(){
   return gulp
@@ -66,7 +72,7 @@ gulp.task('views',function(){
 
 gulp.task('misc',function(){
   return gulp
-    .src(_paths.views + '/**/*')
+    .src(_paths.misc + '/**/*')
     .pipe(gulp.dest(
         $dest('')
       ))
