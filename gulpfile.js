@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     jade = require('gulp-jade'),
     clean = require('gulp-clean'),
+    nodemon = require('gulp-nodemon'),
     concat = require("gulp-concat");
 
 var path = require('path');
@@ -78,7 +79,14 @@ gulp.task('misc',function(){
       ))
 })
 
-gulp.task('build',['styles','app','app:lib','views','misc'])
+gulp.task('develop', function () {
+  nodemon({ script: 'www', tasks: ['default'] })
+    .on('restart', function () {
+      console.log('restarted!')
+    })
+})
+
+gulp.task('build',['styles','app','app:lib','views','misc', 'develop'])
 
 gulp.task('default', function(){
   console.log('paths',_paths)
@@ -89,7 +97,7 @@ gulp.task('default', function(){
 gulp.task('watch', function(){
 
   // server.run(['www']);
-  require('./www');
+  /*require('./www');*/
   // server.listen(serverport, function() {
   //   console.log('server started, port',serverport);
   //   lrserver.listen(livereloadport);
