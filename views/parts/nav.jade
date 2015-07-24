@@ -1,15 +1,11 @@
 .offset-top
 
-.separator
-  .left-column
-  .right-column
-
 .header-wrapper
   .header-left
     table.header-table
       tr.top-row
         td.soc-icons
-          a.soc-icon.icon-s(href='')
+          a.soc-icon.icon-s(href='#')
             include ../svg/icons/soundcloud.svg
           a.soc-icon.icon-f(href='https://www.facebook.com/kytoneradio' target='_blank')
             include ../svg/icons/facebook.svg
@@ -32,6 +28,7 @@
       tr.tech-row
         td
         td
+    .post-left(ng-show="false" class="ng-hide")
   .header-right
     table.header-table
       tr.top-row
@@ -65,3 +62,4 @@
       tr.tech-row
         td
         td
+    .post-right(ng-show="false" class="ng-hide")

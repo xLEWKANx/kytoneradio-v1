@@ -18,44 +18,45 @@ body {
   float: right;
 }
 
-// Background separator
-
-.separator {
-  height: 100%;
-  width: 100%;
-  position: fixed;
-
-  .separator-layer;
-
-  .left-column {
-    .border-right;
-  }
-
-  .left-column, .right-column {
-    height: 100%;
-  }
-}
-
 // Header layour
 
 .header-wrapper {
   width: 90%;
   margin: 0 auto;
   height: 36%;
+  overflow: show;
 
   .header-left, .header-right {
     width: 50%;
     height: 100%;
+    position: relative;
   }
   .header-left {
     float: left;
+    .border-right;
   }
   .header-right {
     float: right;
   }
+
+  .post-left, .post-right {
+    height: 185%;
+    width: 100%;
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+
+  }
+
+  .post-left {
+    background: red;
+  }
+  .post-right {
+    background: blue;
+  }
 }
 
-.header-table{
+.header-table {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -80,6 +81,7 @@ body {
   .tech-row {
     height: 5%;
   }
+
 
 }
 
