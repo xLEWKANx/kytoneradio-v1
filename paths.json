@@ -1,6 +1,6 @@
 {
-  "source": "",
-  "dest" : "",
+  "source": "source/",
+  "dest" : "public/",
   "paths" : [
     "app",
     "app_lib",
@@ -8,6 +8,5 @@
     "styles",
     "fonts",
     "views"
-  ],
-  "out": ""
+  ]
 }
