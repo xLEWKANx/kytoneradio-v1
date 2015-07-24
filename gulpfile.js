@@ -16,6 +16,7 @@ var _paths = {
   app_lib: $path('app_lib'),
   misc: $path('misc'),
   styles: $path('styles'),
+  fonts: $path('fonts'),
   views: $path('views'),
   out: path.join(__dirname,'public')
 }
@@ -79,14 +80,27 @@ gulp.task('misc',function(){
       ))
 })
 
+gulp.task('fonts', function(){
+  return gulp
+    .src(_paths.fonts + '/**/*')
+    .pipe(gulp.dest(
+        $dest('styles/fonts')
+      ))
+
+});
+
 gulp.task('develop', function () {
-  nodemon({ script: 'www', tasks: ['default'] })
+  nodemon({ script: 'www' 
+    // tasks: ['default'] 
+  })
     .on('restart', function () {
-      console.log('restarted!')
+      notify('Server restarted!');
     })
 })
 
-gulp.task('build',['styles','app','app:lib','views','misc', 'develop'])
+gulp.task('build',['styles','app','app:lib','views','misc', 'fonts'], function(){
+  gulp.start('develop');
+})
 
 gulp.task('default', function(){
   console.log('paths',_paths)
