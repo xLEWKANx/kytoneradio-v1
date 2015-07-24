@@ -33,7 +33,8 @@
     table.header-table
       tr.top-row
         td.border-right
-        td
+        td#closepost(ng-hide="true")
+          include ../svg/close.svg
       tr
         td(colspan="2").playlist-section
           table#playlist
