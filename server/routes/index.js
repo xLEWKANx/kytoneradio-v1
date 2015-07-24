@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var meta = require('../../service/meta');
 
+var postersRoute = require('./posters');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,8 +15,6 @@ router.get('/', function(req, res, next) {
 
 /* ng-include redirect */
 
-router.get('/views/*', function(req, res, next) {
-  res.render('../source/views/' + req.params[0]);
-});
+router.use('/',postersRoute);
 
 module.exports = router;
