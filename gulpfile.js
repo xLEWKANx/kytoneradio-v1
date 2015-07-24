@@ -8,18 +8,19 @@ var gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
     concat = require("gulp-concat");
 
-var path = require('path');
-var _source = 'source/';
-var _dest = 'public/';
-var _paths = {
-  app: $path('app'),
-  app_lib: $path('app_lib'),
-  misc: $path('misc'),
-  styles: $path('styles'),
-  fonts: $path('fonts'),
-  views: $path('views'),
-  out: path.join(__dirname,'public')
-}
+var fs = require('fs'),
+    path = require('path');
+
+var file_cfg = {
+  path: path.join(__dirname, 'paths.json'),
+  encoding: 'UTF-8'
+};
+
+var $paths = JSON.parse(
+  fs.readFileSync(
+    file_cfg.path, file_cfg.encoding));
+
+var _paths = generatePaths($paths);
 
 gulp.task('clean', function(){
     return gulp
@@ -80,6 +81,14 @@ gulp.task('misc',function(){
       ))
 })
 
+gulp.task('img', function(){
+  return gulp
+    .src(_paths.img + '/**/*')
+    .pipe(gulp.dest(
+        $dest('img')
+      ))  
+})
+
 gulp.task('fonts', function(){
   return gulp
     .src(_paths.fonts + '/**/*')
@@ -98,7 +107,7 @@ gulp.task('develop', function () {
     })
 })
 
-gulp.task('build',['styles','app','app:lib','views','misc', 'fonts'], function(){
+gulp.task('build',['styles','app','app:lib','views','img','misc', 'fonts'], function(){
   gulp.start('develop');
 })
 
@@ -129,9 +138,25 @@ gulp.task('watch', function(){
   
 });
 
-function $path(dir){
-  return path.join(__dirname,_source+dir)
-}
+// function $path(dir){
+//   return path.join(__dirname,_source+dir)
+// }
 function $dest(dir){
-  return path.join(__dirname,_dest+dir)
+  if (dir)
+    return path.join(_paths.out,dir)
+  else
+    return _paths.out
+}
+
+function generatePaths(cfg){
+  var genpaths = {};
+
+  for(var k in cfg.paths){
+    var p = cfg.paths[k];
+    genpaths[p] = path.join(__dirname,cfg.source,p)
+  }
+
+  genpaths.out = path.join(__dirname, cfg.dest)
+
+  return genpaths;
 }

@@ -2,11 +2,12 @@
   "source": "source/",
   "dest" : "public/",
   "paths" : [
-    "app",
+    "app", 
     "app_lib",
     "misc",
     "styles",
     "fonts",
-    "views"
+    "views",
+    "img"
   ]
 }
