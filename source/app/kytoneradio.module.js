@@ -5,4 +5,4 @@ angular.module('kytoneapp', [
   'ngCookies',
   'ngTouch',
   'slick'
-])
+]);
