@@ -20,8 +20,8 @@ html
       link(href='http://fonts.googleapis.com/css?family=Julius+Sans+One', rel='stylesheet', type='text/css')
 
    body
-      nav.navbar.navbar-default.navbar-fixed-top
-         .container-fluid
+      nav.navbar.navbar-default.navbar-fixed-top.dashboard-nav
+         .container
 
             .navbar-header
                button.navbar-toggle.collapsed(type="button",data-toggle="collapse", data-target="#kytone-dashboard-navbar")
@@ -29,22 +29,32 @@ html
                   span.icon-bar
                   span.icon-bar
                   span.icon-bar
-               a.navbar-brand(href="..") Kytone
+               a.navbar-brand#dash-logo(href="/dashboard")
+                  include ../svg/dashboard-logo.svg
 
             .collapse.navbar-collapse#kytone-dashboard-navbar
                ul.nav.navbar-nav
-                  li: a(href="#")
+                  li: a(href="/dashboard/settings")
                      | Settings
-                  li.active: a(href="#")
+                  li.active: a(href="/dashboard/posters")
                      | Posters
-                  li: a(href="#")
+                  li: a(href="/dashboard/player")
                      | Player
 
                ul.nav.navbar-nav.navbar-right
                   li
                      a(href="/") kytone
-      .content
-         block content
-      .container
-         footer.footer.text-center
-            h5 @kytone  2015
+      .dashboard
+         .content
+            .container
+               block content
+         .container
+            footer.footer
+               h4 dashboard 
+               ul
+                  li: a(href="/dashboard/settings")
+                        | Settings
+                     li.active: a(href="/dashboard/posters")
+                        | Posters
+                     li: a(href="/dashboard/player")
+                        | Player
