@@ -1,33 +1,10 @@
-
-//- .sponsor-row
-//-   ul.sponsor-list
-//-      li
-//-         a(href="#")
-//-            img(src="img/brands/1.jpg")
-//-      li
-//-         a(href="#")
-//-            img(src="img/brands/1.jpg")
-//-      li
-//-         a(href="#")
-//-            img(src="img/brands/1.jpg")
-//-      li
-//-         a(href="#")
-//-            img(src="img/brands/1.jpg")
-//-      li
-//-         a(href="#")
-//-            img(src="img/brands/1.jpg")
-//-      li
-//-         a(href="#")
-//-            img(src="img/brands/1.jpg")
-//-      li.copyright
-//-         img(src="img/brands/copyright.svg")
-
-//- .post
-//-   .article-container
-//-      .left-side
-//-         .article-image
-//-             img()#postimg
-//-      .right-side
-//-         a#closepost
-//-             img(style='width: 2.5em;', src='img/close.svg')
-//-         div.article-text#posttext
+.sponsor-row
+  ul.sponsor-list
+    if brands
+      each val in brands
+        li
+          img(src=val)
+        li.copyright
+          img(src="img/copyright.svg")
+      li.copyright
+        img(src="img/copyright.svg")

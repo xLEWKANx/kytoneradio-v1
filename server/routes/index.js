@@ -3,16 +3,18 @@ var router = express.Router();
 var meta = require('../../service/meta');
 
 var postersRoute = require('./posters'),
-    dashboardRoute = require('./dashboard');
+    dashboardRoute = require('./dashboard'),
+    $posterService = require('../../service/brands');
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', {
     title: 'kytoneradio',
-    timenow: meta.timenow()
-    
+    timenow: meta.timenow(),
+    brands: $posterService
   });
+  console.log($posterService);
 });
 
 /* ng-include redirect */
