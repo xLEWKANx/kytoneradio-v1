@@ -1,0 +1,23 @@
+extends layout.jade
+
+block content
+   .container-fluid
+      .panel.panel-default
+         .panel-heading.panel-list
+            .btn-toolbar
+               .btn-group
+                  a.btn.btn-default.btn-large(href='./new') New
+               .btn-group
+                  a.btn.btn-default.btn-large(href='./edit/{{item_index}}', ng-class='{disabled: index < 0}') Edit
+               .btn-group
+                  a.btn.btn-large.btn-danger(ng-click='delete()', ng-class='{disabled: index < 0}') Delete
+
+         .panel-body
+            table.table-bordered.table.table-hover.maintable
+               thead
+                  th #
+                  th pos
+                  th link
+                  th About
+                  th Location
+                  th Image
