@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var $posterService = require('../../service/posters');
 
+var PosterModel = require('../../models/posters');
+
 router.get('/posters/:id', function(req, res, next) {
   var id = new Number(req.params.id).toString();
 
@@ -15,6 +17,19 @@ router.get('/posters/:id', function(req, res, next) {
       err: "No sliders found"
     });
 
+});
+
+router.get('/api/posters/:id', function(req, res, next) {
+  return PosterModel.find({ outerIndex : req.params.id }, function(err, posters) {
+    if (err) throw error;
+    var posterMap = {};
+
+    posters.forEach(function(poster) {
+      posterMap[poster._id] = poster;
+    });
+
+    res.send(posterMap);
+  })
 });
 
 module.exports = router;

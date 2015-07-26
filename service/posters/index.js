@@ -1,15 +1,19 @@
 var PosterModel = require('../../models/posters');
 
-var test = [
-        "http://placekitten.com/g/600/600",
-        "http://placekitten.com/g/600/400",
-        "http://placekitten.com/g/500/500",
-        "http://placekitten.com/g/700/400",
-        "http://placekitten.com/g/700/400",
-        "http://placekitten.com/g/700/400",
-        "http://placekitten.com/g/700/400"
-      ];
+function getPosterPromise(id) {
+  var query = PosterModel.find({outerIndex: id}).sort({innerIndex: 1});
+  return query;
+}
 
-module.exports.pull = function(n){
-  return test;
+module.exports.pull = function(id){
+  var collection = [];
+  var query = getPosterPromise(id);
+  query.exec(function(err, posters) {
+    if (err) console.error(err);
+    posters.forEach(function(poster){
+      collection.push(poster.pictureUrl);
+    });
+    console.log('collection', collection);
+    return collection;
+  });
 }
