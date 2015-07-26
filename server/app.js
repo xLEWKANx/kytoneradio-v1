@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes');
 var config = require('./config');
+var mongoose = require('./mongoose')(config);
 
 var app = express();
 

@@ -1,6 +1,4 @@
-// тут логика всех постеров как да чо
-//
-//
+var PosterModel = require('../../models/posters');
 
 var test = [
         "http://placekitten.com/g/600/600",
