@@ -8,9 +8,13 @@ router.get('/posters/:id', function(req, res, next) {
   var id = new Number(req.params.id).toString();
 
   if (id != "NaN")
-    res.render('sliders',{
-      posters: $posterService.pull(id)
+    $posterService.render(id, function(data) {
+      console.log(data);
+      res.render('sliders', {
+        posters: data
+      });
     });
+
   
   else
     next({
