@@ -1,6 +1,13 @@
 //
    Created by eagle on 25.11.2014.
 
+
+//- navigation mixin 
+mixin navlist(current)
+   each navitem in ['settings', 'posters', 'player']
+      li(class={active: current === navitem})
+         a(href='/dashboard/'+navitem)=navitem.charAt(0).toUpperCase() + navitem.slice(1)
+
 doctype html
 html
    head
@@ -34,12 +41,13 @@ html
 
             .collapse.navbar-collapse#kytone-dashboard-navbar
                ul.nav.navbar-nav
-                  li: a(href="/dashboard/settings")
-                     | Settings
-                  li.active: a(href="/dashboard/posters")
-                     | Posters
-                  li: a(href="/dashboard/player")
-                     | Player
+                  +navlist(dest) 
+                  //- li: a(href="/dashboard/settings")
+                  //-    | Settings
+                  //- li.active: a(href="/dashboard/posters")
+                  //-    | Posters
+                  //- li: a(href="/dashboard/player")
+                  //-    | Player
 
                ul.nav.navbar-nav.navbar-right
                   li
@@ -52,9 +60,4 @@ html
             footer.footer
                h4 dashboard
                ul
-                  li: a(href="/dashboard/settings")
-                        | Settings
-                     li.active: a(href="/dashboard/posters")
-                        | Posters
-                     li: a(href="/dashboard/player")
-                        | Player
+                  +navlist(dest)

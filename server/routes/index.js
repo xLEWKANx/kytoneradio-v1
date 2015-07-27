@@ -20,6 +20,6 @@ router.get('/', function(req, res, next) {
 /* ng-include redirect */
 
 router.use(postersRoute);
-router.use(dashboardRoute);
+router.use('/dashboard',dashboardRoute);
 
 module.exports = router;

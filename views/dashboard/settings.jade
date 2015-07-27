@@ -3,7 +3,7 @@ extends layout.jade
 block content
    .panel.panel-default
       .panel-heading
-         h1 Settings
+         h1=dest.charAt(0).toUpperCase() + dest.slice(1)
          .info-box
             strong Warning!
             =' '
@@ -35,7 +35,9 @@ block content
          .journal-container
             table.table.journal-table
                tr
-                  td [04:20] 19.06.2053
+                  td 04:20 - 19.06.2053
                      =' '
                      small 3 hours ago
                   td Error: value %% not found, using default insted
+            .btn-group-sm.journal-control-btns
+               a: span.glyphicon.glyphicon-remove-circle
