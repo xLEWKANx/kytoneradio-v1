@@ -6,6 +6,7 @@ function getPosterPromise(id) {
   var promise = PosterModel.find({outerIndex: id}).sort({innerIndex: 1}).exec();
   return promise;
 }
+
 function getPosterArray(id, cb) {
   var collection = [];
   var promise = getPosterPromise(id);
@@ -20,3 +21,18 @@ function getPosterArray(id, cb) {
 }
 
 module.exports.render = getPosterArray;
+
+
+module.exports.getAllPosts = function(cb,errcb){
+  PosterModel
+    .find({})
+    .exec(function(err,posts){
+      if (err) {
+        errcb(err)
+        return
+      } else {
+        cb(posts);
+        
+      }
+    })
+}

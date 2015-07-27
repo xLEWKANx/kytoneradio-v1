@@ -1,5 +1,23 @@
-var mongoose = require('mongoose');
-var PosterModel = require('../models/posters');
+var mongoose = require('mongoose'),
+    config = require('../server/config'),
+    PosterModel = require('../models/posters'),
+    db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error'));
+
+db.once('open', function callback() {
+  console.log('database opened\nStarting init...\n');
+  init();
+});
+
+mongoose.connect(config.db.url);
+
+// PRIVATE FUNCTIONS
+// 
+
+function init(){
+  saveDB(6);
+}
 
 function saveDB(i) {
   var sample = new PosterModel({
@@ -18,15 +36,17 @@ function saveDB(i) {
         saveDB(i - 1);
       }
     });
+  } else {
+    console.log('\nDone.\n')
   }
 }
 
-module.exports = function(i) {
+// module.exports = function(i) {
 
-  PosterModel.find({}).exec(function(err, collection) {
-    if(collection.length === 0) {
-      saveDB(i);
-    }
-  });
-}
+//   PosterModel.find({}).exec(function(err, collection) {
+//     if(collection.length === 0) {
+//       saveDB(i);
+//     }
+//   });
+// }
 

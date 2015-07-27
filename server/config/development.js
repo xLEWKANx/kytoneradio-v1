@@ -1,6 +1,6 @@
 var config = {
 	db: {
-		url: 'mongodb://localhost/kytoneradio'
+		url: 'mongodb://192.168.2.200/kytoneradio'
 	}
 }
 

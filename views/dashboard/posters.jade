@@ -8,4 +8,19 @@ block content
             strong Warning!
             =' '
             | This alert needs your attention, but it's not super important.
+      
+      if (!posts)
+        p No posters found
+      else
+        ul
+          for post in posts
+            li
+              p=post.pictureUrl
+              p=post.content
+              p position [ 
+                span=post.innerIndex
+                =','
+                span=post.outerIndex
+                | ]
+
       .panel-body
