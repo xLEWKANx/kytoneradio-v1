@@ -64,6 +64,31 @@ body{
           rgba(0,0,0,0.1) 65%);
       background-size: 6px 6px;
 
+      &.posters{
+        padding-top: 20px;
+        background-image: none;
+        background-color: #fff;
+        .posters-list{
+          .controll-btns{
+            margin-bottom: 20px;
+          }
+          .poster-item{
+            padding: 10px 0;
+            margin: 4px 0;
+            border-bottom: 1px #ddd solid;
+            .poster-id{
+              font-size: 0.8em;
+              color: #ccc;
+              float: right;
+            }
+            &:before, &:after{
+              content: " ";
+              display: table;
+            }
+          }
+        }
+
+      }
 
       .table-container {
         background-color: #fff;

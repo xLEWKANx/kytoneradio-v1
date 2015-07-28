@@ -12,19 +12,14 @@ router.get('/', function(req, res, next) {
   res.redirect('dashboard/settings');
 });
 
+// Settings page
 router.get('/settings', function(req,res,next){
   res.render('dashboard/settings',{
     dest: 'settings'
   });
 });
 
-function readPosts(req,res,next){
-  $postManager.getAllPosts(function(posts){
-    req.scope.posts = posts;
-    next();
-  });
-};
-
+// Posters configuration
 router.get('/posters',readPosts, function(req,res,next){
 
     res.render('dashboard/posters',{
@@ -32,13 +27,35 @@ router.get('/posters',readPosts, function(req,res,next){
       posts: req.scope.posts || false
     });
 
+});
+
+// Posters 
+router.get('/posters/new', function(req,res,next){
+  // res.redirect
+  
+});
+
+router.get('/posters/:id', function(req,res,next){
 
 });
 
+
+// Player configuration
 router.get('/player', function(req,res,next){
   res.render('dashboard/player',{
     dest: 'player'
   });
 });
 
+
 module.exports = router;
+
+// PRIVATE METHODS
+// 
+
+function readPosts(req,res,next){
+  $postManager.getAllPosts(function(posts){
+    req.scope.posts = posts;
+    next();
+  });
+};

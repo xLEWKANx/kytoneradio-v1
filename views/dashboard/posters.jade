@@ -3,24 +3,37 @@ extends layout.jade
 block content
    .panel.panel-default
       .panel-heading
-         h1=dest.charAt(0).toUpperCase() + dest.slice(1)
-         .info-box
-            strong Warning!
-            =' '
-            | This alert needs your attention, but it's not super important.
-      
-      if (!posts)
-        p No posters found
-      else
-        ul
-          for post in posts
-            li
-              p=post.pictureUrl
-              p=post.content
-              p position [ 
-                span=post.innerIndex
-                =','
-                span=post.outerIndex
-                | ]
-
-      .panel-body
+        h1=dest.charAt(0).toUpperCase() + dest.slice(1)
+        .info-box
+          strong Warning!
+          =' '
+          | This alert needs your attention, but it's not super important.
+             
+      .panel-body.posters
+        if (!posts)
+          p No posters found
+        else
+          .posters-list
+            .controll-btns
+              .btn-group(role='group' aria-label='...')
+                  button.btn.btn-default(type='button') 
+                     span.glyphicon.glyphicon-plus
+                  button.btn.btn-default(type='button') 
+                     span.glyphicon.glyphicon-search
+            for post in posts
+              .poster-item
+                .col-xs-6
+                  img(src=post.pictureUrl)
+                .col-xs-6
+                  p: small.poster-id='/'+post._id  
+                  p=post.pictureUrl
+                  p=post.content
+                  p position [ 
+                    span=post.innerIndex
+                    =','
+                    span=post.outerIndex
+                    | ]
+                  p
+                    .btn-group.btn-group-sm
+                      a.btn.btn-default(href='./posters/'+post._id+'/edit') Edit
+                      a.btn.btn-default(href='./posters/'+post._id+'/rm') Remove
