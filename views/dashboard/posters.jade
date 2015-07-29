@@ -16,7 +16,7 @@ block content
           .posters-list
             .controll-btns
               .btn-group(role='group' aria-label='...')
-                  button.btn.btn-default(type='button') 
+                  a.btn.btn-default(type='button',href='/dashboard/posters/new') 
                      span.glyphicon.glyphicon-plus
                   button.btn.btn-default(type='button') 
                      span.glyphicon.glyphicon-search
@@ -35,5 +35,5 @@ block content
                     | ]
                   p
                     .btn-group.btn-group-sm
-                      a.btn.btn-default(href=''+post._id) Edit
+                      a.btn.btn-default(href='/dashboard/posters/'+post._id) Edit
                       //- a.btn.btn-default(href='./posters/'+post._id+'/rm') Remove

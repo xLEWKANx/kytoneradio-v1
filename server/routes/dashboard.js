@@ -58,6 +58,20 @@ router.route('/posters')
       });
    })
 
+router.get('/posters/new', function(req,res,next){
+   res.render('dashboard/posters-edit', {
+      dest: 'new',
+      poster: {
+           pictureUrl: '',
+           content: '',
+           innerIndex: '',
+           outerIndex: '',
+           local: '',
+           outerUrl: ''
+      }
+   })
+})
+
 router.route('/posters/:postid')
 
    .get(function(req,res,next){

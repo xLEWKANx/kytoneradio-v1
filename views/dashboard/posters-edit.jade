@@ -12,14 +12,36 @@ block content
                .col-xs-6
                   img(src=poster.pictureUrl)
                .col-xs-6
-                  p: small.poster-id='/'+poster._id  
-                  p=poster.pictureUrl
-                  p=poster.content
-                  p position [ 
-                    span=poster.innerIndex
-                    =','
-                    span=poster.outerIndex
-                    | ]
-               .btn-group.btn-group-sm
-                   a.btn.btn-default(href='.') Back
-      
+                  form(action='./save')
+                     
+                      // Form Name
+                      legend Poster ##{poster._id}
+                      // Text input
+                      .form-group
+                        label.control-label(for='pictureUrl') Picture
+                        input#pictureUrl.form-control(name='pictureUrl', type='text', placeholder='URL', value=poster.pictureUrl)
+                      // Text input
+                      .form-group
+                        label.control-label(for='content') Content
+                        input#content.form-control(name='content', type='text', placeholder='Content text', value=poster.content)
+                      // Text input
+                      .form-group
+                        label.control-label(for='innerIndex') Inner Index
+                        input#innerIndex.form-control(name='innerIndex', type='text', placeholder='Number', value=poster.innerIndex)
+                      // Text input
+                      .form-group
+                        label.control-label(for='outerIndex') Outer Index
+                        input#outerIndex.form-control(name='outerIndex', type='text', placeholder='Number', value=poster.outerIndex)
+                      // Text input
+                      .form-group
+                        label.control-label(for='outerUrl') Outer URL
+                        input#outerUrl.form-control(name='outerUrl', type='text', placeholder='URL', value=poster.outerUrl)
+                      .form-group
+                        label(for='local-0') 
+                            input#local-0(type='checkbox', name='local', value='Local')
+                            |       Local
+                      // Button (Double)
+                      .form-group
+                        .btn-group
+                           button#savebtn.btn.btn-primary(name='savebtn', type='submit') Save
+                           a#cancelbtn.btn.btn-danger(name='cancelbtn', href='.') Cancel
