@@ -5,6 +5,9 @@ var fs = require('fs'),
 
 files = fs.readdirSync(path.join(config.root, '/source/img/brands/'));
 
-module.exports = files.map(function(e) {
-  return 'img/brands/' + e;
-});
+
+module.exports.getSrc = function(){
+  return files.map(function(e) {
+      return 'img/brands/' + e;
+  })
+}

@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var $postManager = require('../../service/posters');
 
-var Posters = require('../../models/posters');
+var Posters = require('../models/posters');
 
 router.use('/',function(req,res,next){
   req.scope = {}
@@ -10,7 +9,6 @@ router.use('/',function(req,res,next){
 })
 
 router.get('/', function(req, res, next) {
-  // res.render('dashboard/index');
   res.redirect('dashboard/settings');
 });
 
@@ -22,7 +20,6 @@ router.get('/settings', function(req,res,next){
 });
 
 router.param('postid', function(req,res,next,id){
-   console.log('postid',id);
    Posters.find({
       _id: id
    }, function(err, poster) {
@@ -94,14 +91,3 @@ router.get('/player', function(req,res,next){
 
 
 module.exports = router;
-
-// PRIVATE METHODS
-// 
-
-
-function getPosts(req,res,next){
-  $postManager.getAllPosts(function(posts){
-    req.scope.posts = posts;
-    next();
-  });
-};

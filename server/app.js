@@ -1,14 +1,14 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var logger = require('./logger');
 var routes = require('./routes');
 var config = require('./config');
-var mongoose = require('./mongoose')(config);
-
+var mongoose = require('./mongoose');
+var ctxService = require('../service/context');
 
 var app = express();
 
@@ -18,7 +18,13 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+
+// load in ctx
+ctxService.load('database', mongoose);
+
+// logger
+app.use(logger);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
