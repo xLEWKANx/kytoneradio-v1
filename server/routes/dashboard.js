@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var $postManager = require('../../service/posters');
 
+var Posters = require('../../models/posters');
+
 router.use('/',function(req,res,next){
   req.scope = {}
   next();
@@ -19,25 +21,54 @@ router.get('/settings', function(req,res,next){
   });
 });
 
+router.param('postid', function(req,res,next,id){
+   console.log('postid',id);
+   Posters.find({
+      _id: id
+   }, function(err, poster) {
+      if (err) {
+         next(err);
+      } 
+      else 
+         if (poster) {
+            req.poster = poster;
+            next();
+         } 
+         else {
+            next(new Error('failed to load poster'));
+         }
+   });
+})
+
 // Posters configuration
-router.get('/posters',readPosts, function(req,res,next){
 
-    res.render('dashboard/posters',{
-      dest: 'posters',
-      posts: req.scope.posts || false
-    });
+router.route('/posters')
 
-});
+   .get(function(req,res,next){
+      Posters.find({},function(err,posters){
+         if (err){
+            next(err)
+         }
+         else
+             // OK
+             res.render('dashboard/posters',{
+               dest: 'posters',
+               posters: posters || false
+             });
+      });
+   })
+
+router.route('/posters/:postid')
+
+   .get(function(req,res,next){
+      res.render('dashboard/posters-edit',{
+         dest: 'edit',
+         poster : req.poster[0]
+      })
+   });
 
 // Posters 
-router.get('/posters/new', function(req,res,next){
-  // res.redirect
-  
-});
 
-router.get('/posters/:id', function(req,res,next){
-
-});
 
 
 // Player configuration
@@ -53,7 +84,8 @@ module.exports = router;
 // PRIVATE METHODS
 // 
 
-function readPosts(req,res,next){
+
+function getPosts(req,res,next){
   $postManager.getAllPosts(function(posts){
     req.scope.posts = posts;
     next();

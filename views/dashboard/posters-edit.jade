@@ -5,4 +5,21 @@ block content
       .panel-heading
          h1=dest.charAt(0).toUpperCase() + dest.slice(1)
       .panel-body
+         if (!poster)
+            h2.text-center Poster not found
+         else
+            .row.poster-edit
+               .col-xs-6
+                  img(src=poster.pictureUrl)
+               .col-xs-6
+                  p: small.poster-id='/'+poster._id  
+                  p=poster.pictureUrl
+                  p=poster.content
+                  p position [ 
+                    span=poster.innerIndex
+                    =','
+                    span=poster.outerIndex
+                    | ]
+               .btn-group.btn-group-sm
+                   a.btn.btn-default(href='.') Back
       

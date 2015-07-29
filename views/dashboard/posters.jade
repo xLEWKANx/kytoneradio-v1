@@ -10,7 +10,7 @@ block content
           | This alert needs your attention, but it's not super important.
              
       .panel-body.posters
-        if (!posts)
+        if (!posters)
           p No posters found
         else
           .posters-list
@@ -20,7 +20,7 @@ block content
                      span.glyphicon.glyphicon-plus
                   button.btn.btn-default(type='button') 
                      span.glyphicon.glyphicon-search
-            for post in posts
+            for post in posters
               .poster-item
                 .col-xs-6
                   img(src=post.pictureUrl)
@@ -35,5 +35,5 @@ block content
                     | ]
                   p
                     .btn-group.btn-group-sm
-                      a.btn.btn-default(href='./posters/'+post._id+'/edit') Edit
-                      a.btn.btn-default(href='./posters/'+post._id+'/rm') Remove
+                      a.btn.btn-default(href=''+post._id) Edit
+                      //- a.btn.btn-default(href='./posters/'+post._id+'/rm') Remove
