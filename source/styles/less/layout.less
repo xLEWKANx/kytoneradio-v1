@@ -3,21 +3,6 @@ body {
   width: 100%;
 }
 
-// Column behaviur
-
-.left-column, .right-column, .left-cell, .right-cell {
-  width: 50%;
-
-}
-
-.left-column {
-  float: left;
-}
-
-.right-column {
-  float: right;
-}
-
 // Header layour
 
 .header-wrapper {
@@ -45,14 +30,8 @@ body {
     position: absolute;
     bottom: -100%;
     left: 0;
-
-  }
-
-  .post-left {
-    background: red;
-  }
-  .post-right {
-    background: blue;
+    background: white;
+    z-index: 10;
   }
 }
 
@@ -173,5 +152,23 @@ body {
     right: 2.5%;
     bottom: 1em;
     padding-right: 0!important;
+  }
+}
+
+// Post
+
+.post-left {
+  border-right: 2px solid @border-color;
+  .post-image {
+    margin: 5% auto;
+    max-height: 85%;
+    max-width: 90%;
+    display: block;
+  }
+}
+
+.post-right {
+  .post-content {
+    margin: 5% 2em;
   }
 }
