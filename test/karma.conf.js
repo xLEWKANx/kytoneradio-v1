@@ -3,15 +3,18 @@ module.exports = function(config){
     basePath: '../',
 
     files: [
-      '/source/app_lib/angular.js',
-      '/source/app_lib/angular-animate.js',
-      '/source/app_lib/angular-aria.js',
-      '/source/app_lib/angular-cookies.js',
-      '/source/app_lib/angular-resource.js',
-      '/source/app_lib/angular-route.js',
-      '/source/app_lib/angular-touch.js',
-      '/source/app/kytone/*.js',
-      '/test/unit/**/*.js'
+      'source/app_lib/angular.js',
+      'source/app_lib/angular-animate.js',
+      'source/app_lib/angular-aria.js',
+      'source/app_lib/angular-cookies.js',
+      'source/app_lib/angular-resource.js',
+      'source/app_lib/angular-route.js',
+      'source/app_lib/angular-touch.js',
+      'source/app_lib/angular-mocks.js',
+      'source/app_lib/slick.module.js',
+      'source/app/kytone/module.js',
+      'source/app/kytone/*.js',
+      'test/unit/**/*.js'
     ],
 
     autowatch: true,
