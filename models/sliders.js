@@ -6,10 +6,10 @@ var Slider = new Schema({
   outerIndex: Number,
   autoplay: Boolean,
   speed: Number,
-  isBig: Boolean,
+  wrapperClass: String,
   pauseOnHover: Boolean,
   rtl: Boolean,
-  blockAfter: Object
+  playerPlaceShow: Boolean
 });
 
 // BASIC CONFIGURATION - DELETE AFTER DASHBOARD EMERGING
@@ -22,28 +22,28 @@ SliderModel.find({}).exec(function(err, collection) {
       outerIndex: 1,
       autoplay: true,
       speed: 300,
-      isBig: false,
+      wrapperClass: 'cover-wrapper',
       pauseOnHover: true,
       rtl: false,
-      blockAfter: {}
+      playerPlaceShow: true
     });
     SliderModel.create({
       outerIndex: 2,
       autoplay: true,
       speed: 300,
-      isBig: true,
+      wrapperClass: 'cover-wrapper-big',
       pauseOnHover: true,
       rtl: false,
-      blockAfter: {}
+      playerPlaceShow: false
     });
     SliderModel.create({
       outerIndex: 3,
       autoplay: true,
       speed: 300,
-      isBig: false,
+      wrapperClass: 'cover-wrapper',
       pauseOnHover: true,
       rtl: false,
-      blockAfter: {}
+      playerPlaceShow: true
     });
     console.log('\nSlider config initiated');
   }

@@ -6,6 +6,6 @@ kytoneApp.factory('Posters', ['$resource',
 
 kytoneApp.factory('Sliders', ['$resource',
   function($resource) {
-    return $resource('api/slidersConfig/:outerIndex');
+    return $resource('/config/sliders/');
   }
 ]);

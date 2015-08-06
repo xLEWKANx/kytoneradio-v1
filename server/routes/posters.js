@@ -3,7 +3,7 @@ var router = express.Router();
 var $posterService = require('../../service/posters');
 
 var PosterModel = require('../../models/posters');
-var SliderConfigModel = require('../../models/sliders.js');
+var SliderConfigModel = require('../../models/sliders');
 
 router.get('/posters/:id', function(req, res, next) {
   var id = new Number(req.params.id).toString();
@@ -38,7 +38,7 @@ router.get('/api/posters/:outerIndex/', function(req, res, next) {
   });
 });
 
-router.get('/api/posters/:outerIndex/:innerIndex', function(req, res, next) {
+router.get('/api/posters/:outerIndex/:innerIndex/', function(req, res, next) {
   return PosterModel.find({
     outerIndex: req.params.outerIndex,
     innerIndex: req.params.innerIndex
@@ -48,14 +48,12 @@ router.get('/api/posters/:outerIndex/:innerIndex', function(req, res, next) {
   });
 });
 
-router.get('/api/sliderConfig/:outerIndex', function(req, res, next) {
-  return SliderConfigModel.find({
-    outerIndex: req.params.outerIndex
-  }),
-  function(err, slider) {
+router.get('/config/sliders/', function(req, res, next) {
+  return SliderConfigModel.find({},
+  function(err, sliders) {
     if (err) throw error; // USE YOUR LOGGER, BROTHER
-    res.send(slider);
-  };
+    res.send(sliders);
+  });
 });
 
 
