@@ -3,6 +3,7 @@ var router = express.Router();
 var $posterService = require('../../service/posters');
 
 var PosterModel = require('../../models/posters');
+var SliderConfigModel = require('../../models/sliders.js');
 
 router.get('/posters/:id', function(req, res, next) {
   var id = new Number(req.params.id).toString();
@@ -10,7 +11,7 @@ router.get('/posters/:id', function(req, res, next) {
   if (id != "NaN")
     $posterService.render(id, function(data) {
       console.log(data);
-      res.render('sliders', {
+      res.render('slider', {
         posters: data
       });
     });
@@ -23,17 +24,40 @@ router.get('/posters/:id', function(req, res, next) {
 
 });
 
-router.get('/api/posters/:id', function(req, res, next) {
-  return PosterModel.find({ outerIndex : req.params.id }, function(err, posters) {
-    if (err) throw error;
-    var posterMap = {};
-
-    posters.forEach(function(poster) {
-      posterMap[poster._id] = poster;
-    });
-
-    res.send(posterMap);
-  })
+router.get('/api/posters/', function(req, res, next) {
+  return PosterModel.find({}, function(err, posters) {
+    if (err) throw error; // USE YOUR LOGGER, BROTHER
+    res.send(posters);
+  });
 });
+
+router.get('/api/posters/:outerIndex/', function(req, res, next) {
+  return PosterModel.find({outerIndex: req.params.outerIndex}, function(err, posters) {
+    if (err) throw error; // USE YOUR LOGGER, BROTHER
+    res.send(posters);
+  });
+});
+
+router.get('/api/posters/:outerIndex/:innerIndex', function(req, res, next) {
+  return PosterModel.find({
+    outerIndex: req.params.outerIndex,
+    innerIndex: req.params.innerIndex
+  }, function(err, poster) {
+    if (err) throw error; // USE YOUR LOGGER, BROTHER
+    res.send(poster);
+  });
+});
+
+router.get('/api/sliderConfig/:outerIndex', function(req, res, next) {
+  return SliderConfigModel.find({
+    outerIndex: req.params.outerIndex
+  }),
+  function(err, slider) {
+    if (err) throw error; // USE YOUR LOGGER, BROTHER
+    res.send(slider);
+  };
+});
+
+
 
 module.exports = router;

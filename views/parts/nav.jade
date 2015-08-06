@@ -1,6 +1,6 @@
 .offset-top
 
-.header-wrapper(ng-controller="postCtrl")
+.header-wrapper
   .header-left
     table.header-table
       tr.top-row
@@ -27,7 +27,7 @@
       tr.tech-row
         td
         td
-    .post-left(ng-show="true" class="ng-hide")
+    .post-left(ng-show="false" class="ng-hide")
       img.post-image(ng-src="{{post.pictureUrl}}")
   .header-right
     table.header-table
@@ -63,6 +63,6 @@
       tr.tech-row
         td
         td
-    .post-right(ng-show="true" class="ng-hide")
+    .post-right(ng-show="false" class="ng-hide")
       p.post-content
         | {{post.content}}

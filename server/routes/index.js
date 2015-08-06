@@ -18,6 +18,10 @@ router.get('/', function(req, res, next) {
 });
 
 /* ng-include redirect */
+router.get('/partials/:view', function(req, res, next) {
+  console.log(req.params.view);
+  res.render('../source/views/' + req.params.view);
+});
 
 router.use(postersRoute);
 router.use('/dashboard',dashboardRoute);

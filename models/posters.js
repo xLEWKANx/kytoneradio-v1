@@ -9,6 +9,6 @@ var Poster = new Schema({
   outerIndex: Number,
   local: Boolean,
   outerUrl: String
-})
+});
 
 module.exports = mongoose.model('Poster', Poster);
