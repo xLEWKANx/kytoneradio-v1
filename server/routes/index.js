@@ -19,8 +19,16 @@ router.get('/', function(req, res, next) {
 
 });
 
+<<<<<<< HEAD
 //context js
 router.use(contextRoute);
+=======
+/* ng-include redirect */
+router.get('/partials/:view', function(req, res, next) {
+  console.log(req.params.view);
+  res.render('../source/views/' + req.params.view);
+});
+>>>>>>> angular
 
 // posters list responce
 router.use(postersRoute);

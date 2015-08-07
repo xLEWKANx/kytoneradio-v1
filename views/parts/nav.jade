@@ -28,11 +28,12 @@
         td
         td
     .post-left(ng-show="false" class="ng-hide")
+      img.post-image(ng-src="{{post.pictureUrl}}")
   .header-right
     table.header-table
       tr.top-row
         td.border-right
-        td#closepost(ng-hide="true")
+        td#closepost(ng-hide="false")
           include ../svg/close.svg
       tr
         td(colspan="2").playlist-section
@@ -63,3 +64,5 @@
         td
         td
     .post-right(ng-show="false" class="ng-hide")
+      p.post-content
+        | {{post.content}}
