@@ -8,21 +8,6 @@ var gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
     concat = require("gulp-concat");
 
-<<<<<<< HEAD
-var path = require('path'),
-      fs = require('fs');
-
-var _source = 'source/';
-var _dest = 'public/';
-var _paths = {
-  app: $path('app'),
-  app_lib: $path('app_lib'),
-  misc: $path('misc'),
-  styles: $path('styles'),
-  views: $path('views'),
-  out: path.join(__dirname,'public')
-}
-=======
 var fs = require('fs'),
     path = require('path');
 
@@ -34,7 +19,6 @@ var file_cfg = {
 var $paths = JSON.parse(
   fs.readFileSync(
     file_cfg.path, file_cfg.encoding));
->>>>>>> unstable
 
 var _paths = generatePaths($paths);
 
@@ -43,7 +27,6 @@ gulp.task('clean', function(){
       .src(_paths.out, {read: false})
       .pipe(clean());
 })
-
 
 gulp.task('styles',function(){
   return gulp
@@ -103,7 +86,7 @@ gulp.task('img', function(){
     .src(_paths.img + '/**/*')
     .pipe(gulp.dest(
         $dest('img')
-      ))  
+      ))
 })
 
 gulp.task('fonts', function(){
@@ -116,8 +99,8 @@ gulp.task('fonts', function(){
 });
 
 gulp.task('develop', function () {
-  nodemon({ script: 'www' 
-    // tasks: ['default'] 
+  nodemon({ script: 'www'
+    // tasks: ['default']
   })
     .on('restart', function () {
       notify('Server restarted!');
@@ -133,14 +116,6 @@ gulp.task('default', function(){
   gulp.start('build','watch');
   return
 })
-
-gulp.task('config', function(){
-    var raw = fs.readFileSync('./paths.json', {
-        encoding : 'UTF-8'
-    });
-    var config = JSON.parse(raw);
-    return printcfg(config);
-});
 
 gulp.task('watch', function(){
 
@@ -172,18 +147,6 @@ function $dest(dir){
   else
     return _paths.out
 }
-<<<<<<< HEAD
-function printcfg(config){
-    for (var key in config){
-        if (typeof config[key] != 'object')
-            console.log('%s - %s', key, config[key] );
-        else{
-            console.log('%s :', key);
-            printcfg(config[key])
-        }
-    }
-
-=======
 
 function generatePaths(cfg){
   var genpaths = {};
@@ -196,5 +159,4 @@ function generatePaths(cfg){
   genpaths.out = path.join(__dirname, cfg.dest)
 
   return genpaths;
->>>>>>> unstable
 }

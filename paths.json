@@ -1,0 +1,13 @@
+{
+  "source": "source/",
+  "dest" : "public/",
+  "paths" : [
+    "app",
+    "app_lib",
+    "misc",
+    "styles",
+    "fonts",
+    "views",
+    "img"
+  ]
+}
