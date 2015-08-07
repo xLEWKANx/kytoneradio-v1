@@ -1,0 +1,47 @@
+extends layout.jade
+
+block content
+   .panel.panel-default
+      .panel-heading
+         h1=dest.charAt(0).toUpperCase() + dest.slice(1)
+      .panel-body
+         if (!poster)
+            h2.text-center Poster not found
+         else
+            .row.poster-edit
+               .col-xs-6
+                  img(src=poster.pictureUrl)
+               .col-xs-6
+                  form(action='./save')
+                     
+                      // Form Name
+                      legend Poster ##{poster._id}
+                      // Text input
+                      .form-group
+                        label.control-label(for='pictureUrl') Picture
+                        input#pictureUrl.form-control(name='pictureUrl', type='text', placeholder='URL', value=poster.pictureUrl)
+                      // Text input
+                      .form-group
+                        label.control-label(for='content') Content
+                        input#content.form-control(name='content', type='text', placeholder='Content text', value=poster.content)
+                      // Text input
+                      .form-group
+                        label.control-label(for='innerIndex') Inner Index
+                        input#innerIndex.form-control(name='innerIndex', type='text', placeholder='Number', value=poster.innerIndex)
+                      // Text input
+                      .form-group
+                        label.control-label(for='outerIndex') Outer Index
+                        input#outerIndex.form-control(name='outerIndex', type='text', placeholder='Number', value=poster.outerIndex)
+                      // Text input
+                      .form-group
+                        label.control-label(for='outerUrl') Outer URL
+                        input#outerUrl.form-control(name='outerUrl', type='text', placeholder='URL', value=poster.outerUrl)
+                      .form-group
+                        label(for='local-0') 
+                            input#local-0(type='checkbox', name='local', value='Local')
+                            |       Local
+                      // Button (Double)
+                      .form-group
+                        .btn-group
+                           button#savebtn.btn.btn-primary(name='savebtn', type='submit') Save
+                           a#cancelbtn.btn.btn-danger(name='cancelbtn', href='.') Cancel

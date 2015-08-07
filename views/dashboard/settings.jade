@@ -1,0 +1,43 @@
+extends layout.jade
+
+block content
+   .panel.panel-default
+      .panel-heading
+         h1=dest.charAt(0).toUpperCase() + dest.slice(1)
+         .info-box
+            strong Warning!
+            =' '
+            | This alert needs your attention, but it's not super important.
+      .panel-body
+         .table-container
+            table.table.table-hover.settings-table
+               thead
+                  th #
+                  th Parameter
+                  th Value
+               tbody
+                  tr
+                     td 0
+                     td DEBUG
+                     td True
+         
+         .controll-btns
+            .btn-group(role='group' aria-label='...')
+               button.btn.btn-default(type='button') +
+               button.btn.btn-info(type='button') Default
+               button.btn.btn-success Save
+               button.btn.btn-danger Restore
+   
+   .panel.panel-default.journal
+      .panel-heading
+         h1 Journal
+      .panel-body
+         .journal-container
+            table.table.journal-table
+               tr
+                  td 04:20 - 19.06.2053
+                     =' '
+                     small 3 hours ago
+                  td Error: value %% not found, using default insted
+            .btn-group-sm.journal-control-btns
+               a: span.glyphicon.glyphicon-remove-circle

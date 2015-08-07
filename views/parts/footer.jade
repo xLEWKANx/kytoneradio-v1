@@ -1,56 +1,10 @@
-//- sponsor picture
 .sponsor-row
   ul.sponsor-list
-     li
-        a(href="#")
-           img(src="img/brands/1.jpg")
-     li
-        a(href="#")
-           img(src="img/brands/1.jpg")
-     li
-        a(href="#")
-           img(src="img/brands/1.jpg")
-     li
-        a(href="#")
-           img(src="img/brands/1.jpg")
-     li
-        a(href="#")
-           img(src="img/brands/1.jpg")
-     li
-        a(href="#")
-           img(src="img/brands/1.jpg")
-     li.copyright
-        img(src="img/brands/copyright.svg")
-
-//- fixed player line
-.player
-  .player-container
-     .left-side
-        .controls-row
-           .left-controls
-              .controls-container
-                 button#play
-                    img.play.playtrue(data-src='img/icons/play.svg')
-                    img.play.playfalse(data-src='img/icons/play-active.svg')
-                 button#pause
-                    img.play.playfalse(data-src='img/icons/pause.svg')
-                    img.play.playtrue(data-src='img/icons/pause-active.svg')
-           .right-controls
-              .slider-container
-                 #slider
-     .right-side
-        .wrapper
-           .now-play.str_wrap
-              p#track-title
-                 span kytone radio (c)
-
-//- hidden post popup
-.post
-  .article-container
-     .left-side
-        .article-image
-            img()#postimg
-     .right-side
-        a#closepost
-            img(style='width: 2.5em;', src='img/close.svg')
-        div.article-text#posttext
+    if brands
+      each val in brands
+        li
+          img(src=val)
+        li.copyright
+          img(src="img/copyright.svg")
+      li.copyright
+        img(src="img/copyright.svg")

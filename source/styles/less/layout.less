@@ -1,0 +1,177 @@
+body {
+  height: 100vh;
+  width: 100%;
+}
+
+// Column behaviur
+
+.left-column, .right-column, .left-cell, .right-cell {
+  width: 50%;
+
+}
+
+.left-column {
+  float: left;
+}
+
+.right-column {
+  float: right;
+}
+
+// Header layour
+
+.header-wrapper {
+  width: 90%;
+  margin: 0 auto;
+  height: 36%;
+  overflow: show;
+
+  .header-left, .header-right {
+    width: 50%;
+    height: 100%;
+    position: relative;
+  }
+  .header-left {
+    float: left;
+    .border-right;
+  }
+  .header-right {
+    float: right;
+  }
+
+  .post-left, .post-right {
+    height: 185%;
+    width: 100%;
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+
+  }
+
+  .post-left {
+    background: red;
+  }
+  .post-right {
+    background: blue;
+  }
+}
+
+.header-table {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  table-layout: fixed;
+  text-align: center;
+
+  .top-row, .bottom-row {
+    height: 15%;
+  }
+
+  .bottom-center-row, .top-center-row {
+    vertical-align: top;
+  }
+
+  .soc-icons {
+    .border-left;
+
+    text-align: left;
+    padding-left: 1em;
+  }
+
+  .tech-row {
+    height: 5%;
+  }
+
+
+}
+
+.playlist-section {
+
+  width: 100%;
+  table-layout: auto;
+
+  #playlist {
+
+    width: 100%;
+
+    .time {
+      width: 4em;
+      padding-left: 1em;
+    }
+
+    .title {
+      text-align: left;
+    }
+  }
+}
+
+// Covers
+
+.cover-wrapper {
+  height: 35%;
+}
+
+.cover-wrapper-big {
+  height: 75%;
+}
+
+.cover-wrapper, .cover-wrapper-big {
+
+  width: 100%;
+  background-color: white;
+
+  .slick-slider {
+    height: 100%;
+  }
+
+  .slick-list {
+    height: 100%;
+  }
+
+  .slick-track {
+    height: 100%;
+  }
+
+  img {
+    height: 100%;
+  }
+
+}
+
+.player-place {
+  width: 100%;
+  height: 15%;
+}
+
+
+// Labels
+
+.sponsor-row {
+
+  height: 10%;
+  width: 100%;
+  position: absolute;
+  top: 195%;
+  display: table;
+  table-layout: fixed;
+  text-align: center;
+  background-color: white;
+
+  .sponsor-list {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .sponsor-list li {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 1em;
+  }
+
+  .copyright {
+    position: absolute;
+    right: 2.5%;
+    bottom: 1em;
+    padding-right: 0!important;
+  }
+}

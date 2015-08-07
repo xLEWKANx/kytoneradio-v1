@@ -4,8 +4,11 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     notify = require('gulp-notify'),
     jade = require('gulp-jade'),
+    clean = require('gulp-clean'),
+    nodemon = require('gulp-nodemon'),
     concat = require("gulp-concat");
 
+<<<<<<< HEAD
 var path = require('path'),
       fs = require('fs');
 
@@ -19,7 +22,27 @@ var _paths = {
   views: $path('views'),
   out: path.join(__dirname,'public')
 }
+=======
+var fs = require('fs'),
+    path = require('path');
 
+var file_cfg = {
+  path: path.join(__dirname, 'paths.json'),
+  encoding: 'UTF-8'
+};
+
+var $paths = JSON.parse(
+  fs.readFileSync(
+    file_cfg.path, file_cfg.encoding));
+>>>>>>> unstable
+
+var _paths = generatePaths($paths);
+
+gulp.task('clean', function(){
+    return gulp
+      .src(_paths.out, {read: false})
+      .pipe(clean());
+})
 
 
 gulp.task('styles',function(){
@@ -30,6 +53,7 @@ gulp.task('styles',function(){
     .pipe(gulp.dest(
         $dest('styles')
       ))
+    .pipe(notify('Styles task complete'))
 })
 
 gulp.task('app',function(){
@@ -68,13 +92,41 @@ gulp.task('views',function(){
 
 gulp.task('misc',function(){
   return gulp
-    .src(_paths.views + '/**/*')
+    .src(_paths.misc + '/**/*')
     .pipe(gulp.dest(
         $dest('')
       ))
 })
 
-gulp.task('build',['styles','app','app:lib','views','misc'])
+gulp.task('img', function(){
+  return gulp
+    .src(_paths.img + '/**/*')
+    .pipe(gulp.dest(
+        $dest('img')
+      ))  
+})
+
+gulp.task('fonts', function(){
+  return gulp
+    .src(_paths.fonts + '/**/*')
+    .pipe(gulp.dest(
+        $dest('styles/fonts')
+      ))
+
+});
+
+gulp.task('develop', function () {
+  nodemon({ script: 'www' 
+    // tasks: ['default'] 
+  })
+    .on('restart', function () {
+      notify('Server restarted!');
+    })
+})
+
+gulp.task('build',['styles','app','app:lib','views','img','misc', 'fonts'], function(){
+  gulp.start('develop');
+})
 
 gulp.task('default', function(){
   console.log('paths',_paths)
@@ -93,7 +145,7 @@ gulp.task('config', function(){
 gulp.task('watch', function(){
 
   // server.run(['www']);
-  require('./www');
+  /*require('./www');*/
   // server.listen(serverport, function() {
   //   console.log('server started, port',serverport);
   //   lrserver.listen(livereloadport);
@@ -111,12 +163,16 @@ gulp.task('watch', function(){
   
 });
 
-function $path(dir){
-  return path.join(__dirname,_source+dir)
-}
+// function $path(dir){
+//   return path.join(__dirname,_source+dir)
+// }
 function $dest(dir){
-  return path.join(__dirname,_dest+dir)
+  if (dir)
+    return path.join(_paths.out,dir)
+  else
+    return _paths.out
 }
+<<<<<<< HEAD
 function printcfg(config){
     for (var key in config){
         if (typeof config[key] != 'object')
@@ -127,4 +183,18 @@ function printcfg(config){
         }
     }
 
+=======
+
+function generatePaths(cfg){
+  var genpaths = {};
+
+  for(var k in cfg.paths){
+    var p = cfg.paths[k];
+    genpaths[p] = path.join(__dirname,cfg.source,p)
+  }
+
+  genpaths.out = path.join(__dirname, cfg.dest)
+
+  return genpaths;
+>>>>>>> unstable
 }

@@ -93,8 +93,8 @@
 .ui-slider .ui-slider-handle {
 	position: absolute;
 	z-index: 2;
-	width: 0.3em;
-	height: 1.15em;
+	width: 0.4em;
+	height: 1.5em;
 	cursor: default;
 	-ms-touch-action: none;
 	touch-action: none;
@@ -117,7 +117,7 @@
 	height: 2px;
 }
 .ui-slider-horizontal .ui-slider-handle {
-	top: -.55em;
+	top: -.7em;
 	margin-left: -.15em;
 }
 .ui-slider-horizontal .ui-slider-range {
@@ -168,8 +168,8 @@
 	font-size: 1em;
 }
 .ui-widget-content {
-	border: 1px solid #000;
-	background: #ffffff 50% 50% repeat-x;
+	/*border: 1px solid #000;*/
+	background: #000000 50% 50% repeat-x;
 	color: #222222;
 }
 .ui-widget-content a {
@@ -177,7 +177,7 @@
 }
 .ui-widget-header {
 	border: 1px solid #aaaaaa;
-	background: #cccccc 50% 50% repeat-x;
+	background: #000000 50% 50% repeat-x;
 	color: #222222;
 	font-weight: bold;
 }
@@ -190,7 +190,7 @@
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid #000000;
+	border: 0px solid #000000;
 	background: #000 50% 50% repeat-x;
 	font-weight: normal;
 	color: #555555;
@@ -207,10 +207,11 @@
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-	border: 1px solid #000;
+	border: 0px solid #000;
 	background: #000 50% 50% repeat-x;
 	font-weight: normal;
 	color: #212121;
+	cursor: pointer;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,

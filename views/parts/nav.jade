@@ -1,46 +1,65 @@
-.margin-by-height
-.header-container
-  .left-side
-    .top-row
-      .left-cell
-        a.soc-icon.icon-s(href='')
-        a.soc-icon.icon-f(href='https://www.facebook.com/kytoneradio' target='_blank')
-        a.soc-icon.icon-y(href='#')
-        a.soc-icon.icon-m(href='#')
-    .top-timerow
-      .left-timecell
-      .right-timecell
-    .bot-timerow
-      .left-timecell
-        span#clock
-          | 17:22 KYIV (+2 GMT)
-      .right-timecell
-    .bottom-row
-      .left-cell
-      .right-cell#player_status
-        // player status text
-    .margin-by-height
-  .right-side
-    .top-row
-      .left-cell
-        span#image
-      .right-cell
-    .center-row#playlist
-      .left-cell
-        ul.timelist
-          li
-            span.numb
-              | 04:20
-      .right-cell
-        ul.playlist
-          li.playlist-item(href='#')
-            span(style="color:#F00") ON AIR
-            =" "
-            | test event name
-    .bottom-row
-      a(href='/').left-cell
-        .logo
-          include ../svg/ky-logo.svg
-      .right-cell
-        | KYTONE RADIO
-    .margin-by-height
+.offset-top
+
+.header-wrapper
+  .header-left
+    table.header-table
+      tr.top-row
+        td.soc-icons(colspan="2")
+          a.soc-icon.icon-s(href='#')
+            include ../svg/icons/soundcloud.svg
+          a.soc-icon.icon-f(href='https://www.facebook.com/kytoneradio' target='_blank')
+            include ../svg/icons/facebook.svg
+          a.soc-icon.icon-y(href='#')
+            include ../svg/icons/youtube.svg
+          a.soc-icon.icon-m(href='#')
+            include ../svg/icons/mistery.svg
+      tr.top-center-row
+        td.border-bottom
+        td
+      tr.bottom-center-row
+        td.time
+          span#clock= timenow
+            //- 17:22 KYIV (+2 GMT)
+        td
+      tr.bottom-row
+        td.border-right
+        td#player_status
+      tr.tech-row
+        td
+        td
+    .post-left(ng-show="false" class="ng-hide")
+  .header-right
+    table.header-table
+      tr.top-row
+        td.border-right
+        td#closepost(ng-hide="true")
+          include ../svg/close.svg
+      tr
+        td(colspan="2").playlist-section
+          table#playlist
+            tr.playlist-track
+              td.time 4:20
+              td.title BA DUM TSS
+            tr.playlist-track
+              td.time 14:20
+              td.title BA DUM TSS
+            tr.playlist-track
+              td.time 16:20
+              td.title BA DUM TSS
+            tr.playlist-track
+              td.time 18:20
+              td.title BA DUM TSS
+            tr.playlist-track
+              td.time 20:4
+              td.title BA DUM TSS
+      tr.bottom-row
+        td
+          .logo-cell
+            .logo
+              include ../svg/ky-logo.svg
+        td.border-left
+          | KYTONE RADIO
+      tr.tech-row
+        td
+        td
+    .post-right(ng-show="false" class="ng-hide")

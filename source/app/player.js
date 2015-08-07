@@ -22,7 +22,7 @@ $("#slider").slider({
 });
 
 //player volume slider [mouse wheel]
-$(".right-controls").on('mousewheel DOMMouseScroll', function(e) {
+$(".volume").on('mousewheel DOMMouseScroll', function(e) {
     var o = e.originalEvent;
     var delta = o && (o.wheelDelta || (o.detail && -o.detail));
 
