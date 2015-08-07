@@ -1,5 +1,5 @@
 kytoneApp.controller('slidersCtrl', ['$scope', 'Sliders', function($scope, Sliders){
-  $scope.sliders = Sliders.query();
+  $scope.sliders = $ctx.slidersCfg;
 
   $scope.openPost = function(outerIndex, innerIndex) {
     console.log(outerIndex, innerIndex);

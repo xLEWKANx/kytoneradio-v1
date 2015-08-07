@@ -2,7 +2,37 @@
 //главная цель - хранить обьект контекст для доступа с клиентской стороны
 var colors = require('colors');
 
-var _ctx = {}
+var _ctx = {
+  slidersCfg: [
+    {
+      outerIndex: 1,
+      autoplay: true,
+      speed: 300,
+      wrapperClass: 'cover-wrapper',
+      pauseOnHover: true,
+      rtl: false,
+      playerPlaceShow: true
+    },
+    {
+      outerIndex: 2,
+      autoplay: true,
+      speed: 300,
+      wrapperClass: 'cover-wrapper-big',
+      pauseOnHover: true,
+      rtl: false,
+      playerPlaceShow: false
+    },
+    {
+      outerIndex: 3,
+      autoplay: true,
+      speed: 300,
+      wrapperClass: 'cover-wrapper',
+      pauseOnHover: true,
+      rtl: false,
+      playerPlaceShow: true
+    }
+  ]
+}
 
 module.exports.get = function(){
   return _ctx
