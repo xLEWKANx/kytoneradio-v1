@@ -4,12 +4,13 @@ var meta = require('../../service/meta');
 
 var postersRoute = require('./posters'),
     dashboardRoute = require('./dashboard'),
-    $brandManager = require('../../service/brands');
+    $brandManager = require('../../service/brands'),
+    contextRoute = require('./context');
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
+
   res.render('index', {
     title: 'kytoneradio',
     timenow: meta.timenow(),
@@ -18,6 +19,8 @@ router.get('/', function(req, res, next) {
 
 });
 
+//context js
+router.use(contextRoute);
 
 // posters list responce
 router.use(postersRoute);

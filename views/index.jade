@@ -3,16 +3,15 @@ extends layouts/head
 block content
   .cover-wrapper
     slick(infinite="true" slides-to-show="5" class="slick-slider" slides-to-scroll="1" speed="300"
-      autoplay="true" variable-width="true" ng-include="'/posters/0'" ng-show="true")
+      autoplay="true" variable-width="true" ng-include="'/api/posters/0'" ng-show="true")
   .player-place
   .cover-wrapper-big
     slick(infinite="true" slides-to-show="5" class="slick-slider" slides-to-scroll="1" speed="300"
-      autoplay="true" variable-width="true" ng-include="'/posters/0'" ng-show="true")
+      autoplay="true" variable-width="true" ng-include="'/api/posters/0'" ng-show="true")
   .cover-wrapper
     slick(infinite="true" slides-to-show="5" class="slick-slider" slides-to-scroll="1" speed="300"
-      autoplay="true" variable-width="true" ng-include="'/posters/0'" ng-show="true")
+      autoplay="true" variable-width="true" ng-include="'/api/posters/0'" ng-show="true")
   .player-place
 
-
-
-
+block context
+  script(src='/app/context.js' type='text/javascript')
