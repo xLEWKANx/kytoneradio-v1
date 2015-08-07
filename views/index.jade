@@ -1,0 +1,15 @@
+extends layouts/head
+
+block content
+
+  .content(ng-controller="slidersCtrl")
+    div(ng-class="{{slider.wrapperClass}}" ng-repeat-start="slider in sliders")
+        slick(
+          class="slick-slider" infinite="true" init-onload slides-to-show="5"
+          slides-to-scroll="1" speed="{{slider.speed}}" autoplay="{{slider.autoplay}}"
+          variable-width="true" ng-include="'/partials/postersSlider'"
+          ng-show="true" ng-controller="postersCtrl")
+    .player-place(ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)
+
+block context
+  script(src='/app/context.js' type='text/javascript')
