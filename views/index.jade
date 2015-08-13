@@ -3,12 +3,12 @@ extends layouts/head
 block content
 
   .content(ng-controller="slidersCtrl")
-    div(ng-class="{{slider.wrapperClass}}" ng-repeat-start="slider in sliders")
+    div(ng-class="{{slider.wrapperClass}}" class="cover-wrapper" ng-repeat-start="slider in sliders")
         slick(
-          class="slick-slider" infinite="true" init-onload slides-to-show="5"
-          slides-to-scroll="1" speed="{{slider.speed}}" autoplay="{{slider.autoplay}}"
-          variable-width="true" ng-include="'/views/postersSlider.html'"
-          ng-show="true" ng-controller="postersCtrl")
+          class="slick-slider" infinite="true" init-onload="true", data="elemReady",
+          slides-to-show="5", slides-to-scroll="1" speed="{{slider.speed}}",
+          autoplay="{{slider.autoplay}}" variable-width="true",
+          ng-include="'/views/postersSlider.html'", ng-show="true" ng-controller="postersCtrl")
     .player-place(ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)
 
 block context

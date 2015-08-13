@@ -1,2 +1,2 @@
-div(ng-repeat="poster in posters | filter: {outerIndex: $parent.slider.outerIndex}" )
+div(ng-repeat="poster in posters | filter: {outerIndex: $parent.slider.outerIndex}" my-repeat-directive)
   img(ng-src="{{poster.pictureUrl}}", ng-click="openPost(poster.outerIndex, poster.innerIndex)")
