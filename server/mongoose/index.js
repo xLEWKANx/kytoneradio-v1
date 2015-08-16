@@ -14,5 +14,5 @@ db.once('open', function callback() {
 });
 
 // return promise
-// 
+//
 module.exports = def.promise;
