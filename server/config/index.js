@@ -12,7 +12,8 @@ module.exports = _.merge(
     root: _root,
     paths: {
       views: path.join(_root,'views'),
-      public: path.join(_root,'public')
+      public: path.join(_root,'public'),
+      logs: path.join(_root,'server','logger')
     },
     port: process.env.PORT || 3000
 

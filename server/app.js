@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var logger = require('./logger');
+var morgan = require('./logger/morgan');
 var routes = require('./routes');
 var config = require('./config');
 var mongoose = require('./mongoose');
@@ -21,8 +21,8 @@ app.set('view engine', 'jade');
 // load in ctx
 
 
-// logger
-app.use(logger);
+// morgan logger
+app.use(morgan);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

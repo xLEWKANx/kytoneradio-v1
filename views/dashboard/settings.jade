@@ -26,10 +26,20 @@ block content
       .panel-body
          .journal-container
             table.table.journal-table
-               tr
+               //- tr
                   td 04:20 - 19.06.2053
                      =' '
                      small 3 hours ago
                   td Error: value %% not found, using default insted
+               each msg in logs
+                  tr
+                     td=new Date(msg.timestamp).toLocaleString()
+                        =' '
+                        small 2 hours ago
+                     td
+                        =msg.level
+                        =': '
+                        =msg.message
+
             //- .btn-group-sm.journal-control-btns
                a: span.glyphicon.glyphicon-remove-circle

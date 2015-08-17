@@ -9,6 +9,8 @@ var debug = require('debug')('TestApp:server');
 var http = require('http');
 var config = require('./server/config');
 
+var logger = require('./server/logger/winston');
+
 /**
  * Create HTTP server.
  */
@@ -60,7 +62,8 @@ function onListening() {
   console.log(
     "┌───── \u001b[32mconfig\u001b[39m ──────\n" + logConfig(config) + "└───────────────────"
   );
-  console.log('\n\u001b[32mListening on %s \u001b[39m\n', bind);
+
+  logger.info('Listening on %s port', bind);
 }
 
 

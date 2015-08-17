@@ -3,6 +3,8 @@
 var colors = require('colors');
 var fs = require('fs');
 
+var logger = require('../../server/logger/winston');
+
 var parser = require('./parser');
 
 module.exports.save = function(cfg,cb){
@@ -10,7 +12,7 @@ module.exports.save = function(cfg,cb){
 
   fs.writeFile('service/context/default.cfg', cfg, function (err) {
   if (err) throw err;
-    console.log('new config saved!');
+    logger.data('Context data updated');
 
     parser(cfg, function(parsed){
       fs.writeFile('public/app/context.js', 

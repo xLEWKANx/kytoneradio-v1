@@ -1,10 +1,33 @@
-var morgan = require('morgan');
+var fs = require('fs');
+var config = require('../config');
 
-var _format = ':id :method :url [:status] - :response-time ms' 
-var _options = {}
+var logpath = config.paths.logs + '/server.log';
 
-morgan.token('id', function getId(req) {
-  return req.ip
-})
+module.exports.clear = function(cb){
+   var callback = cb || function(){};
 
-module.exports = morgan(_format,_options)
+   fs.unlink(logpath, callback);
+
+}
+
+module.exports.getlogs = function(n,cb){
+   var callback = cb || function(){};
+   var max = n || 10;
+   var data = [];
+
+   fs.readFile(logpath, { encoding: 'utf-8' },function(err,rawlogs){
+      var logs = rawlogs.split('\n');
+
+      for (var i in logs){
+         if (logs[i] == '')
+            continue
+         else
+            data.push(JSON.parse(logs[i]))
+      }
+
+      callback( data.splice(0,n) );
+      
+   })
+
+
+}

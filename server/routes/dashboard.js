@@ -4,6 +4,8 @@ var router = express.Router();
 var Posters = require('../models/posters');
 var contextMng = require('../../service/context');
 
+var loggerMng = require('../logger');
+
 router.use('/',function(req,res,next){
   req.scope = {}
   next();
@@ -16,18 +18,22 @@ router.get('/', function(req, res, next) {
 // Settings page
 router.get('/settings', function(req,res,next){
   contextMng.read(function(err,data){
-    
-    res.render('dashboard/settings',{
-      dest: 'settings',
-      cfg_data: data
-    });
+    loggerMng.getlogs(5, function(logs){
+
+      res.render('dashboard/settings',{
+        dest: 'settings',
+        cfg_data: data,
+        logs: logs
+      });
+
+    })
+
 
   })
 
 });
 
 router.post('/settings', function(req,res,next){
-  console.log('req.body: ', req.body);
   
   contextMng.save(req.body.cfg, function(){
     res.redirect('settings');
