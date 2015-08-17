@@ -8,7 +8,6 @@ var logger = require('./logger');
 var routes = require('./routes');
 var config = require('./config');
 var mongoose = require('./mongoose');
-var ctxService = require('../service/context');
 
 var app = express();
 
@@ -20,7 +19,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // load in ctx
-ctxService.load('database', mongoose);
+
 
 // logger
 app.use(logger);

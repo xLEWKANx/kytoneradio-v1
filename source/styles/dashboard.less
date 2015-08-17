@@ -97,8 +97,21 @@ body{
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
 
-        .settings-table {
+        .settings-editor {
           margin: 0 0 20px 0;
+          textarea{
+            padding: 6px;
+            width: 100%;
+            min-height: 200px;
+            resize: none;
+            border: none;
+            font-family: "Consolas";
+            &:focus {
+                outline: none !important;
+                border:none;
+                box-shadow: none;
+            }
+          }
         }
 
       }

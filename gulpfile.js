@@ -36,7 +36,7 @@ gulp.task('styles',function(){
     .pipe(gulp.dest(
         $dest('styles')
       ))
-    .pipe(notify('Styles task complete'))
+    // .pipe(notify('Styles task complete'))
 })
 
 gulp.task('app',function(){
@@ -103,7 +103,8 @@ gulp.task('develop', function () {
     // tasks: ['default']
   })
     .on('restart', function () {
-      notify('Server restarted!');
+      console.log('Server restarted');
+      // notify('Server restarted!');
     })
 })
 

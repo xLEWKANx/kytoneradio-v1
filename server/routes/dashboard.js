@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Posters = require('../models/posters');
+var contextMng = require('../../service/context');
 
 router.use('/',function(req,res,next){
   req.scope = {}
@@ -14,10 +15,25 @@ router.get('/', function(req, res, next) {
 
 // Settings page
 router.get('/settings', function(req,res,next){
-  res.render('dashboard/settings',{
-    dest: 'settings'
-  });
+  contextMng.read(function(err,data){
+    
+    res.render('dashboard/settings',{
+      dest: 'settings',
+      cfg_data: data
+    });
+
+  })
+
 });
+
+router.post('/settings', function(req,res,next){
+  console.log('req.body: ', req.body);
+  
+  contextMng.save(req.body.cfg, function(){
+    res.redirect('settings');
+
+  });
+})
 
 router.param('postid', function(req,res,next,id){
    Posters.find({

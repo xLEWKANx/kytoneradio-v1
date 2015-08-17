@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 var Posters = require('../models/posters');
-var SliderConfigModel = require('../../models/sliders');
 
 router.get('/api/posters/', function(req, res, next) {
   return Posters.find({}, function(err, posters) {
@@ -28,13 +27,6 @@ router.get('/api/posters/:outerIndex/:innerIndex/', function(req, res, next) {
   });
 });
 
-router.get('/config/sliders/', function(req, res, next) {
-  return SliderConfigModel.find({},
-  function(err, sliders) {
-    if (err) throw error; // USE YOUR LOGGER, BROTHER
-    res.send(sliders);
-  });
-});
 
 
 
