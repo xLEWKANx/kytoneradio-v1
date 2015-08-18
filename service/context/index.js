@@ -15,11 +15,11 @@ module.exports.save = function(cfg,cb){
     logger.data('Context data updated');
 
     parser(cfg, function(parsed){
-      fs.writeFile('public/app/context.js', 
-        'var $ctx = ' 
-        + JSON.stringify(parsed), 
+      fs.writeFile('public/app/context.js',
+        'var $ctx = '
+        + JSON.stringify(parsed),
         function(){
-          callback();    
+          callback();
         })
     })
 

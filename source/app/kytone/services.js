@@ -1,33 +1,57 @@
-kytoneApp.factory('Posters', ['$resource',
-  function($resource) {
+(function(){
+  'use strict';
+
+  angular.module('kytoneApp')
+    .factory('Posters', Posters)
+    .factory('postData', postData)
+    .factory('postFunc', postFunc);
+
+  function Posters($resource) {
     return $resource('/api/posters/:outerIndex/:innerIndex', {}, {
       'get': {method: 'GET', isArray: true}
     });
   }
-]);
 
-kytoneApp.factory('Post', ['Posters',
-  function(Posters){
-    var postOpened = false;
-    var currentPost = {};
-    return {
-      openPost: function(outerIndex, innerIndex) {
-        postOpened = true;
-        var post = Posters.get(
-          {outerIndex: outerIndex, innerIndex: innerIndex},
-          function() {
-            currentPost = post[0];
-            console.log(currentPost);
-          }
-        );
-      },
-      closePost: function() {
-        currentPost = {};
-        postOpened = false;
-      },
-      isOpened: function() {
-        return postOpened;
-      }
+  function postData(){
+    var postData = {
+      postOpened: false,
+      currentPost: {}
     };
+
+    return postData;
   }
-]);
+
+  function postFunc(Posters, postData){
+    var service = {
+      openPost: openPost,
+      closePost: closePost,
+      isOpened: isOpened
+    };
+
+    return service;
+
+    function openPost(outerIndex, innerIndex) {
+      postData.postOpened = true;
+
+      var post = Posters.get(
+        {
+          outerIndex: outerIndex,
+          innerIndex: innerIndex
+        },
+        function() {
+          postData.currentPost = post[0];
+          console.log(postData.currentPost);
+        }
+      );
+    }
+
+    function closePost() {
+      postData.currentPost = {};
+      postData.postOpened = false;
+    }
+
+    function isOpened() {
+      return postData.postOpened;
+    }
+  }
+})();

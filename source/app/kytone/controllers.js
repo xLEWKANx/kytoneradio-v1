@@ -1,19 +1,34 @@
-kytoneApp.controller('slidersCtrl', ['$scope', 'Post', function($scope, Post){
-  $scope.sliders = $ctx.slidersCfg;
+(function(){
+  'use strict';
 
-  $scope.openPost = function(outerIndex, innerIndex) {
-    Post.openPost(outerIndex, innerIndex);
-    console.log('post opened', Post.isOpened());
-  };
-}]);
+  angular.module('kytoneApp')
+    .controller('slidersCtrl', sliderCtrl)
+    .controller('postersCtrl', posterCtrl)
+    .controller('postCtrl', postCtrl);
 
-kytoneApp.controller('postersCtrl', ['$scope', 'Posters', function($scope, Posters){
-  $scope.posters = Posters.query();
-  $scope.elemReady = false;
-}])
+  function sliderCtrl($scope, postFunc){
+    var vm = this;
 
-kytoneApp.controller('postCtrl', ['$scope', 'Post', function($scope, Post){
-  $scope.post = Post.currentPost;
-  $scope.isOpened = Post.isOpened();
-  console.log('post opened', $scope.isOpened);
-}]);
+    vm.slidersArr = $ctx.slidersCfg;
+    vm.openPost = openPost;
+
+    function openPost(outerIndex, innerIndex) {
+      postFunc.openPost(outerIndex, innerIndex);
+      console.log('post opened', postFunc.isOpened());
+    };
+  }
+
+  function posterCtrl($scope, Posters){
+    var vm = this;
+
+    vm.postersArr = Posters.query();
+    vm.elemReady = false;
+  }
+
+  function postCtrl($scope, postData){
+    var vm = this;
+
+    vm.post = postData;
+  }
+})();
+

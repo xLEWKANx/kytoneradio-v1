@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     clean = require('gulp-clean'),
     nodemon = require('gulp-nodemon'),
-    concat = require("gulp-concat");
+    concat = require("gulp-concat"),
+    ngAnnotate = require('gulp-ng-annotate');
 
 var fs = require('fs'),
     path = require('path');
@@ -46,6 +47,12 @@ gulp.task('app',function(){
         _paths.app+'/**/*.js'
       ])
     .pipe(concat('main.js'))
+        // Annotate before uglify so the code get's min'd properly.
+    .pipe(ngAnnotate({
+        // true helps add where @ngInject is not used. It infers.
+        // Doesn't work with resolve, so we must be explicit there
+        add: true
+    }))
     .pipe(gulp.dest(
         $dest('app')
       ))
@@ -99,7 +106,7 @@ gulp.task('fonts', function(){
 });
 
 gulp.task('develop', function () {
-  nodemon({ 
+  nodemon({
     script: 'www',
     watch:[
     'server/**/*.js',
