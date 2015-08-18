@@ -33,9 +33,9 @@ block content
                   td Error: value %% not found, using default insted
                each msg in logs
                   tr
-                     td=new Date(msg.timestamp).toLocaleString()
+                     td=msg.time
                         =' '
-                        small 2 hours ago
+                        small=msg.fromnow
                      td
                         =msg.level
                         =': '

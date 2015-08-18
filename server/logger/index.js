@@ -1,7 +1,11 @@
 var fs = require('fs');
 var config = require('../config');
+var moment = require('moment');
 
 var logpath = config.paths.logs + '/server.log';
+
+// remove old server.log
+fs.unlinkSync(logpath);
 
 module.exports.clear = function(cb){
    var callback = cb || function(){};
@@ -21,11 +25,16 @@ module.exports.getlogs = function(n,cb){
       for (var i in logs){
          if (logs[i] == '')
             continue
-         else
-            data.push(JSON.parse(logs[i]))
+         var obj = JSON.parse(logs[i]);
+         var obj_time = moment(obj.timestamp);
+
+         obj.time = obj_time.format('HH:mm:ss, MMM Do YYYY');
+         obj.fromnow = obj_time.fromNow(); 
+
+         data.push(obj);
       }
 
-      callback( data.splice(0,n) );
+      callback( data.reverse().splice(0,n) );
       
    })
 

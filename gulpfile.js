@@ -99,8 +99,13 @@ gulp.task('fonts', function(){
 });
 
 gulp.task('develop', function () {
-  nodemon({ script: 'www'
-    // tasks: ['default']
+  nodemon({ 
+    script: 'www',
+    watch:[
+    'server/**/*.js',
+    'service/**/*.js',
+    'www'
+    ]
   })
     .on('restart', function () {
       console.log('Server restarted');
