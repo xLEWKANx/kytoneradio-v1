@@ -5,7 +5,12 @@ var moment = require('moment');
 var logpath = config.paths.logs + '/server.log';
 
 // remove old server.log
-fs.unlinkSync(logpath);
+// if exists
+fs.exists(logpath, function (exists) {
+   if (exists)
+      fs.unlinkSync(logpath);
+
+});
 
 module.exports.clear = function(cb){
    var callback = cb || function(){};
