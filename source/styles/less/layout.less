@@ -134,11 +134,16 @@ body {
   height: 10%;
   width: 100%;
   position: absolute;
-  top: 195%;
+  top: 160%;
   display: table;
   table-layout: fixed;
   text-align: center;
   background-color: white;
+
+  &.fixed{
+    position: fixed;
+    top: 90%;
+  }
 
   .sponsor-list {
     display: table-cell;
@@ -158,7 +163,13 @@ body {
     padding-right: 0!important;
   }
 }
-
+.sponsor-row-place{
+  height: 10%;
+  width: 100%;
+  position: absolute;
+  top: 175%;
+  display: table;
+}
 // Post
 
 .post-left {

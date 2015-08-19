@@ -63,17 +63,28 @@ document.onkeydown = function(evt) {
 // scroll banner magnet function
 // resize window fix
 $(window).bind('scroll resize', function(){
-    if ( (($(window).height() + $(window).scrollTop())/$(document).height())*100 > 93 )
-        $('.sponsor-row').css({
-            position: 'fixed',
-            top: '90%'
-        });
-    else
-        $('.sponsor-row').css({
-            position: 'absolute',
-            top: $(document).height() - $(window).height()*0.25
-        });
+    var top_scroll = $(window).height() + $(window).scrollTop();
+    var sponsor_scroll = Math.round($(document).height() - ($(window).height()*0.15))
+    
+
+    console.log('Z:', top_scroll);
+    console.log('sponsor: ', sponsor_scroll);
+
+    
+        if (top_scroll < sponsor_scroll){
+            // diactivated;
+            $('.sponsor-row').removeClass('fixed');
+                
+        }
+    
+        if (top_scroll >= sponsor_scroll){
+            // activated;
+            $('.sponsor-row').addClass('fixed');
+        }
+    
+        
 });
+
 
 //playlist animate row
 
