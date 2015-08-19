@@ -31,8 +31,7 @@
     return service;
 
     function openPost(outerIndex, innerIndex) {
-      postData.postOpened = true;
-
+      
       var post = Posters.get(
         {
           outerIndex: outerIndex,
@@ -40,7 +39,9 @@
         },
         function() {
           postData.currentPost = post[0];
+          if(post)
           console.log(postData.currentPost);
+          postData.postOpened = true;
         }
       );
     }

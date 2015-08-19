@@ -2,9 +2,9 @@
   'use strict';
 
   angular.module('kytoneApp')
-    .directive('postersReady', postersReady);
+    .directive('myPosterPlace', myPosterPlace);
 
-  function postersReady() {
+  function myPosterPlace() {
     return function(scope, element, attrs) {
       scope.$parent.elemReady = false;
       if (scope.$last){

@@ -6,29 +6,26 @@
     .controller('postersCtrl', posterCtrl)
     .controller('postCtrl', postCtrl);
 
-  function sliderCtrl($scope, postFunc){
+  function sliderCtrl($scope){
     var vm = this;
 
     vm.slidersArr = $ctx.slidersCfg;
-    vm.openPost = openPost;
-
-    function openPost(outerIndex, innerIndex) {
-      postFunc.openPost(outerIndex, innerIndex);
-      console.log('post opened', postFunc.isOpened());
-    };
   }
 
-  function posterCtrl($scope, Posters){
+  function posterCtrl($scope, Posters, postFunc){
     var vm = this;
 
     vm.postersArr = Posters.query();
     vm.elemReady = false;
+    vm.openPost = postFunc.openPost;
   }
 
-  function postCtrl($scope, postData){
+  function postCtrl($scope, postData, postFunc){
     var vm = this;
 
-    vm.post = postData;
+    vm.postData = postData;
+    vm.isOpened = postFunc.isOpened;
+    vm.closePost = postFunc.closePost;
   }
 })();
 
