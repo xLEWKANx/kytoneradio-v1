@@ -34,7 +34,7 @@ module.exports.getlogs = function(n,cb){
          var obj_time = moment(obj.timestamp);
 
          obj.time = obj_time.format('HH:mm:ss, MMM Do YYYY');
-         obj.fromnow = obj_time.fromNow(); 
+         obj.fromnow = obj_time.fromNow();
 
          data.push(obj);
       }

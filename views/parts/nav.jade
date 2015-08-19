@@ -1,6 +1,6 @@
 .offset-top
 
-.header-wrapper(ng-controller="postCtrl")
+.header-wrapper(ng-controller="postCtrl as post")
   .header-left
     table.header-table
       tr.top-row
@@ -27,14 +27,15 @@
       tr.tech-row
         td
         td
-    .post-left(ng-show="isOpened" class="ng-hide")
-      img.post-image(ng-src="{{post.pictureUrl}}")
+    .post-left(ng-show="post.isOpened()" class="ng-hide")
+      img.post-image(ng-src="{{post.postData.currentPost.pictureUrl}}")
   .header-right
     table.header-table
       tr.top-row
         td.border-right
-        td#closepost(ng-show="isOpened" class="ng-hide")
-          include ../svg/close.svg
+        td#closepost(ng-show="post.isOpened()" class="ng-hide")
+          a(ng-click="post.closePost()")
+            include ../svg/close.svg
       tr
         td(colspan="2").playlist-section
           table#playlist
@@ -63,6 +64,6 @@
       tr.tech-row
         td
         td
-    .post-right(ng-show="isOpened" class="ng-hide")
+    .post-right(ng-show="post.isOpened()" class="ng-hide")
       p.post-content
-        | {{post.content}}
+        | {{post.postData.currentPost.content}}
