@@ -5,6 +5,7 @@ var Posters = require('../models/posters');
 var contextMng = require('../../service/context');
 
 var loggerMng = require('../logger');
+var logger = require('../logger/winston');
 
 router.use('/',function(req,res,next){
   req.scope = {}
@@ -42,7 +43,7 @@ router.post('/settings', function(req,res,next){
 })
 
 router.param('postid', function(req,res,next,id){
-   Posters.find({
+   Posters.findOne({
       _id: id
    }, function(err, poster) {
       if (err) {
@@ -77,6 +78,7 @@ router.route('/posters')
       });
    })
 
+
 router.get('/posters/new', function(req,res,next){
    res.render('dashboard/posters-edit', {
       dest: 'new',
@@ -91,18 +93,65 @@ router.get('/posters/new', function(req,res,next){
    })
 })
 
+router.post('/posters/save', function(req,res,next){
+  var new_poster = new Posters(req.body);
+
+  new_poster.save(function(err,poster){
+    if (err){
+      logger.log('error','Something wrong while creating Poster #%s', poster.id);
+      return;
+    }
+    logger.log('data','Poster #%s created', poster.id)
+    // save complite
+    res.redirect('/dashboard/posters');
+  })
+
+})
+
 router.route('/posters/:postid')
 
    .get(function(req,res,next){
       res.render('dashboard/posters-edit',{
          dest: 'edit',
-         poster : req.poster[0]
+         poster : req.poster
       })
    });
 
 // Posters 
 
+router.post('/posters/:postid/save', function(req,res,next){
+  var poster = req.poster;
 
+  for (var i in req.body){
+    var prop = req.body[i];
+
+    poster[i] = prop;
+  }
+
+  poster.save(function(err){
+    if (err){
+      logger.log('error','Something wrong while saving Poster #%s', poster.id);
+      return;
+    }
+    logger.log('data','Poster #%s updated', poster.id)
+    // save complite
+    res.redirect('/dashboard/posters');
+  })
+  
+})
+
+router.post('/posters/:postid/remove', function(req,res,next){
+  var poster = req.poster;
+
+  poster.remove(function(err){
+    if (err)
+      return next(err)
+
+    logger.log('data', 'Poster #%s removed', poster.id)
+    // remove compite
+    res.redirect('/dashboard/posters');
+  })
+})
 
 // Player configuration
 router.get('/player', function(req,res,next){
