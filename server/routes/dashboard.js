@@ -21,7 +21,7 @@ router.get('/settings', function(req,res,next){
   contextMng.read(function(err,data){
     loggerMng.getlogs(5, function(logs){
 
-      res.render('dashboard/settings',{
+      res.render('/dashboard/settings',{
         dest: 'settings',
         cfg_data: data,
         logs: logs

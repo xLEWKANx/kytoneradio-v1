@@ -25,7 +25,13 @@ block content
                     // Text input
                     .form-group
                       label.control-label(for='content') Content
-                      input#content.form-control(name='content', type='text', placeholder='Content text', value=poster.content)
+                      textarea#content.form-control(
+                        name='content' 
+                        type='text'
+                        rows='5' 
+                        placeholder='Content text'
+                        style='resize: none;'
+                      )=poster.content
                     // Text input
                     .form-group
                       label.control-label(for='innerIndex') Inner Index
