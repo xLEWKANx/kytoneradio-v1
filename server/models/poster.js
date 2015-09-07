@@ -11,6 +11,5 @@ var Poster = new Schema({
   outerUrl: String
 });
 
-// BASIC CONFIGURATION - DELETE AFTER DASHBOARD EMERGING
 
 module.exports = mongoose.model('Poster', Poster);
