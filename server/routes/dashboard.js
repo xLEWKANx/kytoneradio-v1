@@ -48,12 +48,12 @@ router.param('postid', function(req,res,next,id){
    }, function(err, poster) {
       if (err) {
          next(err);
-      } 
-      else 
+      }
+      else
          if (poster) {
             req.poster = poster;
             next();
-         } 
+         }
          else {
             next(new Error('failed to load poster'));
          }
@@ -117,7 +117,7 @@ router.route('/posters/:postid')
       })
    });
 
-// Posters 
+// Posters
 
 router.post('/posters/:postid/save', function(req,res,next){
   var poster = req.poster;

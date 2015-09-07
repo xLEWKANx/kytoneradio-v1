@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Posters = require('../models/posters');
+var Posters = require('../models/poster');
 
 router.get('/api/posters/', function(req, res, next) {
   return Posters.find({}, function(err, posters) {
