@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Posters = require('../models/posters');
+var Posters = require('../models/poster');
 var contextMng = require('../../service/context');
 
 var loggerMng = require('../logger');
