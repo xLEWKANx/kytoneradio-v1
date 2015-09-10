@@ -4,39 +4,65 @@ var fs = require('fs'),
     config = require('../../server/config'),
     logger = require('../../server/logger/winston'),
     
-    Track = require('../../server/models/track.js');
+    Track = require('../../server/models/track.js'),
+    dfd = require('q').defer();
 
 module.exports = {
   scanDir: scanDir,
-  clearDB: clearDB
+  setMetadata: setMetadata,
+  saveTrackToDB: saveTrackToDB,
+  getPlaylist: getPlaylist
 };
 
-function scanDir() {
-  fs.readdir(config.music.path, function(err, files) {
-    if (err) throw err;
+function scanDir(dir) {
+  dir = dir || config.music.path;
 
-    files.forEach(function(file) {
-      var file = path.join(config.music.path, file);
-      mm(fs.createReadStream(file), {duration: true},function (err, metadata) {
-        if (err) {
-          console.log('cannot read ', file);
-          return;
-        }
-        Track.create(metadata, function(err, track) {
-          if (err) throw err;
-          console.log(track, ' saved!');
-        });
-      });
+  var promise = new Promise(function(resolve, reject) {
+    fs.readdir(dir, function(err, files) {
+      if (err)  {
+        reject(err);
+      } else {
+        resolve(files);
+      }
     });
   });
+  return promise;
 }
 
-function clearDB() {
-  Track.remove({}, function(err) {
-    if (err) throw err;
-    console.log('tracks removed');
+function setMetadata(file) {
+
+  file = path.join(config.music.path, file);
+  var promise = new Promise(function(resolve, reject) {
+    mm(fs.createReadStream(file), {duration: true}, function (err, meta) {
+      if (err) {
+        logger.log('error', 'cannot read ', file);
+        reject(err);
+      } else
+      resolve(meta);
+    });
+  });
+  return promise;
+}
+
+function saveTrackToDB(meta) {
+  Track.create(meta, function(err, meta) {
+    if (err) logger.log('error', 'cannot save to DB', err);
+    logger.log('info', meta.title, ' saved to db');
   });
 }
 
+function getPlaylist(dir) {
 
+  scanDir(dir).then(function(files) {
+    files.forEach(function(file) {
+      setMetadata(file).then(saveTrackToDB, function(err) {
+        console.log(err);
+      });
+    });
+  })
+  .catch(function(err) {
+    logger.log('error', err);
+  });
+  
+}
 

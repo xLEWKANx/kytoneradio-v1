@@ -1,9 +1,8 @@
+process.env.NODE_ENV = 'test';
+
 var config = require('../../server/config');
 var mongoose = require('mongoose');
 
-// ensure the NODE_ENV is set to 'test'
-// this is helpful when you would like to change behavior when testing
-process.env.NODE_ENV = 'development';
 
 beforeAll(function (done) {
 
@@ -20,6 +19,7 @@ beforeAll(function (done) {
        throw err;
      }
      console.log('mongoose connected');
+     console.log('test music', config.music.path);
      return clearDB();
    });
  } else {
