@@ -27,7 +27,7 @@
       closePost: closePost,
       isOpened: isOpened
     };
-
+    var lastScrollTop = 0;
     return service;
 
     function openPost(outerIndex, innerIndex) {
@@ -39,9 +39,14 @@
         },
         function() {
           postData.currentPost = post[0];
-          if(post)
-          console.log(postData.currentPost);
-          postData.postOpened = true;
+          if(post){
+            console.log(postData.currentPost);
+            postData.postOpened = true;
+            // lock scrolling and view
+            lastScrollTop = $(window).scrollTop();
+            $(window).scrollTop(0);
+            document.body.style.overflow = 'hidden';
+          }
         }
       );
     }
@@ -49,6 +54,10 @@
     function closePost() {
       postData.currentPost = {};
       postData.postOpened = false;
+      // reset locking
+      $(window).scrollTop(lastScrollTop);
+      lastScrollTop = 0;
+      document.body.style.overflow = 'auto';
     }
 
     function isOpened() {
