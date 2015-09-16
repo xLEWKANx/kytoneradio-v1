@@ -5,12 +5,15 @@ var q = require('q'),
     logger = require('../server/logger/winston'),
     Track = require('../server/models/track.js'),
     mongoose = require('../server/mongoose'),
+    m3u = require('../service/playlist/createM3U.js'),
     config = require('../server/config');
 
 
-function scanDir() {
+function scanDir(dir) {
+  dir = dir || config.music.path;
+
   var promise = new Promise(function(resolve, reject) {
-    fs.readdir(config.music.path, function(err, files) {
+    fs.readdir(dir, function(err, files) {
       if (err)  {
         reject(err);
       } else {
@@ -21,9 +24,12 @@ function scanDir() {
   return promise;
 }
 
-var setMetadata = function(file) {
+function filterMP3(files) {
+  return files.filter(string => string.match(/^([a-zA-Z0-9_-]+)(\.mp3)$/));
+}
 
-  file = path.join(config.music.path, file);
+function getMetadata(file) {
+
   var promise = new Promise(function(resolve, reject) {
     mm(fs.createReadStream(file), {duration: true}, function (err, meta) {
       if (err) {
@@ -34,26 +40,27 @@ var setMetadata = function(file) {
     });
   });
   return promise;
-};
+}
 
-
-var saveTrackToDB = function(meta) {
+function saveTrackToDB(meta) {
   Track.create(meta, function(err, meta) {
     if (err) logger.log('error', 'cannot save to DB', err);
     logger.log('info', meta.title, ' saved to db');
   });
-};
+}
 
 
-var promise = scanDir();
-
-promise.then(function(files) {
-  files.forEach(function(file) {
-    setMetadata(file).then(saveTrackToDB, function(err) {
-      console.log(err);
+  scanDir().then(filterMP3).then(m3u.createPlaylist, function(err) {
+    console.log(err);
+  }).then(function(files) {
+    files.forEach(function(file) {
+      getMetadata(file).then(saveTrackToDB, function(err) {
+        console.log(err);
+      });
     });
+  })
+  .catch(function(err) {
+    logger.log('error', err);
   });
-})
-.catch(function(err) {
-  logger.log('error', err);
-})
+  
+
