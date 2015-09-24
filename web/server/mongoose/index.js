@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var config = require('../config');
-var q = require('q');
+
 
 var logger = require('../logger/winston');
 

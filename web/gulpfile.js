@@ -4,7 +4,6 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     notify = require('gulp-notify'),
     jade = require('gulp-jade'),
-    clean = require('gulp-clean'),
     nodemon = require('gulp-nodemon'),
     concat = require("gulp-concat"),
     ngAnnotate = require('gulp-ng-annotate');
@@ -22,12 +21,6 @@ var $paths = JSON.parse(
     file_cfg.path, file_cfg.encoding));
 
 var _paths = generatePaths($paths);
-
-gulp.task('clean', function(){
-    return gulp
-      .src(_paths.out, {read: false})
-      .pipe(clean());
-})
 
 gulp.task('styles',function(){
   return gulp

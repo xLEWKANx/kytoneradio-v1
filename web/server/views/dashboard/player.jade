@@ -1,0 +1,36 @@
+extends layout.jade
+
+block content
+  .panel.panel-default
+    .panel-heading
+      h1=dest.charAt(0).toUpperCase() + dest.slice(1)
+      .info-box
+        strong Warning!
+        =' '
+        | This alert needs your attention, but it's not super important.
+    .panel-body
+      .playlist-block
+        .playlist-title
+          strong Kytone DAY
+        button#day-upload.upload-playlist Upload Playlist
+        button#day-set.set-playlist Set Playlist
+        button#day-scan.scan-folder Scan Folder
+        .playlist-window
+          ul.playlist-tracks
+            //- for track in tracks
+            li.track
+              span.time 00:00
+              |  track
+      .playlist-block
+        .playlist-title
+          strong Kytone Night
+        button#night-upload.upload-playlist Upload Playlist
+        button#night-set.set-playlist Set Playlist
+        button#night-scan.scan-folder Scan Folder
+        .playlist-window
+          ul.playlist-tracks
+            //- for track in tracks
+            li.track
+              span.time 00:00
+              |  track
+

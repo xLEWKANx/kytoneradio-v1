@@ -54,11 +54,11 @@ body{
 
     .panel-body {
       padding: 0 0 15px 0;
-      background: repeating-linear-gradient( 
+      background: repeating-linear-gradient(
           -45deg,
           #FFF,
-          #FFF 10px, 
-          #eee 2px, 
+          #FFF 10px,
+          #eee 2px,
           #eee 18px);
 
       &.posters{
@@ -143,7 +143,7 @@ body{
 }
 
 // tables
-// 
+//
 
 .settings-table{
   margin: 0;
@@ -191,7 +191,7 @@ body{
 }
 
 // loggin in journal
-// 
+//
 
 .panel.journal{
   .panel-body{
@@ -231,4 +231,49 @@ body{
   padding: 20px 0;
   border-bottom: 1px #ddd solid;
   background-color: #fff;
+}
+
+
+// PLAYLISTS
+
+.upload-playlist {
+  .btn;
+  .btn-warning;
+}
+
+.set-playlist {
+  .btn;
+  .btn-danger;
+  .pull-right;
+}
+
+.scan-folder {
+  .btn;
+  .btn-info;
+}
+
+
+.playlist-window {
+  height: 500px;
+  width: 100%;
+  padding: 0.5em;
+  overflow-y: scroll;
+  background-color: white;
+  border-top: 1px solid @gray;
+  border-bottom: 1px solid @gray;
+}
+
+.playlist-title {
+  height: 50px;
+  text-indent: 1em;
+  line-height: 50px;
+  font-size: 16px;
+}
+
+.playlist-tracks {
+  list-style: none;
+
+  .time {
+    color: #583EAD;
+  }
 }

@@ -12,6 +12,7 @@ var Track = new Schema({
   disk : Object,
   genre : Array,
   duration : Number,
+  order: Number,
   daytime: String
 });
 

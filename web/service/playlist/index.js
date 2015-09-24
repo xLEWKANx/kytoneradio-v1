@@ -9,7 +9,7 @@ var fs = require('fs'),
 
 module.exports = {
   scanDir: scanDir,
-  setMetadata: setMetadata,
+  getMetadata: getMetadata,
   saveTrackToDB: saveTrackToDB,
   getPlaylist: getPlaylist
 };
@@ -29,9 +29,8 @@ function scanDir(dir) {
   return promise;
 }
 
-function setMetadata(file) {
+function getMetadata(file) {
 
-  file = path.join(config.music.path, file);
   var promise = new Promise(function(resolve, reject) {
     mm(fs.createReadStream(file), {duration: true}, function (err, meta) {
       if (err) {
@@ -55,7 +54,7 @@ function getPlaylist(dir) {
 
   scanDir(dir).then(function(files) {
     files.forEach(function(file) {
-      setMetadata(file).then(saveTrackToDB, function(err) {
+      getMetadata(file).then(saveTrackToDB, function(err) {
         console.log(err);
       });
     });
