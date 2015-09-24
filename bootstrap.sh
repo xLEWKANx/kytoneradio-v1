@@ -13,10 +13,12 @@ apt-get install --yes build-essential
 
 echo "configure and update npm"
 npm install npm -g
-mkdir /home/npm-global
-sudo NPM_CONFIG_PREFIX=/home/npm-global npm install gulp node-gyp nodemon forever -g --no-bin-links
+mkdir /home/vagrant/npm-global
+npm config set prefix '/home/vagrant/npm-global'
+sudo NPM_CONFIG_PREFIX=/home/vagrant/npm-global npm install gulp node-gyp nodemon forever -g
+echo 'export PATH="$PATH:/home/vagrant/npm-global/bin"' >> /home/vagrant/.profile
+source /home/vagrant/.profile
 echo "finished"
 # npm install -g --no-bin-links gulp nodemon forever node-gyp
-# PATH="$PATH:$HOME/npm/bin"
 # cd /vagrant/web
 # npm install --no-bin-links
