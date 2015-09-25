@@ -7,6 +7,7 @@ echo "install node"
 curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
 apt-get install --yes nodejs
 apt-get install --yes --silent liquidsoap
+apt-get install --yes --silent icecast2
 
 echo "install npm tools"
 apt-get install --yes build-essential
