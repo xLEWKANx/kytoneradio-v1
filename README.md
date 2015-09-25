@@ -15,6 +15,13 @@ npm install --no-bin-links
 ./liquidsoap
 ./logs
 ./music
+- jingles
+- day
+    - music
+    - playlist.mp3
+- night
+    - music
+    - playlist.mp3
 ./web
 - server
     - config
