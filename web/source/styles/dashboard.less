@@ -70,11 +70,16 @@ body{
             margin-bottom: 20px;
           }
           .poster-item{
+            .clearfix();
             padding: 10px 0;
+            position: relative;
             margin: 4px 0;
             border-bottom: 1px #ddd solid;
-            img{
-              height: 100px;
+            .poster-image{
+              height: inherit;
+              img{
+                height: 100px;
+              }
             }
             .poster-id{
               font-size: 0.8em;
@@ -86,6 +91,9 @@ body{
               display: table;
             }
           }
+        }
+        p{
+          overflow-wrap: break-word;
         }
 
       }

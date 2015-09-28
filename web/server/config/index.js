@@ -13,7 +13,7 @@ module.exports = _.merge(
     paths: {
       views: path.join(_root, 'server','views'),
       public: path.join(_root,'public'),
-      logs: path.normalize(_root, '../logs')
+      logs: path.join(_root, '..','logs')
     },
     port: process.env.PORT || 3000
 

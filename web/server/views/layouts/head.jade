@@ -23,10 +23,13 @@ html(ng-app='kytoneApp')
     //- - - - - - - - -
     block content
 
-    //- footer
-    include ../parts/footer
+    block footer
+        //- footer
+        include ../parts/footer
 
-    //- audio
-    include ../parts/player
+    block player
+        //- audio
+        include ../parts/player
 
-    include scripts
+    block scripts
+        include scripts
