@@ -1,5 +1,8 @@
 node_modules
 web/public
-logs/*.log*
 *.cfg
 .vagrant
+
+#logs
+logs/*.log*
+web/*.log*
