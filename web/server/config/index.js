@@ -14,7 +14,7 @@ module.exports = _.merge(
     paths: {
       views: path.join(_root, 'server','views'),
       public: path.join(_root,'public'),
-      logs: path.join(_root, '../logs'),
+      logs: path.join(_root, '..','logs'),
       music: {
         day: path.join(_music, 'day/tracks'),
         night: path.join(_music, 'night/tracks'),
