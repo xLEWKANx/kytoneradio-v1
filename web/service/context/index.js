@@ -11,7 +11,9 @@ module.exports.save = function(cfg,cb){
   var callback = cb || function(){}
 
   fs.writeFile('service/context/default.cfg', cfg, function (err) {
-  if (err) throw err;
+  if (err) 
+    return callback(err);
+
     logger.data('Context data updated');
 
     parser(cfg, function(parsed){
@@ -29,5 +31,3 @@ module.exports.save = function(cfg,cb){
 module.exports.read = function(cb){
   fs.readFile('web/service/context/default.cfg', cb);
 }
-
-

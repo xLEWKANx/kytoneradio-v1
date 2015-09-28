@@ -36,8 +36,11 @@ router.get('/settings', function(req,res,next){
 
 router.post('/settings', function(req,res,next){
   
-  contextMng.save(req.body.cfg, function(){
-    res.redirect('settings');
+  contextMng.save(req.body.cfg, function(err){
+    if (err)
+      return next(err)
+    else
+      res.redirect('settings');
 
   });
 })
