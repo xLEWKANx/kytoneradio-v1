@@ -29,5 +29,5 @@ module.exports.save = function(cfg,cb){
 }
 
 module.exports.read = function(cb){
-  fs.readFile('web/service/context/default.cfg', cb);
+  fs.readFile(__dirname+'/default.cfg', cb);
 }
