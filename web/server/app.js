@@ -19,7 +19,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // load in ctx
-
+console.log(config)
 
 // morgan logger
 app.use(morgan);
