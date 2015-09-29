@@ -3,6 +3,7 @@ var router = express.Router();
 var meta = require('../../service/meta');
 
 var postersRoute = require('./posters'),
+    playlistRoute = require('./playlist'),
     dashboardRoute = require('./dashboard'),
     $brandManager = require('../../service/brands');
 
@@ -22,6 +23,8 @@ router.get('/', function(req, res, next) {
 
 // posters list responce
 router.use(postersRoute);
+
+router.use(playlistRoute);
 
 // control panel
 router.use('/dashboard',dashboardRoute);

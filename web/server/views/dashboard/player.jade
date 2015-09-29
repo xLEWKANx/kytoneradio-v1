@@ -16,11 +16,12 @@ block content
         button#day-set.set-playlist Set Playlist
         button#day-scan.scan-folder Scan Folder
         .playlist-window
-          ul.playlist-tracks
-            //- for track in tracks
-            li.track
-              span.time 00:00
-              |  track
+          table.playlist-tracks(ng-controller="dayCtrl as playlist")
+            tr(ng-repeat="track in playlist.tracks")
+              td {{track.duration}}
+              td {{track.file}}
+              td {{track.artist}}
+              td {{track.title}}
       .playlist-block
         .playlist-title
           strong Kytone Night
@@ -29,7 +30,6 @@ block content
         button#night-scan.scan-folder Scan Folder
         .playlist-window
           ul.playlist-tracks
-            //- for track in tracks
             li.track
               span.time 00:00
               |  track

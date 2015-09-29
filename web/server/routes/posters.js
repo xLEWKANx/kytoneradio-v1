@@ -27,7 +27,4 @@ router.get('/api/posters/:outerIndex/:innerIndex/', function(req, res, next) {
   });
 });
 
-
-
-
 module.exports = router;

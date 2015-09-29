@@ -50,11 +50,29 @@ gulp.task('app',function(){
         $dest('app')
       ))
 })
+gulp.task('dashboard',function(){
+  return gulp
+    .src([
+        _paths.app+'/dashboard/module.js',
+        _paths.app+'/dashboard/*.js'
+      ])
+    .pipe(concat('dashboard.js'))
+        // Annotate before uglify so the code get's min'd properly.
+    .pipe(ngAnnotate({
+        // true helps add where @ngInject is not used. It infers.
+        // Doesn't work with resolve, so we must be explicit there
+        add: true
+    }))
+    .pipe(gulp.dest(
+        $dest('app')
+      ))
+})
 
 gulp.task('app:lib',function(){
   return gulp
     .src([
       _paths.app_lib + '/**/jquery*.js',
+      _paths.app_lib + '/**/angular.js',
       _paths.app_lib + '/**/angular*.js',
       _paths.app_lib + '/**/*.js'
       ])
@@ -113,7 +131,8 @@ gulp.task('develop', function () {
     })
 })
 
-gulp.task('build',['styles','app','app:lib','views','img','misc', 'fonts'], function(){
+gulp.task('build',['styles','app', 'dashboard','app:lib','views','img','misc', 'fonts'],
+  function(){
   gulp.start('develop');
 })
 
@@ -135,6 +154,8 @@ gulp.task('watch', function(){
   gulp.watch([_paths.styles + '/**/*'],['styles']);
 
   gulp.watch([_paths.app + '/**/*.js'],['app']);
+
+  gulp.watch([_paths.app + '/dashboard/*.js'],['dashboard']);
 
   gulp.watch([_paths.app_lib + '/**/*.js'],['app:lib']);
 

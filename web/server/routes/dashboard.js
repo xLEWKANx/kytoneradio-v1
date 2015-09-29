@@ -7,6 +7,9 @@ var contextMng = require('../../service/context');
 var loggerMng = require('../logger');
 var logger = require('../logger/winston');
 
+
+
+
 router.use('/',function(req,res,next){
   req.scope = {}
   next();
@@ -162,6 +165,8 @@ router.get('/player', function(req,res,next){
     dest: 'player'
   });
 });
+
+
 
 
 module.exports = router;
