@@ -25,7 +25,8 @@
     var service = {
       openPost: openPost,
       closePost: closePost,
-      isOpened: isOpened
+      isOpened: isOpened,
+      getHtmlContent : getHtmlContent
     };
     var lastScrollTop = 0;
     return service;
@@ -49,6 +50,10 @@
           }
         }
       );
+    }
+
+    function getHtmlContent(){
+      return postData.currentPost.content
     }
 
     function closePost() {

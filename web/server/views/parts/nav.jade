@@ -65,6 +65,5 @@
       tr.tech-row
         td
         td
-    .post-right(ng-show="post.isOpened()" class="ng-hide")
-      p.post-content
-        | {{post.postData.currentPost.content}}
+    .post-right(ng-show="post.isOpened()" class="ng-hide" )
+      .post-content(ng-bind-html='post.getContent()')

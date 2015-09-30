@@ -15,13 +15,15 @@
 
   /* @ngInject */
 
-  function config($routeProvider, $locationProvider) {
+  function config($routeProvider, $locationProvider,$sceProvider) {
     $routeProvider
       .when('/posters', {
         // templateUrl: 'partials/postersLine',
         // controller: 'postersCtrl'
       })
       .otherwise({redirectTo: '/'});
+
+      $sceProvider.enabled(false);
+
   }
 })();
-
