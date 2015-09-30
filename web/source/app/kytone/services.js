@@ -57,7 +57,7 @@
       // reset locking
       $(window).scrollTop(lastScrollTop);
       lastScrollTop = 0;
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     }
 
     function isOpened() {

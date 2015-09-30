@@ -14,15 +14,15 @@
 
   function posterCtrl($scope, Posters, postFunc){
     var vm = this;
-
-    vm.postersArr = Posters.query();
+    vm.postersArr = Posters.query(function(){
+      $scope.$parent.slider.loaded = true;
+    });
     vm.elemReady = false;
     vm.openPost = postFunc.openPost;
   }
 
   function postCtrl($scope, postData, postFunc){
     var vm = this;
-
     vm.postData = postData;
     vm.isOpened = postFunc.isOpened;
     vm.closePost = postFunc.closePost;
