@@ -30,13 +30,15 @@ function scanList(daytime) {
 
 // Private methods
 
-function createM3U(collection, daytime) {
+function createM3U(files, daytime) {
   var playlistPath = config.paths.playlist[daytime];
-  var files = collection.map((track) => { return track.filename });
-  fs.writeFile(playlistPath, files.join('\n'), 'utf8');
-  logger.log('info', 'playlist created with ', files.length, ' tracks', ' to',
+
+  fs.writeFile(playlistPath, files.join('\n'), 'utf8', function(err) {
+    if (err) logger.log('error', 'playlist creation fail', err)
+    logger.log('info', 'playlist created with ', files.length, ' tracks', ' to',
     playlistPath);
-  return collection;
+  });
+  return files;
 };
 
 
