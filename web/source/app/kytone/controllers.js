@@ -24,6 +24,7 @@
   function postCtrl($scope, postData, postFunc){
     var vm = this;
     vm.postData = postData;
+    vm.getContent = postFunc.getHtmlContent;
     vm.isOpened = postFunc.isOpened;
     vm.closePost = postFunc.closePost;
   }
