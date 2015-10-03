@@ -20,10 +20,7 @@ router.get('/api/playlist/:daytime', function(req, res, next) {
   }
 });
 
-router.get('/api/playlist/:daytime/set', function(req, res, next) {
-  $playlist.scanList(req.params.daytime);
-  res.send('new playlist created');
-});
+router.get('/api/playlist/:daytime/set', $playlist.scanList);
 
 
 module.exports = router;

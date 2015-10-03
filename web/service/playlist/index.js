@@ -12,8 +12,9 @@ module.exports = {
   scanList: scanList
 }
 
-function scanList(daytime) {
-  return scanDir(daytime)
+function scanList(req, res, next) {
+  var daytime = req.params.daytime;
+  scanDir(daytime)
     .then(function(files) {
       return createM3U(files, daytime)
     })
@@ -21,24 +22,36 @@ function scanList(daytime) {
       return Promise.all(files.map(getMetadata))
     })
     .then(function(meta) {
-      saveToDB(meta, daytime)
+      return saveToDB(meta, daytime)
+    })
+    .then(function(meta) {
+      res.send('playlist created, tracks stored')
     })
     .catch(function(err) {
-      logger.log('error', err);
+
+      logger.log('error', 'promise', err);
+      res.send(err);
     });
+
 }
 
 // Private methods
 
 function createM3U(files, daytime) {
-  var playlistPath = config.paths.playlist[daytime];
+  var promise = new Promise(function(resolve, reject) {
+    var playlistPath = config.paths.playlist[daytime];
 
-  fs.writeFile(playlistPath, files.join('\n'), 'utf8', function(err) {
-    if (err) logger.log('error', 'playlist creation fail', err)
-    logger.log('info', 'playlist created with ', files.length, ' tracks', ' to',
-    playlistPath);
-  });
-  return files;
+    fs.writeFile(playlistPath, files.join('\n'), 'utf8', function(err) {
+      if (err) {
+        logger.log('error', 'playlist creation fail', err);
+        reject(err);
+      }
+      logger.log('info', 'playlist created with ', files.length, ' tracks', ' to',
+      playlistPath);
+    });
+    resolve(files);
+  })
+  return promise;
 };
 
 
@@ -81,25 +94,39 @@ function getMetadata(file) {
 }
 
 function saveToDB(meta, daytime) {
-  if (daytime === 'day') {
-    meta.forEach(function(track) {
-      Day.remove({}, function(err, query) {
-        if (err) throw err; });
-      Day.create(track, function(err, track) {
-        if (err) logger.log('error', 'fail to save track to Day', err);
-        logger.log('info', track, ' saved into Day!');
+  var promise = new Promise(function (resolve, reject) {
+    if (daytime === 'day') {
+      meta.forEach(function(track) {
+        Day.remove({}, function(err, query) {
+          if (err) {
+            reject(err);
+          }
+        });
+        Day.create(track, function(err, track) {
+          if (err) {
+            logger.log('error', 'fail to save track to Day', err);
+            reject(err)
+          }
+        })
       })
-    })
-  } else if (daytime === 'night') {
-    meta.forEach(function(track) {
-      Night.remove({}, function(err, query) {
-        if (err) throw err; });
-      Night.create(track, function(err, track) {
-        if (err) logger.log('error', 'fail to save track to Night', err);
-        logger.log('info', track, ' saved into Night!');
+    } else if (daytime === 'night') {
+      meta.forEach(function(track) {
+        Night.remove({}, function(err, query) {
+          if (err) {
+            reject(err);
+          }
+        });
+        Night.create(track, function(err, track) {
+          if (err) {
+            logger.log('error', 'fail to save track to Night', err);
+            reject(err)
+          }
+        })
       })
-    })
-  } else {
-    throw new Error('daytime is not defined!');
-  }
+    } else {
+      throw new Error('daytime is not defined!');
+    }
+    resolve();
+  });
+  return promise;
 }
