@@ -9,4 +9,7 @@ var Track = new Schema({
   duration : Number
 });
 
-module.exports = mongoose.model('Track', Track);
+
+module.exports.day = mongoose.model('day', Track);
+module.exports.night = mongoose.model('day', Track);
+

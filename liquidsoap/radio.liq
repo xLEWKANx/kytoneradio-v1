@@ -4,7 +4,7 @@ garbage_collect()
 
 out = output.icecast(
 
-  host = "localhost",
+  host = "central-srv.p-s.org.ua",
   port = 15002,
 
   user = "source",
@@ -23,7 +23,7 @@ set("server.telnet.bind_addr", "127.0.0.1")
 set("server.telnet", true)
 
 # work directories
-work_dir = "/home/curator/test"
+work_dir = "D:\projects\kytoneradio"
 music_day_dir = "#{work_dir}/music/day"
 music_night_dir = "#{work_dir}/music/night"
 stable_dir = "#{work_dir}/music/stable"
@@ -39,8 +39,8 @@ set("log.stdout",true)
 set("log.level", 3)
 
 # define music and mix with jingles
-music_day = playlist('#{music_day_dir}/playlist.m3u', mode="normal")
-music_night = playlist('#{music_night_dir}/playlist.m3u', mode="normal")
+music_day = playlist('#{music_day_dir}/day.m3u', mode="normal")
+music_night = playlist('#{music_night_dir}/night.m3u', mode="normal")
 
 jingles = playlist('#{jingles_dir}')
 
@@ -53,7 +53,7 @@ night = rotate (weights = [1, 2], [jingles, music_night])
 live_stream = strip_blank(input.http("http://localhost:15002/live.ogg"))
 
 # schedule
-scheduled_stream = switch([ ({20h-7h}, night), ({7h-22h}, day) ])
+scheduled_stream = switch([ ({23h-23h10}, night), ({23h10m-23h}, day) ])
 
 # stable cast
 stable_stream = stable;

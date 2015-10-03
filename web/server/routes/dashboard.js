@@ -8,8 +8,6 @@ var loggerMng = require('../logger');
 var logger = require('../logger/winston');
 
 
-
-
 router.use('/',function(req,res,next){
   req.scope = {}
   next();
@@ -29,12 +27,8 @@ router.get('/settings', function(req,res,next){
         cfg_data: data,
         logs: logs
       });
-
     })
-
-
   })
-
 });
 
 router.post('/settings', function(req,res,next){
@@ -49,54 +43,53 @@ router.post('/settings', function(req,res,next){
 })
 
 router.param('postid', function(req,res,next,id){
-   Posters.findOne({
-      _id: id
-   }, function(err, poster) {
-      if (err) {
-         next(err);
+  Posters.findOne({
+    _id: id
+  }, function(err, poster) {
+    if (err) {
+       next(err);
+    }
+    else
+      if (poster) {
+        req.poster = poster;
+        next();
       }
-      else
-         if (poster) {
-            req.poster = poster;
-            next();
-         }
-         else {
-            next(new Error('failed to load poster'));
-         }
-   });
+      else {
+        next(new Error('failed to load poster'));
+      }
+  });
 })
 
 // Posters configuration
 
 router.route('/posters')
 
-   .get(function(req,res,next){
-      Posters.find({},function(err,posters){
-         if (err){
-            next(err)
-         }
-         else
-             // OK
-             res.render('dashboard/posters',{
-               dest: 'posters',
-               posters: posters || false
-             });
-      });
-   })
-
+  .get(function(req,res,next){
+    Posters.find({},function(err,posters){
+      if (err){
+        next(err)
+      }
+      else
+         // OK
+         res.render('dashboard/posters',{
+           dest: 'posters',
+           posters: posters || false
+         });
+    });
+  })
 
 router.get('/posters/new', function(req,res,next){
-   res.render('dashboard/posters-edit', {
-      dest: 'new',
-      poster: {
-           pictureUrl: '',
-           content: '',
-           innerIndex: '',
-           outerIndex: '',
-           local: '',
-           outerUrl: ''
-      }
-   })
+  res.render('dashboard/posters-edit', {
+    dest: 'new',
+    poster: {
+      pictureUrl: '',
+      content: '',
+      innerIndex: '',
+      outerIndex: '',
+      local: '',
+      outerUrl: ''
+    }
+  })
 })
 
 router.post('/posters/save', function(req,res,next){
@@ -116,12 +109,12 @@ router.post('/posters/save', function(req,res,next){
 
 router.route('/posters/:postid')
 
-   .get(function(req,res,next){
-      res.render('dashboard/posters-edit',{
-         dest: 'edit',
-         poster : req.poster
-      })
-   });
+  .get(function(req,res,next){
+    res.render('dashboard/posters-edit',{
+      dest: 'edit',
+      poster : req.poster
+    })
+  });
 
 // Posters
 
@@ -165,8 +158,5 @@ router.get('/player', function(req,res,next){
     dest: 'player'
   });
 });
-
-
-
 
 module.exports = router;

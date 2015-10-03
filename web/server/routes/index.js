@@ -20,7 +20,6 @@ router.get('/', function(req, res, next) {
 });
 
 
-
 // posters list responce
 router.use(postersRoute);
 
