@@ -1,7 +1,7 @@
 var path = require('path');
 
 var _root = path.normalize(__dirname + '/../../');
-var _music_dir = path.join(_root, '../music');
+var _music_dir = path.join('/media/datadrive', './music');
 
 var _day = path.join(_music_dir, './day');
 var _night = path.join(_music_dir, './night');
