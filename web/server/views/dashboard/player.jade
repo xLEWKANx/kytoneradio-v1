@@ -10,27 +10,13 @@ block content
         | This alert needs your attention, but it's not super important.
     .panel-body
       .playlist-block
-        .playlist-title
-          strong Kytone DAY
-        button#day-upload.upload-playlist Upload Playlist
-        button#day-set.set-playlist Set Playlist
-        button#day-scan.scan-folder Scan Folder
+        //- button#day-upload.upload-playlist Upload Playlist
+        button(id=context).set-playlist Set playlist
         .playlist-window
-          table.playlist-tracks(ng-controller="dayCtrl as playlist")
-            tr(ng-repeat="track in playlist.tracks")
-              td {{track.duration}}
-              td {{track.file}}
-              td {{track.artist}}
-              td {{track.title}}
-      .playlist-block
-        .playlist-title
-          strong Kytone Night
-        button#night-upload.upload-playlist Upload Playlist
-        button#night-set.set-playlist Set Playlist
-        button#night-scan.scan-folder Scan Folder
-        .playlist-window
-          ul.playlist-tracks
-            li.track
-              span.time 00:00
-              |  track
-
+          table.playlist-tracks
+            for track in playlist
+              tr
+                td= track.time
+                td= track.file
+                td= track.artist
+                td= track.title

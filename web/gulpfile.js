@@ -53,8 +53,7 @@ gulp.task('app',function(){
 gulp.task('dashboard',function(){
   return gulp
     .src([
-        _paths.app+'/dashboard/module.js',
-        _paths.app+'/dashboard/*.js'
+        _paths.app+'/dashboard/app.js',
       ])
     .pipe(concat('dashboard.js'))
         // Annotate before uglify so the code get's min'd properly.

@@ -13,7 +13,7 @@ router.get('/api/playlist/:daytime', function(req, res, next) {
       res.send(query);
     })
   } else if (req.params.daytime === 'night') {
-    Day.find({}, function(err, query) {
+    Night.find({}, function(err, query) {
       if (err) throw err
       res.send(query);
     })

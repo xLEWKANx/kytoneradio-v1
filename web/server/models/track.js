@@ -11,5 +11,5 @@ var Track = new Schema({
 
 
 module.exports.day = mongoose.model('day', Track);
-module.exports.night = mongoose.model('day', Track);
+module.exports.night = mongoose.model('night', Track);
 

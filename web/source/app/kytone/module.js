@@ -18,8 +18,8 @@
   function config($routeProvider, $locationProvider) {
     $routeProvider
       .when('/posters', {
-        // templateUrl: 'partials/postersLine',
-        // controller: 'postersCtrl'
+        templateUrl: 'partials/postersLine',
+        controller: 'postersCtrl'
       })
       .otherwise({redirectTo: '/'});
   }

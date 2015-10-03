@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 var Posters = require('../models/poster');
+var Day = require('../models/track.js').day;
+var Night = require('../models/track.js').night;
+
 var contextMng = require('../../service/context');
 
 var loggerMng = require('../logger');
@@ -153,10 +156,40 @@ router.post('/posters/:postid/remove', function(req,res,next){
 })
 
 // Player configuration
-router.get('/player', function(req,res,next){
-  res.render('dashboard/player',{
-    dest: 'player'
-  });
+function formatDuration(track) {
+  var minutes = Math.floor(track.duration/60);
+  var seconds = track.duration - minutes * 60;
+  track.time = minutes + ':' + seconds.toFixed();
+  return track;
+}
+
+router.get('/day', function(req,res,next){
+  Day.find({}, function(err, playlist) {
+    if (err) next(err);
+    playlist = playlist.map(formatDuration);
+
+    res.render('dashboard/player',{
+      dest: 'Kytone Day',
+      context: 'day',
+      playlist: playlist
+    });
+    
+  })
 });
+
+router.get('/night', function(req,res,next){
+  Night.find({}, function(err, playlist) {
+    if (err) next(err);
+    playlist = playlist.map(formatDuration);
+
+    res.render('dashboard/player',{
+      dest: 'Kytone Night',
+      context: 'night',
+      playlist: playlist
+    });
+    
+  })
+});
+
 
 module.exports = router;
