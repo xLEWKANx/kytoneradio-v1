@@ -11,6 +11,7 @@ module.exports = _.merge(
 
     // Root path of server
     root: _root,
+    liquidsoap: path.resolve(_root, '../liquidsoap'),
     paths: {
       views: path.join(_root, 'server','views'),
       public: path.join(_root,'public'),

@@ -23,7 +23,8 @@ set("server.telnet.bind_addr", "127.0.0.1")
 set("server.telnet", true)
 
 # work directories
-work_dir = "D:\projects\kytoneradio"
+work_dir = "/media/datadrive/music"
+sys_dir = "/home/kytoneradio"
 music_day_dir = "#{work_dir}/music/day"
 music_night_dir = "#{work_dir}/music/night"
 stable_dir = "#{work_dir}/music/stable"
@@ -31,10 +32,10 @@ jingles_dir = "#{work_dir}/jingles"
 
 # enable unix sockets
 #set("server.socket",true)
-#set("server.socket.path","#{work_dir}/socket")
+#set("server.socket.path","#{sys_dir}/liuqidsoap/socket")
 
 # enable logging
-set("log.file.path", "#{work_dir}/liquidsoap.log")
+set("log.file.path", "#{sys_dir}/log/liquidsoap.log")
 set("log.stdout",true)
 set("log.level", 3)
 

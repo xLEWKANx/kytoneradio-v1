@@ -154,7 +154,7 @@ gulp.task('watch', function(){
 
   gulp.watch([_paths.app + '/**/*.js'],['app']);
 
-  gulp.watch([_paths.app + '/dashboard/*.js'],['dashboard']);
+  gulp.watch([_paths.app + '/dashboard/app.js'],['dashboard']);
 
   gulp.watch([_paths.app_lib + '/**/*.js'],['app:lib']);
 
