@@ -18,7 +18,6 @@ var logger_config = {
  }
 };
 
-
 var logger = new (winston.Logger)({
     transports: [
       new (winston.transports.Console)({

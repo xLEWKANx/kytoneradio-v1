@@ -6,6 +6,10 @@ $('#day.set-playlist').click(function() {
 
 $('#night.set-playlist').click(function() {
   $.get('/api/playlist/night/set', function(data) {
-    $('.info-box').text(data);
+    alert('callback', data);
+    console.log(data);
+  },'json').done(function(data) {
+     alert('done', data);
+    console.log(data);
   })
 });

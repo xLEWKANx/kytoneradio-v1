@@ -164,31 +164,27 @@ function formatDuration(track) {
 }
 
 router.get('/day', function(req,res,next){
-  Day.find({}, function(err, playlist) {
-    if (err) next(err);
-    playlist = playlist.map(formatDuration);
+
+    
 
     res.render('dashboard/player',{
       dest: 'Kytone Day',
       context: 'day',
-      playlist: playlist
     });
-    
-  })
+
 });
 
 router.get('/night', function(req,res,next){
-  Night.find({}, function(err, playlist) {
-    if (err) next(err);
-    playlist = playlist.map(formatDuration);
+
+   
 
     res.render('dashboard/player',{
       dest: 'Kytone Night',
       context: 'night',
-      playlist: playlist
+
     });
     
-  })
+  
 });
 
 

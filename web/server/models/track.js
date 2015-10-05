@@ -6,10 +6,11 @@ var Track = new Schema({
   filename : String,
   title : String,
   artist : Array,
-  duration : Number
+  duration : Number,
+  daytime : String,
+  index : Number
 });
 
 
-module.exports.day = mongoose.model('day', Track);
-module.exports.night = mongoose.model('night', Track);
+module.exports = mongoose.model('Track', Track);
 
