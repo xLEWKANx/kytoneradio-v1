@@ -11,18 +11,6 @@ var params = {
   echoLines: 0
 };
 
-connection.on('close', function() {
-  logger.log('info','telnet connection closed');
-});
-
-connection.on('error', function() {
-  logger.log('error', 'telnet connection error');
-});
-
-connection.on('connect', function() {
-  logger.log('info', 'telnet connection established');
-});
-
 connection.on('timeout', function() {
   logger.log('info', 'telnet connection timeout');
   connection.destroy();
@@ -34,6 +22,7 @@ module.exports = {
 }
 
 function nextTracks(playlist) {
+  playlist = telnetDaytime(playlist);
 
   var promise = new Promise(function(resolve, reject) {
     connection.connect(params);
@@ -45,12 +34,9 @@ function nextTracks(playlist) {
         reject('telnet next track exucation error');
       }
 
-      var result = response.split('\n');
-
-      if (result[0].indexOf('[playing]') + 1)
-        result[0] = result[0].slice(10);
-      if (result[1].indexOf('[ready]') + 1)
-        result[1] = result[1].slice(7);
+      var result = response.split('\n').map(function(elem) {
+        return elem.replace(/^\[\w+\]\s/, '');
+      });
 
       resolve(result);
       connection.end();
@@ -60,6 +46,9 @@ function nextTracks(playlist) {
 }
 
 function reload(playlist) {
+
+  playlist = telnetDaytime(playlist);
+
   var promise = new Promise(function(resolve, reject) {
 
     connection.connect(params);
@@ -75,4 +64,17 @@ function reload(playlist) {
     })
   });
   return promise;
+}
+
+// Private methods
+
+function telnetDaytime(daytime) {
+  if (daytime === 'day') {
+    return 'day(dot)m3u';
+  } else if (daytime === 'night') {
+    return 'night(dot)m3u';
+  } else {
+    logger.log('error', 'daytime is not defined');
+    throw new Error('daytime not defined');
+  }
 }

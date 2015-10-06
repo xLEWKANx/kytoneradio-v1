@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
   res.render('index', {
     title: 'kytoneradio',
-    timenow: meta.timenow(),
+    timenow: meta.viewTime(),
     brands: $brandManager.getSrc()
   });
 });

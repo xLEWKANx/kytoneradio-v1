@@ -9,6 +9,9 @@ var routes = require('./routes');
 var config = require('./config');
 var mongoose = require('./mongoose');
 
+var schedule = require('../service/playlist/scheduler');
+var meta = require('../service/meta');
+
 var app = express();
 
 // view engine setup
@@ -17,6 +20,9 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+
+// initialize schedule
+schedule.init(meta.getDaytime());
 
 // morgan logger
 app.use(morgan);

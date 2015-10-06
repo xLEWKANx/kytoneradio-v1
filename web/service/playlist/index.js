@@ -6,13 +6,15 @@ var fs = require('fs'),
 
     Track = require('../../server/models/track');
 
-var telnet = require('./telnet');
+var telnet = require('./telnet'),
+    m3u = require('./m3u'),
+    meta = require('../meta/'),
+    schedule = require('./scheduler.js');
 
 module.exports = {
   scanList,
   renderList,
-  reloadPlaylist,
-  nextTracks
+  reloadPlaylist
 }
 
 function scanList(req, res, next) {
@@ -20,22 +22,22 @@ function scanList(req, res, next) {
 
   scanDir(daytime)
     .then(function(files) {
-      return createM3U(files, daytime);
+      return m3u.create(files, daytime);
     })
     .then(function(meta) {
-      res.send(JSON.stringify(meta));
+      res.send('new playlist with ' + meta.length + ' tracks, please reload');
     })
     .catch(function(err) {
       logger.log('error', 'playlist creation', err);
-      res.send(new Error('playlist creation problem (check meta or delete \
-        non-mp3 files)'));
+      res.send('playlist creation problem (check meta or delete \
+        non-mp3 files)');
     });
 }
 
 function renderList(req, res, next) {
   var daytime = req.params.daytime;
   
-  readM3U(daytime)
+  m3u.read(daytime)
     .then(function(arr) {
       res.render(
         'dashboard/player',
@@ -52,81 +54,24 @@ function renderList(req, res, next) {
 
 }
 
-
 function reloadPlaylist(req, res, next) {
-  var playlist = telnetDaytime(req.params.daytime);
+  var daytime = req.params.daytime;
 
-  telnet.reload(playlist)
+  telnet.reload(daytime)
     .then(function() {
-      res.send(playlist + ' reloaded!');
+      if (daytime === meta.getDaytime()) {
+        schedule.init(daytime);
+      }
+      console.log('privet!')
+      res.send(daytime + ' reloaded!');
     })
     .catch(function(err) {
-      res.send(err);
-    });
-}
-
-function nextTracks(req, res, next) {
-  var playlist = telnetDaytime(req.params.daytime);
-
-  telnet.nextTracks(playlist)
-    .then(function(arr) {
-      logger.info('data', arr.length - 2, ' tracks delivered to', playlist);
-      res.send(arr);
-    })
-    .catch(function(err) {
-      res.send(err);
+      logger('error', 'relooad error', error);
+      res.send('playlist didn\'t reload');
     });
 }
 
 // Private methods
-
-// telnet playlist notation
-function telnetDaytime(daytime) {
-  if (daytime === 'day') {
-    return 'day(dot)m3u';
-  } else if (daytime === 'night') {
-    return 'night(dot)m3u';
-  } else {
-    logger.log('error', 'daytime is not defined');
-    throw new Error('daytime not defined');
-  }
-}
-
-function createM3U(files, daytime) {
-  var promise = new Promise(function(resolve, reject) {
-    var playlistPath = config.paths.playlist[daytime];
-
-    fs.writeFile(playlistPath, files.join('\n'), 'utf8', function(err) {
-      if (err) {
-        logger.log('error', 'playlist creation fail', err);
-        reject(err);
-      }
-      logger.log('data', 'playlist created with ', files.length, ' tracks', ' to',
-      playlistPath);
-      resolve(files);
-    });
-  })
-  return promise;
-};
-
-function readM3U(daytime) {
-  var promise = new Promise(function(resolve, reject) {
-    var playlistPath = config.paths.playlist[daytime];
-
-    fs.readFile(playlistPath, function(err, data) {
-      if (err) {
-        logger.log('error', 'playlist reading fail', err);
-        reject(err);
-      }
-      var result = data.toString().split('\n');
-      logger.log('data', 'playlist read with ', result.length, 'tracks');
-      resolve(result);
-    });
-  });
-
-  return promise;
-}
-
 
 function scanDir(daytime) {
   var dir = config.paths.music[daytime];
