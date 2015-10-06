@@ -28,7 +28,7 @@ sys_dir = "D:\projects\kytoneradio"
 music_day_dir = "#{work_dir}/music/day"
 music_night_dir = "#{work_dir}/music/night"
 stable_dir = "#{work_dir}/music/stable"
-jingles_dir = "#{work_dir}/jingles"
+jingles_dir = "#{work_dir}/music/jingles"
 
 # enable unix sockets
 #set("server.socket",true)
@@ -40,6 +40,27 @@ set("server.timeout",300.)
 set("log.file.path", "#{sys_dir}/logs/liquidsoap.log")
 set("log.stdout",true)
 set("log.level", 3)
+
+def apply_metadata(m) =
+  title = m["title"]
+  artist = m["artist"]
+  filename = m["filename"]
+  source = m["source"]
+  on_air = m["on_air"]
+  json = json_of([
+    ("artist", "#{artist}"),
+    ("title", "#{title}"),
+    ("source", "#{source}"),
+    ("filename", "#{filename}"),
+    ("on_air", "#{on_air}")
+  ])
+  ignore(
+    http.post(headers=[("Content-Type","application/json")],
+    data="#{json}",
+    "http://localhost:3000/api/playlist/liquidsoap")
+  )
+end
+
 
 # define music and mix with jingles
 music_day = playlist('#{music_day_dir}/day.m3u', mode="normal")
@@ -56,7 +77,7 @@ night = rotate (weights = [1, 2], [jingles, music_night])
 live_stream = strip_blank(input.http("http://localhost:15002/live.ogg"))
 
 # schedule
-scheduled_stream = switch([ ({22h-7h}, day), ({7h-22h}, night) ])
+scheduled_stream = switch([ ({22h-7h}, night), ({7h-22h}, day) ])
 
 # stable cast
 stable_stream = stable;
@@ -64,6 +85,8 @@ stable_stream = stable;
 # fallback output with
 radio = fallback(track_sensitive=false,
 [live_stream, scheduled_stream, stable_stream])
+
+radio = on_metadata(apply_metadata,radio)
 
 out(
   %mp3(bitrate = 320, id3v2 = true),

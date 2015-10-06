@@ -4,7 +4,7 @@ garbage_collect()
 
 out = output.icecast(
 
-  host = "central-srv.p-s.org.ua",
+  host = "localhost",
   port = 15002,
 
   user = "source",
@@ -23,21 +23,40 @@ set("server.telnet.bind_addr", "127.0.0.1")
 set("server.telnet", true)
 
 # work directories
-work_dir = "/media/datadrive/music"
-sys_dir = "/home/kytoneradio"
+work_dir = "/media/datadrive/"
+sys_dir = "/home/curator/kytoneradio/"
 music_day_dir = "#{work_dir}/music/day"
 music_night_dir = "#{work_dir}/music/night"
 stable_dir = "#{work_dir}/music/stable"
 jingles_dir = "#{work_dir}/jingles"
 
-# enable unix sockets
-#set("server.socket",true)
-#set("server.socket.path","#{sys_dir}/liuqidsoap/socket")
+set("server.timeout",300.)
 
 # enable logging
-set("log.file.path", "#{sys_dir}/log/liquidsoap.log")
+set("log.file.path", "#{sys_dir}/logs/liquidsoap.log")
 set("log.stdout",true)
 set("log.level", 3)
+
+def apply_metadata(m) =
+  title = m["title"]
+  artist = m["artist"]
+  filename = m["filename"]
+  source = m["source"]
+  on_air = m["on_air"]
+  json = json_of([
+    ("artist", "#{artist}"),
+    ("title", "#{title}"),
+    ("source", "#{source}"),
+    ("filename", "#{filename}"),
+    ("on_air", "#{on_air}")
+  ])
+  ignore(
+    http.post(headers=[("Content-Type","application/json")],
+    data="#{json}",
+    "http://localhost:3000/api/playlist/liquidsoap")
+  )
+end
+
 
 # define music and mix with jingles
 music_day = playlist('#{music_day_dir}/day.m3u', mode="normal")
@@ -54,7 +73,7 @@ night = rotate (weights = [1, 2], [jingles, music_night])
 live_stream = strip_blank(input.http("http://localhost:15002/live.ogg"))
 
 # schedule
-scheduled_stream = switch([ ({23h-23h10}, night), ({23h10m-23h}, day) ])
+scheduled_stream = switch([ ({22h-7h}, night), ({7h-22h}, day) ])
 
 # stable cast
 stable_stream = stable;
@@ -63,12 +82,16 @@ stable_stream = stable;
 radio = fallback(track_sensitive=false,
 [live_stream, scheduled_stream, stable_stream])
 
+radio = on_metadata(apply_metadata,radio)
+
 out(
   %mp3(bitrate = 320, id3v2 = true),
   description = "MP3 320 Kbps",
   mount = "stream",
   mksafe(radio)
 )
+
+
 
 
 
