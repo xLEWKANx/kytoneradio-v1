@@ -16,7 +16,6 @@ router.get('/', function(req, res, next) {
     timenow: meta.timenow(),
     brands: $brandManager.getSrc()
   });
-
 });
 
 
@@ -26,6 +25,6 @@ router.use(postersRoute);
 router.use(playlistRoute);
 
 // control panel
-router.use('/dashboard',dashboardRoute);
+router.use('/dashboard', dashboardRoute);
 
 module.exports = router;

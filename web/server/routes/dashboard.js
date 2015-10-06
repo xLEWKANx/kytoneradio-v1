@@ -10,6 +10,7 @@ var contextMng = require('../../service/context');
 var loggerMng = require('../logger');
 var logger = require('../logger/winston');
 
+var $playlist = require('../../service/playlist');
 
 router.use('/',function(req,res,next){
   req.scope = {}
@@ -163,29 +164,6 @@ function formatDuration(track) {
   return track;
 }
 
-router.get('/day', function(req,res,next){
-
-    
-
-    res.render('dashboard/player',{
-      dest: 'Kytone Day',
-      context: 'day',
-    });
-
-});
-
-router.get('/night', function(req,res,next){
-
-   
-
-    res.render('dashboard/player',{
-      dest: 'Kytone Night',
-      context: 'night',
-
-    });
-    
-  
-});
-
+router.get('/:daytime', $playlist.renderList);
 
 module.exports = router;

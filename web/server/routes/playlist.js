@@ -6,9 +6,6 @@ var Day = require('../../server/models/track').day,
 
 var $playlist = require('../../service/playlist');
 
-router.get('/api/playlist/:daytime', function(req, res, next) {
-});
-
 router.get('/api/playlist/:daytime/set', $playlist.scanList);
 
 router.get('/api/playlist/:daytime/reload', $playlist.reloadPlaylist);

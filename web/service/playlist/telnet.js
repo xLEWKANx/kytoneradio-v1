@@ -40,10 +40,19 @@ function nextTracks(playlist) {
 
     var cmd = playlist + '.next';
     connection.exec(cmd, function(response){
+
       if (!!(response.indexOf('ERROR') + 1)) {
         reject('telnet next track exucation error');
       }
-      resolve(response.split('\n'));
+
+      var result = response.split('\n');
+
+      if (result[0].indexOf('[playing]') + 1)
+        result[0] = result[0].slice(10);
+      if (result[1].indexOf('[ready]') + 1)
+        result[1] = result[1].slice(7);
+
+      resolve(result);
       connection.end();
     })
   });
@@ -52,12 +61,13 @@ function nextTracks(playlist) {
 
 function reload(playlist) {
   var promise = new Promise(function(resolve, reject) {
+
     connection.connect(params);
 
     var cmd = playlist.concat('.reload');
     console.log(cmd);
     connection.exec(cmd, function(response){
-      if (!!(response.indexOf('ERROR') + 1)) {
+      if (response.indexOf('ERROR') + 1) {
         reject('telnet reload exucation error');
       }
       resolve(response.split('\n'));
