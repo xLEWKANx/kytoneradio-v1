@@ -61,8 +61,8 @@ function reloadPlaylist(req, res, next) {
     .then(function() {
       if (daytime === meta.getDaytime()) {
         schedule.init(daytime);
+        
       }
-      console.log('privet!')
       res.send(daytime + ' reloaded!');
     })
     .catch(function(err) {
@@ -81,34 +81,10 @@ function scanDir(daytime) {
   var promise = new Promise(function(resolve, reject) {
     fs.readdir(dir, function(err, files) {
       if (err)  {
+        logger.log('error', 'readdir error', err);
         reject(err);
       } else {
         resolve(files.map(file => path.join(dir, file)));
-      }
-    });
-  });
-  return promise;
-}
-
-function getMetadata(file, index) {
-  var daytime = path.basename(path.resolve(file, '../..'));
-  var stream = fs.createReadStream(file);
-
-  var promise = new Promise(function(resolve, reject) {
-    mm(stream, function (err, meta) {
-      if (err) {
-        logger.log('error', 'cannot read ', file);
-        reject(err);
-      } else {
-        var info = {
-          filename: file,
-          artist: meta.artist.join(''),
-          title: meta.title,
-          duration: meta.duration,
-          daytime: daytime,
-          index: index
-        }
-        resolve(info);
       }
     });
   });

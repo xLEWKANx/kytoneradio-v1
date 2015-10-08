@@ -82,7 +82,7 @@ stable_stream = stable;
 radio = fallback(track_sensitive=false,
 [live_stream, scheduled_stream, stable_stream])
 
-radio = on_metadata(apply_metadata,radio)
+radio = on_track(apply_metadata,radio)
 
 out(
   %mp3(bitrate = 320, id3v2 = true),

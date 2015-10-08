@@ -14,18 +14,12 @@ router.get('/api/playlist/next', function(req, res, next) {
   res.send($scheduler.getSchedule());
 });
 
-router.get('/api/playlist/events', function(req, res, next) {
-
-});
-
 router.post('/api/playlist/liquidsoap', function(req, res, next) {
-  if (req.body.source == 'night(dot)m3u' || req.body.source == 'day(dot)m3u') {
+  if (req.body.source == 'night(dot)m3u' || req.body.source == 'day(dot)m3u') { // need change
     $scheduler.next(req.body);
-  } else {
-    console.log('end');
+  } else { // skip jingles or not planned tracks
     res.end();
   }
-
 })
 
 module.exports = router;

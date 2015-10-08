@@ -59,27 +59,43 @@ function init(daytime) {
     })
     .then(function() {
       schedule.setTime(time.serverTime());
+      logger.log('info', 'schdule initializated with last track ', schedule.last);
     })
     .catch(function(err) {
-      console.log(err);
+      logger.log('error', 'schdule initialization error', err);
     })
 }
 
 function next(current) {
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
-  console.log(time.getDaytime(scheduleEnd));
-
-  telnet.nextTracks(time.getDaytime(scheduleEnd))
+  var daytime = time.getDaytime(scheduleEnd);
+  telnet.nextTracks(daytime)
     .then(function(result){
-      console.log(result, current);
+      var ended = schedule.dequeue();
+      logger.log('\nended: ', ended);
+      if (daytime === time.getDaytime()) {
+        return result[5];
+      }
+      else {
+        return result[0];
+      }
     })
-    .then(function() {
+    .then(getMetadata)
+    .then(function(meta) {
+      logger.log('info', 'next track: ', meta.artist, '-', meta.title, ' from ',
+      daytime, 'playlist');
+      schedule.enqueue(meta);
       schedule.setTime(Date.parse(current.on_air));
     })
-    .catch(function(err) {
-      console.log(err);
+    .then(function() { // CRUTCH!!! need fix initialization;
+      if (daytime === time.getDaytime(schedule.first.startsTime)) {
+        init(daytime);
+      }
     })
-
+    .catch(function (err) {
+      logger.log('error', 'getting next track error', err);
+    })
+  
 }
 
 function getSchedule() {
@@ -90,9 +106,13 @@ function getSchedule() {
 
 function getMetadata(file, index) {
   var daytime = path.basename(path.resolve(file, '../..'));
-  var stream = fs.createReadStream(file);
 
   var promise = new Promise(function(resolve, reject) {
+    var stream = fs.createReadStream(file);
+
+    stream.on('error', function(err) {
+      reject(err);
+    });
     mm(stream, {duration: true}, function (err, meta) {
       if (err) {
         logger.log('error', 'cannot read ', file);
@@ -111,4 +131,3 @@ function getMetadata(file, index) {
   });
   return promise;
 }
-

@@ -16,16 +16,22 @@ connection.on('timeout', function() {
   connection.destroy();
 })
 
+connection.on('error', function() {
+  logger.log('error', 'telnet connection error, check liquidsoap');
+})
 module.exports = {
-  nextTracks: nextTracks,
-  reload: reload
+  nextTracks, reload
 }
 
 function nextTracks(playlist) {
   playlist = telnetDaytime(playlist);
 
   var promise = new Promise(function(resolve, reject) {
-    connection.connect(params);
+    try {
+      connection.connect(params);
+    } catch (err) {
+      console.log(err);
+    }
 
     var cmd = playlist + '.next';
     connection.exec(cmd, function(response){

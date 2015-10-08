@@ -1,11 +1,10 @@
 var path = require('path'),
     fs = require('fs'),
-    logger = require('../../server/logger/winston.js');
+    logger = require('../../server/logger/winston.js'),
     config = require('../../server/config');
 
 module.exports = {
-  create,
-  read
+  create, read
 }
 
 function create(files, daytime) {

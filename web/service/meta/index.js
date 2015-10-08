@@ -1,9 +1,7 @@
 
 
 module.exports = {
-  viewTime,
-  getDaytime,
-  serverTime
+  viewTime, getDaytime, serverTime
 }
 
 function viewTime() {

@@ -54,6 +54,7 @@ def apply_metadata(m) =
     ("filename", "#{filename}"),
     ("on_air", "#{on_air}")
   ])
+  print(json);
   ignore(
     http.post(headers=[("Content-Type","application/json")],
     data="#{json}",
@@ -86,7 +87,7 @@ stable_stream = stable;
 radio = fallback(track_sensitive=false,
 [live_stream, scheduled_stream, stable_stream])
 
-radio = on_metadata(apply_metadata,radio)
+radio = on_track(apply_metadata,radio)
 
 out(
   %mp3(bitrate = 320, id3v2 = true),
