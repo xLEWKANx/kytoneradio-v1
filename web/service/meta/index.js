@@ -1,7 +1,41 @@
+'use strict'
+class fDate {
+  constructor (number) {
+    this.year = new Date(number).getFullYear();
+    this.month = new Date(number).getMonth() + 1;
+    this.day = new Date(number).getDate ();
+    this.hours = new Date(number).getHours();
+    this.minutes = new Date(number).getMinutes();
+    this.seconds = new Date(number).getSeconds();
+    this.zerofy();
+  }
+  get obj () { return this; }
 
+  parse (string) {
+
+  }
+  zerofy (date) {
+    for (let key in this) {
+      this[key] = this[key] < 10 ? '0' + this[key] : this[key].toString() }
+    }
+}
+
+class fDuration {
+  constructor (number) {
+    this.hours = parseInt(number/3600);
+    this.minutes = (number - this.hours*3600)/60;
+    this.zerofy();
+  }
+  get obj () { return this; }
+
+  zerofy (date) {
+    for (let key in this) {
+      this[key] = this[key] < 10 ? '0' + this[key] : this[key].toString() }
+    }
+}
 
 module.exports = {
-  viewTime, getDaytime, serverTime
+  viewTime, getDaytime, serverTime, fDate, fDuration
 }
 
 function viewTime() {

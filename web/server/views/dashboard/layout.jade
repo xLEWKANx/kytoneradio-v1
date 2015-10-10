@@ -2,7 +2,7 @@
 
 //- navigation mixin
 mixin navlist(current)
-   each navitem in ['settings', 'posters', 'day', 'night']
+   each navitem in ['settings', 'posters', 'playlist/day', 'playlist/night', 'events']
       li(class={active: current === navitem})
          a(href='/dashboard/'+navitem)=navitem.charAt(0).toUpperCase() + navitem.slice(1)
 

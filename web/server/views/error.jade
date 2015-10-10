@@ -2,8 +2,8 @@ extends layouts/head
 
 block content
   .error-stack
-      h1= message
-      h2= error.status
+      pre= message
+      p= error.status
       //- pre #{error.stack}
       a.back(href='/.') Go home
 
@@ -12,4 +12,3 @@ block footer
 block player
 
 block player_status
-    td

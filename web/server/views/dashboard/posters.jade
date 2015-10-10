@@ -1,39 +1,39 @@
 extends layout.jade
 
 block content
-   .panel.panel-default
-      .panel-heading
-        h1=dest.charAt(0).toUpperCase() + dest.slice(1)
-        .info-box
-          strong Warning!
-          =' '
-          | This alert needs your attention, but it's not super important.
-             
-      .panel-body.posters
+  .panel.panel-default
+    .panel-heading
+      h1=dest.charAt(0).toUpperCase() + dest.slice(1)
+      .info-box
+        strong Warning!
+        =' '
+        | This alert needs your attention, but it's not super important.
+           
+    .panel-body.posters
+      .posters-list
+        .controll-btns
+          .btn-group(role='group' aria-label='...')
+            a.btn.btn-default(type='button',href='/dashboard/posters/new')
+              span.glyphicon.glyphicon-plus
+            button.btn.btn-default(type='button')
+              span.glyphicon.glyphicon-search
         if (!posters)
           p No posters found
         else
-          .posters-list
-            .controll-btns
-              .btn-group(role='group' aria-label='...')
-                  a.btn.btn-default(type='button',href='/dashboard/posters/new') 
-                     span.glyphicon.glyphicon-plus
-                  button.btn.btn-default(type='button') 
-                     span.glyphicon.glyphicon-search
-            for post in posters
-              .poster-item
-                .col-xs-6.poster-image
-                  img(src=post.pictureUrl)
-                .col-xs-6
-                  p: small.poster-id='/'+post._id  
-                  p=post.pictureUrl
-                  p=post.content
-                  p position [ 
-                    span=post.innerIndex
-                    =','
-                    span=post.outerIndex
-                    | ]
-                  p
-                    .btn-group.btn-group-sm
-                      a.btn.btn-default(href='/dashboard/posters/'+post._id) Edit
-                      //- a.btn.btn-default(href='./posters/'+post._id+'/rm') Remove
+        for post in posters
+          .poster-item
+            .col-xs-6.poster-image
+              img(src=post.pictureUrl)
+            .col-xs-6
+              p: small.poster-id='/'+post._id
+              p=post.pictureUrl
+              p=post.content
+              p position [
+                span=post.innerIndex
+                =','
+                span=post.outerIndex
+                | ]
+              p
+                .btn-group.btn-group-sm
+                  a.btn.btn-default(href='/dashboard/posters/'+post._id) Edit
+                  //- a.btn.btn-default(href='./posters/'+post._id+'/rm') Remove

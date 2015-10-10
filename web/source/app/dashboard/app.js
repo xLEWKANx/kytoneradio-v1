@@ -14,7 +14,6 @@ $('#day.reload-playlist').click(function() {
   $.get('/api/playlist/day/reload', function(data) {
     $('.info-box').text(data);
     });
-  })
 });
 $('#night.reload-playlist').click(function() {
   $.get('/api/playlist/night/reload', function(data) {
