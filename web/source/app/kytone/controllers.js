@@ -4,7 +4,8 @@
   angular.module('kytoneApp')
     .controller('slidersCtrl', sliderCtrl)
     .controller('postersCtrl', posterCtrl)
-    .controller('postCtrl', postCtrl);
+    .controller('postCtrl', postCtrl)
+    .controller('scheduleCtrl', scheduleCtrl);
 
   function sliderCtrl($scope){
     var vm = this;
@@ -27,6 +28,13 @@
     vm.getContent = postFunc.getHtmlContent;
     vm.isOpened = postFunc.isOpened;
     vm.closePost = postFunc.closePost;
+  }
+
+  function scheduleCtrl($scope, socket, Schedule) {
+    var vm = this;
+    socket.on('playlist', function(data) {
+      vm.next = data;
+    })
   }
 })();
 

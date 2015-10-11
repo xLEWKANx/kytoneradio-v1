@@ -3,8 +3,10 @@
 
   angular.module('kytoneApp')
     .factory('Posters', Posters)
+    .factory('Schedule', Schedule)
     .factory('postData', postData)
-    .factory('postFunc', postFunc);
+    .factory('postFunc', postFunc)
+    .factory('socket', socket);
 
   function Posters($resource) {
     return $resource('/api/posters/:outerIndex/:innerIndex', {}, {
@@ -69,4 +71,16 @@
       return postData.postOpened;
     }
   }
+
+  function Schedule($resource) {
+    return $resource('/api/playlist/next', {}, {
+      'get': {method: 'GET', isArray: true}
+    });
+  }
+
+
+  function socket(socketFactory) {
+    var mySocket = socketFactory();
+    return mySocket;
+  };
 })();

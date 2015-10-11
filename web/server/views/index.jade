@@ -7,13 +7,13 @@ block content
       ng-class="{{slider.wrapperClass}}"
       class="cover-wrapper"
       ng-repeat-start="slider in slider.slidersArr"
-      show-on-load
     )
       slick(
         class="slick-slider"
-        infinite="true"
+        infinite="false"
         init-onload="true"
         data="elemReady"
+        lazy-load="progressive"
         slides-to-show="5"
         slides-to-scroll="1"
         speed="{{slider.speed}}"
@@ -22,7 +22,7 @@ block content
         ng-show="true"
         ng-include="'views/postersSlider.html'"
         ng-controller="postersCtrl as posters",
-        )
+      )
 
     .player-place(ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)
 

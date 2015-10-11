@@ -8,7 +8,8 @@
     'ngCookies',
     'ngTouch',
     'ngResource',
-    'slick'
+    'slick',
+    'btford.socket-io'
   ]);
 
   angular.module('kytoneApp').config(config);

@@ -41,6 +41,9 @@ set("log.file.path", "#{sys_dir}/logs/liquidsoap.log")
 set("log.stdout",true)
 set("log.level", 3)
 
+# harbor
+set("harbor.bind_addr","central-srv.p-s.org.ua")
+
 def apply_metadata(m) =
   title = m["title"]
   artist = m["artist"]
@@ -58,6 +61,7 @@ def apply_metadata(m) =
   ignore(
     http.post(headers=[("Content-Type","application/json")],
     data="#{json}",
+    timeout=1.,
     "http://localhost:3000/api/playlist/liquidsoap")
   )
 end
@@ -75,7 +79,7 @@ day = rotate (weights = [1, 2], [jingles, music_day])
 night = rotate (weights = [1, 2], [jingles, music_night])
 
 # define live input
-live_stream = strip_blank(input.http("http://localhost:15002/live.ogg"))
+live_stream = strip_blank(input.http("http://central-srv.p-s.org.ua:15002/live"))
 
 # schedule
 scheduled_stream = switch([ ({22h-7h}, night), ({7h-22h}, day) ])
@@ -87,10 +91,10 @@ stable_stream = stable;
 radio = fallback(track_sensitive=false,
 [live_stream, scheduled_stream, stable_stream])
 
-radio = on_track(apply_metadata,radio)
+radio = on_track(apply_metadata, radio)
 
 out(
-  %mp3(bitrate = 320, id3v2 = true),
+  %mp3(bitrate = 128, id3v2 = true),
   description = "MP3 320 Kbps",
   mount = "stream",
   mksafe(radio)

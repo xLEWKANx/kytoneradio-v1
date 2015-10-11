@@ -5,8 +5,9 @@ var mm = require('musicmetadata'),
     fs = require('fs');
 
 var telnet = require('./telnet'),
-    time = require('../meta/');
+    meta = require('../meta/');
 
+// Schedule queue definition
 class Schedule {
 
   constructor () {
@@ -32,6 +33,8 @@ class Schedule {
     this.dataStore.reduce(
       (prev, cur) => {
         cur.startsTime = prev;
+        var date = new meta.fDate(cur.startsTime);
+        cur.fTime = date.hours + ':' + date.minutes;
         return cur.startsTime + cur.duration*1000;
       },
       time
@@ -39,12 +42,28 @@ class Schedule {
     return this.dataStore
   }
 }
+
 var schedule = new Schedule();
+
+// Storing current track variable
+
+class Stor {
+  constructor () {
+    this.store = {}
+  }
+
+  get current() { return this.store }
+  set current(obj) { this.store = obj }
+}
+
+var track = new Stor();
 
 module.exports = {
   init,
   next,
-  getSchedule
+  current,
+  track,
+  schedule
 };
 
 function init(daytime) {
@@ -53,12 +72,12 @@ function init(daytime) {
     .then(function(files) {
       return Promise.all(files.slice(0, 5).map(getMetadata))
     })
-    .then(function(meta) {
+    .then(function(metadata) {
       schedule.clear();
-      return Promise.all(meta.map(elem => schedule.enqueue(elem)))
+      return Promise.all(metadata.map(elem => schedule.enqueue(elem)))
     })
     .then(function() {
-      schedule.setTime(time.serverTime());
+      schedule.setTime(meta.serverTime());
       logger.log('info', 'schdule initializated with last track ', schedule.last);
     })
     .catch(function(err) {
@@ -68,12 +87,16 @@ function init(daytime) {
 
 function next(current) {
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
-  var daytime = time.getDaytime(scheduleEnd);
+  var daytime = meta.getDaytime(scheduleEnd);
+
+  // Get next tracks
   telnet.nextTracks(daytime)
     .then(function(result){
       var ended = schedule.dequeue();
+
       logger.log('\nended: ', ended);
-      if (daytime === time.getDaytime()) {
+      
+      if (daytime === meta.getDaytime()) {
         return result[5];
       }
       else {
@@ -81,21 +104,24 @@ function next(current) {
       }
     })
     .then(getMetadata)
-    .then(function(meta) {
+    .then(function(metadata) {
       logger.log('info', 'next track: ', meta.artist, '-', meta.title, ' from ',
       daytime, 'playlist');
-      schedule.enqueue(meta);
+      schedule.enqueue(metadata);
       schedule.setTime(Date.parse(current.on_air));
     })
     .then(function() { // CRUTCH!!! need fix initialization;
-      if (daytime === time.getDaytime(schedule.first.startsTime)) {
-        init(daytime);
+      if (daytime !== meta.getDaytime(schedule.first.startsTime)) {
+        init(meta.getDaytime(schedule.first.startsTime));
       }
     })
     .catch(function (err) {
       logger.log('error', 'getting next track error', err);
     })
-  
+}
+
+function current() {
+  return track.current;
 }
 
 function getSchedule() {
@@ -113,17 +139,19 @@ function getMetadata(file, index) {
     stream.on('error', function(err) {
       reject(err);
     });
-    mm(stream, {duration: true}, function (err, meta) {
+    mm(stream, {duration: true}, function (err, metadata) {
       if (err) {
         logger.log('error', 'cannot read ', file);
         reject(err);
       } else {
         var info = {
           filename: file,
-          artist: meta.artist.join(''),
-          title: meta.title,
-          duration: meta.duration,
-          startsTime: null
+          artist: metadata.artist.join(''),
+          title: metadata.title,
+          duration: metadata.duration,
+          startsTime: null,
+          fTime: null,
+          isEvent: false
         }
         resolve(info);
       }

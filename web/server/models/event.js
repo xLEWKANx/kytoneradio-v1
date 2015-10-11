@@ -6,7 +6,11 @@ var Event = new Schema({
   artist: String,
   title: String,
   duration: Number,
-  startsTime: Number
+  startsTime: Number,
+  isEvent: {
+    type: Boolean,
+    default: true
+  }
 });
 
 

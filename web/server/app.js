@@ -21,6 +21,8 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
+
+
 // initialize schedule
 schedule.init(meta.getDaytime());
 

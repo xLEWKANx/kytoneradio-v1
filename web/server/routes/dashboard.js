@@ -196,7 +196,6 @@ router.get('/events', function(req, res, next) {
       event.time = date.hours + ':' + date.minutes;
       var dur = new meta.fDuration(event.duration);
       event.dur = dur.hours + ':' + dur.minutes;
-      console.log(dur.obj);
     });
     res.render(
       'dashboard/events',
@@ -258,7 +257,6 @@ router.post('/events/:eventid/save', function(req, res, next) {
 
   event.startsTime = Date.parse(req.body.date + 'T' + req.body.time + '+03:00'),
   event.duration = req.body.hours*60*60 + req.body.minutes*60
-  console.log(event);
 
   event.save(function(err){
     if (err){
