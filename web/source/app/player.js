@@ -1,8 +1,3 @@
-/**
- * Created by eagle on 12/23/14.
- */
-
-
 //player volume slider [mouse click]
 $("#slider").slider({
     value  : 50,
@@ -123,3 +118,4 @@ $(function(){
     Player.init();
     Player.status_update();
 });
+

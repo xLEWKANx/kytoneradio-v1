@@ -69,17 +69,19 @@ router.param('postid', function(req,res,next,id){
 router.route('/posters')
 
   .get(function(req,res,next){
-    Posters.find({},function(err,posters){
-      if (err){
-        next(err)
-      }
-      else
-        // OK
-        res.render('dashboard/posters',{
-         dest: 'posters',
-         posters: posters || false
-        });
-    });
+    Posters.find({})
+      .sort({outerIndex: 1, innerIndex: 1})
+      .exec(function(err,posters){
+        if (err){
+          next(err)
+        }
+        else
+          res.render('dashboard/posters',
+          {
+           dest: 'posters',
+           posters: posters || false
+          });
+      });
   })
 
 router.get('/posters/new', function(req,res,next){

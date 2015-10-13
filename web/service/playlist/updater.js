@@ -15,5 +15,5 @@ module.exports = function(io) {
     }
     prev = current;
 
-  }, 1000)
+  }, 3000)
 }

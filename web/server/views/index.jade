@@ -9,19 +9,23 @@ block content
       ng-repeat-start="slider in slider.slidersArr"
     )
       slick(
+        ng-controller="postersCtrl as posters"
+        arrows = "false"
+        center-mode="true"
         class="slick-slider"
-        infinite="false"
+        infinite="true"
         init-onload="true"
         data="elemReady"
-        lazy-load="progressive"
-        slides-to-show="5"
+        slides-to-show="4"
         slides-to-scroll="1"
         speed="{{slider.speed}}"
-        autoplay="{{slider.autoplay}}"
+        autoplay="false"
         variable-width="true"
         ng-show="true"
         ng-include="'views/postersSlider.html'"
-        ng-controller="postersCtrl as posters",
+        draggable="true"
+        edge-friction="0.01"
+        mobile-first="true"
       )
 
     .player-place(ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)

@@ -8,6 +8,6 @@ files = fs.readdirSync(path.join(config.root, '/source/img/brands/'));
 
 module.exports.getSrc = function(){
   return files.map(function(e) {
-      return 'img/brands/' + e;
+      return '/img/brands/' + e;
   })
 }

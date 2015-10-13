@@ -66,6 +66,7 @@ angular.module('slick', []).directive('slick', [
           return $timeout(function () {
             var currentIndex, customPaging, slider;
             slider = $(element);
+            scope.swiping = false;
             if (scope.currentIndex != null) {
               currentIndex = scope.currentIndex;
             }
@@ -134,6 +135,10 @@ angular.module('slick', []).directive('slick', [
                   return scope.currentIndex = currentSlide;
                 });
               }
+            });
+            slider.on('swipe', function (event, slick, nextSlide) {
+              console.log(slick);
+              $("cliclable").prop( "disabled", true);
             });
             return scope.$watch('currentIndex', function (newVal, oldVal) {
               if (currentIndex != null && newVal != null && newVal !== currentIndex) {

@@ -1,5 +1,6 @@
-div(
+div#cliclable(
   ng-repeat="poster in posters.postersArr | filter: {outerIndex: $parent.slider.outerIndex}"
+  ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex)"
   my-poster-place
   )
-  img(ng-src="{{poster.pictureUrl}}", ng-click="posters.openPost(poster.outerIndex, poster.innerIndex)")
+  img(ng-src="{{poster.pictureUrl}}" image-on-load)

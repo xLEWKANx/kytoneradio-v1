@@ -33,8 +33,8 @@
     var lastScrollTop = 0;
     return service;
 
-    function openPost(outerIndex, innerIndex) {
-      
+    function openPost($event, outerIndex, innerIndex) {
+      console.log(angular.element(slick));
       var post = Posters.get(
         {
           outerIndex: outerIndex,
@@ -43,12 +43,12 @@
         function() {
           postData.currentPost = post[0];
           if(post){
-            console.log(postData.currentPost);
+            
             postData.postOpened = true;
             // lock scrolling and view
             lastScrollTop = $(window).scrollTop();
             $(window).scrollTop(0);
-            document.body.style.overflow = 'hidden';
+
           }
         }
       );
@@ -64,7 +64,6 @@
       // reset locking
       $(window).scrollTop(lastScrollTop);
       lastScrollTop = 0;
-      document.body.style.overflow = '';
     }
 
     function isOpened() {
@@ -78,9 +77,9 @@
     });
   }
 
-
   function socket(socketFactory) {
     var mySocket = socketFactory();
     return mySocket;
   };
+
 })();

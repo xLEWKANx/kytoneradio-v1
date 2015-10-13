@@ -28,8 +28,8 @@
       tr.tech-row
         td
         td
-    .post-left(ng-show="post.isOpened()" class="ng-hide")
-      img.post-image(ng-src="{{post.postData.currentPost.pictureUrl}}")
+      .post-left(ng-show="post.isOpened()" class="ng-hide")
+        img.post-image(ng-src="{{post.postData.currentPost.pictureUrl}}")
   .header-right
     table.header-table(ng-controller="scheduleCtrl as schedule")
       tr.top-row
@@ -39,10 +39,10 @@
             include ../svg/close.svg
       tr
         td(colspan="2").playlist-section
-          table#playlist
+          table#playlist.playlist-table
             tr.playlist-track(ng-repeat="track in schedule.next")
-              td.time {{track.fTime}}
-              td.title {{track.artist}} - {{track.title}}
+              td.track-time {{track.fTime}}
+              td.track-title(scroll) {{track.artist}} - {{track.title}}
       tr.bottom-row
         td
           .logo-cell
@@ -53,5 +53,5 @@
       tr.tech-row
         td
         td
-    .post-right(ng-show="post.isOpened()" class="ng-hide" )
-      .post-content(ng-bind-html='post.getContent()')
+      .post-right(ng-show="post.isOpened()" class="ng-hide" )
+        .post-content(ng-bind-html='post.getContent()')

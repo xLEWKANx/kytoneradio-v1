@@ -2,17 +2,38 @@
   'use strict';
 
   angular.module('kytoneApp')
-    .directive('myPosterPlace', myPosterPlace);
+    .directive('myPosterPlace', myPosterPlace)
+    .directive('imageOnLoad', imageOnLoad);
 
   function myPosterPlace() {
     return function(scope, element, attrs) {
       scope.$parent.elemReady = false;
-
       if (scope.$last){
+
         scope.$parent.elemReady = true;
       }
     };
   }
+
+  function imageOnLoad($q) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+      }
+    }
+  }
+
+  function scroll() {
+    return {
+      restrict: 'A',
+      link: function(scope, element) {
+        element.on('ready', function(e) {
+          console.log(e);
+        })
+      }
+    }
+  }
+
 
   angular.module('kytoneApp')
     .directive('showOnLoad',function(){
