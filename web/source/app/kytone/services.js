@@ -33,24 +33,26 @@
     var lastScrollTop = 0;
     return service;
 
-    function openPost($event, outerIndex, innerIndex) {
-      var post = Posters.get(
-        {
-          outerIndex: outerIndex,
-          innerIndex: innerIndex
-        },
-        function() {
-          postData.currentPost = post[0];
-          if(post){
-            
-            postData.postOpened = true;
-            // lock scrolling and view
-            lastScrollTop = $(window).scrollTop();
-            $(window).scrollTop(0);
+    function openPost($event, outerIndex, innerIndex, startCoords) {
+      if($event.clientX == startCoords.x) {
+        var post = Posters.get(
+          {
+            outerIndex: outerIndex,
+            innerIndex: innerIndex
+          },
+          function() {
+            postData.currentPost = post[0];
+            if(post){
 
+              postData.postOpened = true;
+              // lock scrolling and view
+              lastScrollTop = $(window).scrollTop();
+              $(window).scrollTop(0);
+
+            }
           }
-        }
-      );
+        );
+      }
     }
 
     function getHtmlContent(){

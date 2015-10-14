@@ -15,6 +15,9 @@
         vm.slidersArr[key].wrapperClass = 'cover-wrapper-big'
       }
     }
+    $scope.$on('swipe:finished', function(e) {
+      console.log('lalka')
+    })
     console.log(vm.slidersArr);
   }
 
@@ -22,9 +25,14 @@
     var vm = this;
     vm.postersArr = Posters.query(function(){
       $scope.$parent.slider.loaded = true;
+      vm.imagesCount = vm.postersArr.length
     });
     vm.elemReady = false;
-
+    vm.startCoords = {}
+    vm.writeCoords = function(x) {
+      vm.startCoords.x = x.clientX
+      vm.startCoords.y = x.clientY
+    }
     vm.openPost = postFunc.openPost;
   }
 
@@ -43,4 +51,3 @@
     })
   }
 })();
-

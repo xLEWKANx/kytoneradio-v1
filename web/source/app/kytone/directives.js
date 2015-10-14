@@ -18,7 +18,13 @@
   function imageOnLoad($q) {
     return {
       restrict: 'A',
+      scope: {
+        imagesCount: '='
+      },
       link: function(scope, element, attrs) {
+        element.bind('load', function() {
+          scope.imagesCount -= 1 
+        })
       }
     }
   }
@@ -63,4 +69,3 @@
     })
 
 })();
-
