@@ -13,7 +13,7 @@ html(ng-app='kytoneApp')
     //- adding application libs
     script(src='/app/lib.js', type='text/javascript')
     include styles
-  body
+  body(ng-controller="slidersCtrl as slider")
     //- navbar
     include ../parts/nav
 

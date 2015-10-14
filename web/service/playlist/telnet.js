@@ -37,6 +37,7 @@ function nextTracks(playlist) {
     connection.exec(cmd, function(response){
 
       if (!!(response.indexOf('ERROR') + 1)) {
+        logger.log('error', 'telnet next tracks error!');
         reject('telnet next track exucation error');
       }
 
@@ -44,6 +45,7 @@ function nextTracks(playlist) {
         return elem.replace(/^\[\w+\]\s/, '');
       });
 
+      logger.log('info', 'telnet got next tracks');
       resolve(result);
       connection.end();
     })
@@ -63,8 +65,10 @@ function reload(playlist) {
     console.log(cmd);
     connection.exec(cmd, function(response){
       if (response.indexOf('ERROR') + 1) {
+        logger.log('error', 'telnet next tracks error!');
         reject('telnet reload exucation error');
       }
+      logger.log('info', 'telnet playlist reloaded');
       resolve(response.split('\n'));
       connection.end();
     })

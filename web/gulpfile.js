@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     nodemon = require('gulp-nodemon'),
     concat = require("gulp-concat"),
-    ngAnnotate = require('gulp-ng-annotate');
+    ngAnnotate = require('gulp-ng-annotate'),
+    uglify = require('gulp-uglify');
 
 var fs = require('fs'),
     path = require('path');
@@ -27,6 +28,7 @@ gulp.task('styles',function(){
     .src(_paths.styles+'/*.less')
     .pipe(less()).on("error", notify.onError("Error: <%= error.message %>"))
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(minifycss())
     .pipe(gulp.dest(
         $dest('styles')
       ))
@@ -46,22 +48,7 @@ gulp.task('app',function(){
         // Doesn't work with resolve, so we must be explicit there
         add: true
     }))
-    .pipe(gulp.dest(
-        $dest('app')
-      ))
-})
-gulp.task('dashboard',function(){
-  return gulp
-    .src([
-        _paths.app+'/dashboard/app.js',
-      ])
-    .pipe(concat('dashboard.js'))
-        // Annotate before uglify so the code get's min'd properly.
-    .pipe(ngAnnotate({
-        // true helps add where @ngInject is not used. It infers.
-        // Doesn't work with resolve, so we must be explicit there
-        add: true
-    }))
+    .pipe(uglify())
     .pipe(gulp.dest(
         $dest('app')
       ))
@@ -76,6 +63,7 @@ gulp.task('app:lib',function(){
       _paths.app_lib + '/**/*.js'
       ])
     .pipe(concat('lib.js'))
+    .pipe(uglify())
     .pipe(gulp.dest(
         $dest('app')
       ))
@@ -130,7 +118,7 @@ gulp.task('develop', function () {
     })
 })
 
-gulp.task('build',['styles','app', 'dashboard','app:lib','views','img','misc', 'fonts'],
+gulp.task('build',['styles','app', 'app:lib','views','img','misc', 'fonts'],
   function(){
   gulp.start('develop');
 })
@@ -153,8 +141,6 @@ gulp.task('watch', function(){
   gulp.watch([_paths.styles + '/**/*'],['styles']);
 
   gulp.watch([_paths.app + '/**/*.js'],['app']);
-
-  gulp.watch([_paths.app + '/dashboard/app.js'],['dashboard']);
 
   gulp.watch([_paths.app_lib + '/**/*.js'],['app:lib']);
 

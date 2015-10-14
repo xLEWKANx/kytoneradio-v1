@@ -137,8 +137,6 @@ angular.module('slick', []).directive('slick', [
               }
             });
             slider.on('swipe', function (event, slick, nextSlide) {
-              console.log(slick);
-              $("cliclable").prop( "disabled", true);
             });
             return scope.$watch('currentIndex', function (newVal, oldVal) {
               if (currentIndex != null && newVal != null && newVal !== currentIndex) {

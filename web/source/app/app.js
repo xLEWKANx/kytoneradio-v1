@@ -62,28 +62,28 @@ document.onkeydown = function(evt) {
 
 // scroll banner magnet function
 // resize window fix
-$(window).bind('scroll resize', function(){
-    var top_scroll = $(window).height() + $(window).scrollTop();
-    var sponsor_scroll = Math.round($(document).height() - ($(window).height()*0.15))
+// $(window).bind('scroll resize', function(){
+//     var top_scroll = $(window).height() + $(window).scrollTop();
+//     var sponsor_scroll = Math.round($(document).height() - ($(window).height()*0.15))
     
 
-    console.log('Z:', top_scroll);
-    console.log('sponsor: ', sponsor_scroll);
+//     console.log('Z:', top_scroll);
+//     console.log('sponsor: ', sponsor_scroll);
 
     
-        if (top_scroll < sponsor_scroll){
-            // diactivated;
-            $('.sponsor-row').removeClass('fixed');
+//         if (top_scroll < sponsor_scroll){
+//             // diactivated;
+//             $('.sponsor-row').removeClass('fixed');
                 
-        }
+//         }
     
-        if (top_scroll >= sponsor_scroll){
-            // activated;
-            $('.sponsor-row').addClass('fixed');
-        }
+//         if (top_scroll >= sponsor_scroll){
+//             // activated;
+//             $('.sponsor-row').addClass('fixed');
+//         }
     
         
-});
+// });
 
 
 //playlist animate row

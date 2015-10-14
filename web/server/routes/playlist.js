@@ -25,10 +25,10 @@ router.get('/api/playlist/current', function(req, res, next) {
 
 
 router.post('/api/playlist/liquidsoap', function(req, res, next) {
+  console.log(/m3u$/.test(req.body.source))
   if (/m3u$/.test(req.body.source)) {
     $scheduler.track.current = req.body;
     $scheduler.next(req.body);
-    io.emit('zdarova', $scheduler.schedule.stor);
   } else {
     res.end();
   }

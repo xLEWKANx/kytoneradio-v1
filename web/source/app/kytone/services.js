@@ -34,7 +34,6 @@
     return service;
 
     function openPost($event, outerIndex, innerIndex) {
-      console.log(angular.element(slick));
       var post = Posters.get(
         {
           outerIndex: outerIndex,

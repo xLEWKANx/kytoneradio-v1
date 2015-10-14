@@ -105,7 +105,8 @@ function next(current) {
     })
     .then(getMetadata)
     .then(function(metadata) {
-      logger.log('info', 'next track: ', meta.artist, '-', meta.title, ' from ',
+      console.log(metadata)
+      logger.log('info', 'next track: ', metadata.artist, '-', metadata.title, ' from ',
       daytime, 'playlist');
       schedule.enqueue(metadata);
       schedule.setTime(Date.parse(current.on_air));

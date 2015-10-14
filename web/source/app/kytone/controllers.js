@@ -10,6 +10,12 @@
   function sliderCtrl($scope){
     var vm = this;
     vm.slidersArr = $ctx.slidersCfg;
+    for (var key in vm.slidersArr) {
+      if (vm.slidersArr[key].isBig === "true") {
+        vm.slidersArr[key].wrapperClass = 'cover-wrapper-big'
+      }
+    }
+    console.log(vm.slidersArr);
   }
 
   function postersCtrl($scope, Posters, postFunc){
