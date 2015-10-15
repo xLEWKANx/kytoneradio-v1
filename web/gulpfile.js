@@ -41,7 +41,7 @@ gulp.task('app',function(){
         _paths.app+'/**/module.js',
         _paths.app+'/**/*.js'
       ])
-    .pipe(concat('main.js'))
+    .pipe(concat('main.js')).on("error", notify.onError("Error: <%= error.message %>"))
         // Annotate before uglify so the code get's min'd properly.
     .pipe(ngAnnotate({
         // true helps add where @ngInject is not used. It infers.

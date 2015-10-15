@@ -12,3 +12,5 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
   logger.server('Database connection opened to', config.db.url);
 });
+
+module.exports = mongoose;

@@ -11,16 +11,22 @@ var mongoose = require('./mongoose');
 
 var schedule = require('../service/playlist/scheduler');
 var meta = require('../service/meta');
+var passport = require('../service/meta/passport');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var app = express();
 
-// view engine setup
-app.set('views', config.paths.views );
-app.set('view engine', 'jade');
+var sessionOpts = {
+  saveUninitialized: true, // saved new sessions
+  resave: false, // do not automatically write to the session store
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  secret: 'asdadasdasdsadsadasdasd123asde123s12ij12jias8*ASasi1123asdja1ji3',
+  cookie : { httpOnly: true, maxAge: 2419200000 } // configure when sessions expires
+}
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-
 
 
 // initialize schedule
@@ -32,9 +38,18 @@ app.use(morgan);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session(sessionOpts));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(config.paths.public));
 
 app.use('/', routes);
+
+
+// view engine setup
+app.set('views', config.paths.views );
+app.set('view engine', 'jade');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

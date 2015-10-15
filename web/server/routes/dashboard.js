@@ -4,7 +4,6 @@ var router = express.Router();
 var Posters = require('../models/poster');
 var Event = require('../../server/models/event');
 
-
 var contextMng = require('../../service/context');
 
 var loggerMng = require('../logger');
@@ -12,6 +11,7 @@ var logger = require('../logger/winston');
 
 var $playlist = require('../../service/playlist');
 var meta = require('../../service/meta/');
+
 
 router.use('/',function(req,res,next){
   req.scope = {}
@@ -21,6 +21,12 @@ router.use('/',function(req,res,next){
 router.get('/', function(req, res, next) {
   res.redirect('/dashboard/settings');
 });
+
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 
 // Settings page
 router.get('/settings', function(req,res,next){
@@ -46,6 +52,7 @@ router.post('/settings', function(req,res,next){
 
   });
 })
+
 
 router.param('postid', function(req,res,next,id){
   Posters.findOne({
