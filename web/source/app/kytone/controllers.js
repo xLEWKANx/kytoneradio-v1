@@ -2,12 +2,12 @@
   'use strict';
 
   angular.module('kytoneApp')
-    .controller('slidersCtrl', sliderCtrl)
+    .controller('slidersCtrl', slidersCtrl)
     .controller('postersCtrl', postersCtrl)
     .controller('postCtrl', postCtrl)
     .controller('scheduleCtrl', scheduleCtrl);
 
-  function sliderCtrl($scope){
+  function slidersCtrl($scope){
     var vm = this;
     vm.slidersArr = $ctx.slidersCfg;
     for (var key in vm.slidersArr) {
@@ -15,18 +15,14 @@
         vm.slidersArr[key].wrapperClass = 'cover-wrapper-big'
       }
     }
-    $scope.$on('swipe:finished', function(e) {
-      console.log('lalka')
-    })
-    console.log(vm.slidersArr);
   }
 
   function postersCtrl($scope, Posters, postFunc){
     var vm = this;
-    vm.postersArr = Posters.query(function(){
-      $scope.$parent.slider.loaded = true;
-      vm.imagesCount = vm.postersArr.length
+    vm.postersArr = Posters.query({outerIndex: $scope.$parent.$index + 1}, function() {
+      vm.count = vm.postersArr.length;
     });
+    vm.count = [];
     vm.elemReady = false;
     vm.startCoords = {}
     vm.writeCoords = function(x) {

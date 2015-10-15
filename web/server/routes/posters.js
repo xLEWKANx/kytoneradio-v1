@@ -18,14 +18,14 @@ var Posters = require('../models/poster');
 
 router.get('/api/posters/', function(req, res, next) {
   return Posters.find({}, function(err, posters) {
-    if (err) throw error; // USE YOUR LOGGER, BROTHER
+    if (err) next(err);
     res.send(posters);
   });
 });
 
 router.get('/api/posters/:outerIndex/', function(req, res, next) {
   return Posters.find({outerIndex: req.params.outerIndex}, function(err, posters) {
-    if (err) throw error; // USE YOUR LOGGER, BROTHER
+    if (err) next(err);
     res.send(posters);
   });
 });

@@ -4,14 +4,14 @@ block content
 
  
   div(
-    ng-repeat-start="slider in slider.slidersArr"
+    ng-repeat-start="slider in this.sliders.slidersArr"
     class="{{slider.wrapperClass}} cover-wrapper"
   )
     slick(
       ng-controller="postersCtrl as posters"
       arrows = "false"
       center-mode="true"
-      class="slick-slider"
+      class="slick-slider hidden"
       infinite="true"
       init-onload="true"
       data="elemReady"

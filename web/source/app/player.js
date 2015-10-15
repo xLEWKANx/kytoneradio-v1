@@ -116,6 +116,6 @@ $(function(){
     };
 
     Player.init();
-    Player.status_update();
+    // Player.status_update();
 });
 
