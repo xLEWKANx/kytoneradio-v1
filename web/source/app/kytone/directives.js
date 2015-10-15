@@ -7,12 +7,10 @@
   function myPosterPlace() {
     return function(scope, element, attrs) {
       scope.$parent.elemReady = null;
-      console.log(scope.$parent.$parent.posters.count);
       if (scope.$last) {
-        console.log('init');
         scope.$parent.elemReady = true;
       }
-      angular.element(element).children().on('load', function() {
+      angular.element(element).find('img').on('load', function() {
         scope.$parent.$parent.posters.count -= 1;
         if (scope.$parent.$parent.posters.count === -10) {
           var dir = scope.$parent.$parent.$parent.$odd ? 'slickNext' : 'slickPrev'

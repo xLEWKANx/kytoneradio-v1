@@ -37,7 +37,6 @@ router.get('/api/posters/:outerIndex/:innerIndex/', function(req, res, next) {
   }, function(err, poster) {
     if (err) throw error; // USE YOUR LOGGER, BROTHER
     // markdown middleware
-    console.log(poster);
     var $poster = poster[0];
     var poster_content_html = marked($poster.content || '');
     poster[0].content = poster_content_html;

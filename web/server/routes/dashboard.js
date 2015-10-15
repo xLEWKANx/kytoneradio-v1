@@ -107,6 +107,7 @@ router.post('/posters/save', function(req,res,next){
       return;
     }
     logger.log('data','Poster #%s created', poster.id)
+    console.log(new_poster);
     // save complite
     res.redirect('/dashboard/posters');
   })
@@ -132,7 +133,7 @@ router.post('/posters/:postid/save', function(req,res,next){
 
     poster[i] = prop;
   }
-
+  console.log(poster.local)
   poster.save(function(err){
     if (err){
       logger.log('error','Something wrong while saving Poster #%s', poster.id);

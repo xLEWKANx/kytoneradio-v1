@@ -23,7 +23,7 @@
     return postData;
   }
 
-  function postFunc(Posters, postData){
+  function postFunc(Posters, postData, $location){
     var service = {
       openPost: openPost,
       closePost: closePost,
@@ -42,13 +42,14 @@
           },
           function() {
             postData.currentPost = post[0];
-            if(post){
-
+            console.log(post[0]);
+            if(post[0].local){
               postData.postOpened = true;
               // lock scrolling and view
               lastScrollTop = $(window).scrollTop();
               $(window).scrollTop(0);
-
+            } else {
+              $location.path = post[0].outerUrl;
             }
           }
         );
