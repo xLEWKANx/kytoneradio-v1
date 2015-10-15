@@ -1,0 +1,34 @@
+extends layouts/head
+
+block content
+
+ 
+  div(
+    ng-repeat-start="slider in slider.slidersArr"
+    class="{{slider.wrapperClass}} cover-wrapper"
+  )
+    slick(
+      ng-controller="postersCtrl as posters"
+      arrows = "false"
+      center-mode="true"
+      class="slick-slider"
+      infinite="true"
+      init-onload="true"
+      data="elemReady"
+      slides-to-show="4"
+      slides-to-scroll="1"
+      speed="{{slider.speed}}"
+      autoplay="false"
+      variable-width="true"
+      ng-show="true"
+      ng-include="'views/postersSlider.html'"
+      draggable="true"
+      edge-friction="0.01"
+      mobile-first="true"
+      focus-on-select="true"
+    )
+
+  .player-place(ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)
+
+block context
+  script(src='/app/context.js' type='text/javascript')

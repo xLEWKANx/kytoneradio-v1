@@ -1,4 +1,9 @@
 node_modules
-public
-*.log
+web/public
 *.cfg
+.vagrant
+*.mp3
+*.m3u
+#logs
+logs/*.log*
+web/*.log*

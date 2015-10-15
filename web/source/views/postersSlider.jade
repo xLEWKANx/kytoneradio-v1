@@ -1,0 +1,8 @@
+div#cliclable(
+  ng-repeat="poster in posters.postersArr | filter: {outerIndex: $parent.slider.outerIndex}"
+  ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)"
+  my-poster-place
+  ng-mousedown="posters.writeCoords($event)"
+  )
+  {{posters.imagesCount}}
+  img(ng-src="{{poster.pictureUrl}}" image-on-load images-count="posters.imagesCount")

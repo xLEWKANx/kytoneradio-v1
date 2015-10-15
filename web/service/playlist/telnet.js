@@ -1,0 +1,90 @@
+var telnet = require('telnet-client'),
+    logger = require('../../server/logger/winston');
+
+var connection = new telnet();
+
+var params = {
+  host: '127.0.0.1',
+  port: 1234,
+  timeout: 1000,
+  shellPrompt: '\r\n',
+  echoLines: 0
+};
+
+connection.on('timeout', function() {
+  logger.log('info', 'telnet connection timeout');
+  connection.destroy();
+})
+
+connection.on('error', function() {
+  logger.log('error', 'telnet connection error, check liquidsoap');
+})
+module.exports = {
+  nextTracks, reload
+}
+
+function nextTracks(playlist) {
+  playlist = telnetDaytime(playlist);
+
+  var promise = new Promise(function(resolve, reject) {
+    try {
+      connection.connect(params);
+    } catch (err) {
+      console.log(err);
+    }
+
+    var cmd = playlist + '.next';
+    connection.exec(cmd, function(response){
+
+      if (!!(response.indexOf('ERROR') + 1)) {
+        logger.log('error', 'telnet next tracks error!');
+        reject('telnet next track exucation error');
+      }
+
+      var result = response.split('\n').map(function(elem) {
+        return elem.replace(/^\[\w+\]\s/, '');
+      });
+
+      logger.log('info', 'telnet got next tracks');
+      resolve(result);
+      connection.end();
+    })
+  });
+  return promise;
+}
+
+function reload(playlist) {
+
+  playlist = telnetDaytime(playlist);
+
+  var promise = new Promise(function(resolve, reject) {
+
+    connection.connect(params);
+
+    var cmd = playlist.concat('.reload');
+    console.log(cmd);
+    connection.exec(cmd, function(response){
+      if (response.indexOf('ERROR') + 1) {
+        logger.log('error', 'telnet next tracks error!');
+        reject('telnet reload exucation error');
+      }
+      logger.log('info', 'telnet playlist reloaded');
+      resolve(response.split('\n'));
+      connection.end();
+    })
+  });
+  return promise;
+}
+
+// Private methods
+
+function telnetDaytime(daytime) {
+  if (daytime === 'day') {
+    return 'day(dot)m3u';
+  } else if (daytime === 'night') {
+    return 'night(dot)m3u';
+  } else {
+    logger.log('error', 'daytime is not defined');
+    throw new Error('daytime not defined');
+  }
+}

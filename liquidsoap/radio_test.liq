@@ -4,7 +4,7 @@ garbage_collect()
 
 out = output.icecast(
 
-  host = "localhost",
+  host = "central-srv.p-s.org.ua",
   port = 15002,
 
   user = "source",
@@ -23,12 +23,16 @@ set("server.telnet.bind_addr", "127.0.0.1")
 set("server.telnet", true)
 
 # work directories
-work_dir = "/media/datadrive/"
-sys_dir = "/home/curator/kytoneradio/"
+work_dir = "D:\projects\kytoneradio"
+sys_dir = "D:\projects\kytoneradio"
 music_day_dir = "#{work_dir}/music/day"
 music_night_dir = "#{work_dir}/music/night"
 stable_dir = "#{work_dir}/music/stable"
-jingles_dir = "#{work_dir}/jingles"
+jingles_dir = "#{work_dir}/music/jingles"
+
+# enable unix sockets
+#set("server.socket",true)
+#set("server.socket.path","#{sys_dir}/liuqidsoap/socket")
 
 set("server.timeout",300.)
 
@@ -36,6 +40,9 @@ set("server.timeout",300.)
 set("log.file.path", "#{sys_dir}/logs/liquidsoap.log")
 set("log.stdout",true)
 set("log.level", 3)
+
+# harbor
+set("harbor.bind_addr","central-srv.p-s.org.ua")
 
 def apply_metadata(m) =
   title = m["title"]
@@ -50,9 +57,11 @@ def apply_metadata(m) =
     ("filename", "#{filename}"),
     ("on_air", "#{on_air}")
   ])
+  print(json);
   ignore(
     http.post(headers=[("Content-Type","application/json")],
     data="#{json}",
+    timeout=1.,
     "http://localhost:3000/api/playlist/liquidsoap")
   )
 end
@@ -70,7 +79,7 @@ day = rotate (weights = [1, 2], [jingles, music_day])
 night = rotate (weights = [1, 2], [jingles, music_night])
 
 # define live input
-live_stream = strip_blank(input.http("http://localhost:15002/live.ogg"))
+live_stream = strip_blank(input.http("http://central-srv.p-s.org.ua:15002/live"))
 
 # schedule
 scheduled_stream = switch([ ({22h-7h}, night), ({7h-22h}, day) ])
@@ -82,16 +91,14 @@ stable_stream = stable;
 radio = fallback(track_sensitive=false,
 [live_stream, scheduled_stream, stable_stream])
 
-radio = on_track(apply_metadata,radio)
+radio = on_track(apply_metadata, radio)
 
 out(
-  %mp3(bitrate = 320, id3v2 = true),
+  %mp3(bitrate = 128, id3v2 = true),
   description = "MP3 320 Kbps",
   mount = "stream",
   mksafe(radio)
 )
-
-
 
 
 
