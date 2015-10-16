@@ -5,7 +5,6 @@ body {
   font-size: 2vh;
   line-height: 1.7em;
   text-transform: uppercase;
-  overflow-x: hidden;
 }
 
 a {
@@ -89,4 +88,25 @@ button:focus, div:focus, img:focus {
 
 .icon-m:hover svg{
   fill: #51FF04!important;
+}
+
+@keyframes scroll {
+    0% {
+      transform: translate(0, 0)
+    }
+    20% {
+      transform: translate(0, 0)
+    }
+    70% {
+      transform: translate(-50%, 0)
+    }
+    100% {
+      transform: translate(0, 0)
+    }
+}
+
+/* The element to apply the animation to */
+.track-scroll {
+    animation: scroll 30s infinite;
+    animation-direction: alternate;
 }

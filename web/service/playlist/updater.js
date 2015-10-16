@@ -7,6 +7,11 @@ module.exports = function(io) {
     io.emit('playlist', scheduler.schedule.stor);
   })
 
+  io.on('error', function(err) {
+    console.log(err);
+    logger.log('error', 'socket io error');
+  })
+
   setInterval(function() {
     var current = scheduler.schedule.first;
 

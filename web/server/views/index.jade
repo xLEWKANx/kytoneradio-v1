@@ -2,11 +2,16 @@ extends layouts/head
 
 block content
 
- 
   div(
     ng-repeat-start="slider in this.sliders.slidersArr"
     class="{{slider.wrapperClass}} cover-wrapper"
   )
+    .cool-spinner
+      .rect1
+      .rect2
+      .rect3
+      .rect4
+      .rect5
     slick(
       ng-controller="postersCtrl as posters"
       arrows = "false"

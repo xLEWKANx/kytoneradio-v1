@@ -2,7 +2,8 @@
   'use strict';
 
   angular.module('kytoneApp')
-    .directive('myPosterPlace', myPosterPlace);
+    .directive('myPosterPlace', myPosterPlace)
+    .directive('scroll', scroll);
 
   function myPosterPlace() {
     return function(scope, element, attrs) {
@@ -19,6 +20,22 @@
         }
       });
     
+    };
+  }
+
+  function scroll($timeout) {
+
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr) {
+        $timeout( function() {
+          var elemWidth = angular.element(element)[0].clientWidth;
+          var maxWitdh = $('#plPlace')[0].clientWidth;
+          if(elemWidth > maxWitdh) {
+            angular.element(element).addClass('track-scroll');
+          }
+        });
+      }
     };
   }
 
