@@ -21,6 +21,10 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/offline', function(req, res, next) {
+  res.render('offline');
+})
+
 
 // posters list responce
 router.use(postersRoute);
