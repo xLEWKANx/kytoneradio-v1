@@ -2,10 +2,11 @@
 var mm = require('musicmetadata'),
     path = require('path'),
     logger = require('../../server/logger/winston'),
-    fs = require('fs');
+    fs = require('fs'),
+    _ = require('lodash');
 
 var telnet = require('./telnet'),
-    meta = require('../meta/');
+    time = require('../meta/');
 
 // Schedule queue definition
 class Schedule {
@@ -28,16 +29,16 @@ class Schedule {
   clear () {
     return this.dataStore = [];
   }
-  setTime (time) {
+  setTime (initTime) {
 
     this.dataStore.reduce(
       (prev, cur) => {
         cur.startsTime = prev;
-        var date = new meta.fDate(cur.startsTime);
+        var date = new time.fDate(cur.startsTime);
         cur.fTime = date.hours + ':' + date.minutes;
         return cur.startsTime + cur.duration*1000;
       },
-      time
+      initTime
     )
     return this.dataStore
   }
@@ -47,7 +48,7 @@ var schedule = new Schedule();
 
 // Storing current track variable
 
-class Stor {
+class Current {
   constructor () {
     this.store = {}
   }
@@ -56,69 +57,101 @@ class Stor {
   set current(obj) { this.store = obj }
 }
 
-var track = new Stor();
+var track = new Current();
+
+// Storing next tracks
+class Storage {
+  constructor() {
+    this.daylist = {};
+    this.nightlist = {};
+  }
+  set nextDay(obj) {
+    this.daylist = obj;
+  }
+  set nextNight(obj) {
+    this.nightlist = obj;
+  }
+  get nextDay() {
+    return this.daylist;
+  }
+  get nextNight() {
+    return this.nightlist;
+  }
+  get playing() {
+    return this.nightlist.playing || this.daylist.playing;
+  }
+}
+var storage = new Storage();
 
 module.exports = {
-  init,
+  loadPlaylist,
   next,
   current,
   track,
   schedule
 };
 
-function init(daytime) {
+function loadPlaylist() {
 
-  telnet.nextTracks(daytime)
-    .then(function(files) {
-      return Promise.all(files.slice(0, 5).map(getMetadata))
-    })
-    .then(function(metadata) {
-      schedule.clear();
-      return Promise.all(metadata.map(elem => schedule.enqueue(elem)))
-    })
-    .then(function() {
-      schedule.setTime(meta.serverTime());
-      logger.log('info', 'schdule initializated with last track ', schedule.last);
-    })
-    .catch(function(err) {
-      logger.log('error', 'schdule initialization error', err);
-    })
+  var promise = new Promise(function(resolve) {resolve(null)});
+  
+  promise
+  .then(function() {
+    return init('day');
+  })
+  .then(function() {
+    return init('night');
+  })
+  .then(function() {
+
+    return getMetadata(storage.playing);
+  })
+  .then(function(metadata) {
+    schedule.clear();
+    schedule.enqueue(metadata);
+    schedule.setTime(time.serverTime());
+    logger.log('info', 'schedule initializated with', metadata.artist, ' - ', metadata.title);
+  })
+  .then(function() {
+    next(0, time.serverTime());
+  })
+  .catch(function(err) {
+    logger.log('error', 'cannot initializate schedule', err);
+  })
+
 }
 
-function next(current) {
+function next(position, initTime) {
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
-  var daytime = meta.getDaytime(scheduleEnd);
-
-  // Get next tracks
-  telnet.nextTracks(daytime)
-    .then(function(result){
-      var ended = schedule.dequeue();
-
-      logger.log('\nended: ', ended);
-      
-      if (daytime === meta.getDaytime()) {
-        return result[5];
+  var daytime = time.getDaytime(scheduleEnd);
+  init(daytime)
+    .then(function() {
+      if (daytime === 'day') {
+        return storage.nextDay.list[position];
       }
-      else {
-        return result[0];
+      else if (daytime === 'night') {
+        return storage.nextNight.list[position];
       }
     })
     .then(getMetadata)
     .then(function(metadata) {
-      console.log(metadata)
-      logger.log('info', 'next track: ', metadata.artist, '-', metadata.title, ' from ',
-      daytime, 'playlist');
       schedule.enqueue(metadata);
-      schedule.setTime(Date.parse(current.on_air));
+      logger.log('info', metadata.artist, ' - ', metadata.title, ' added');
+      schedule.setTime(initTime);
     })
-    .then(function() { // CRUTCH!!! need fix initialization;
-      if (daytime !== meta.getDaytime(schedule.first.startsTime)) {
-        init(meta.getDaytime(schedule.first.startsTime));
+    .then(function() {
+      if (schedule.stor.length != 5) {
+        var newScheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
+        //recursive add tracks to related date
+
+        if (daytime !== time.getDaytime(newScheduleEnd)) {
+          position = 0;
+        }
+        console.log(position);
+        next(position+1, initTime)
       }
     })
-    .catch(function (err) {
-      logger.log('error', 'getting next track error', err);
-    })
+    .catch(console.log)
 }
 
 function current() {
@@ -151,6 +184,7 @@ function getMetadata(file, index) {
           title: metadata.title,
           duration: metadata.duration,
           startsTime: null,
+          daytime: daytime,
           fTime: null,
           isEvent: false
         }
@@ -159,4 +193,18 @@ function getMetadata(file, index) {
     });
   });
   return promise;
+}
+
+function init(daytime) {
+  return telnet.nextTracks(daytime)
+    .then(function(files) {
+      if (daytime === 'day') {
+        storage.nextDay = files;
+      } else if (daytime === 'night') {
+        storage.nextNight = files;
+      }
+    })
+    .catch(function(err) {
+      logger.log('error', 'schdule initialization error', err);
+    })
 }

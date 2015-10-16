@@ -28,7 +28,8 @@ router.post('/api/playlist/liquidsoap', function(req, res, next) {
   console.log(/m3u$/.test(req.body.source))
   if (/m3u$/.test(req.body.source)) {
     $scheduler.track.current = req.body;
-    $scheduler.next(req.body);
+    $scheduler.schedule.dequeue();
+    $scheduler.next(4, Date.parse(req.body.on_air));
   } else {
     res.end();
   }

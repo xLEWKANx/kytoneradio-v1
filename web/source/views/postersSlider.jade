@@ -5,7 +5,9 @@ div#cliclable(
   ng-mousedown="posters.writeCoords($event)"
 
   )
-  a(nf-if="poster.local" ng-href="{{poster.outerUrl}}" target="_blank")
+  a(
+    ng-touch="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)"
+    nf-if="poster.local" ng-href="{{poster.outerUrl}}" target="_blank")
     img(ng-src="{{poster.pictureUrl}}")
 
 

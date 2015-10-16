@@ -30,7 +30,7 @@ var sessionOpts = {
 
 
 // initialize schedule
-schedule.init(meta.getDaytime());
+schedule.loadPlaylist();
 
 // morgan logger
 app.use(morgan);

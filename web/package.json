@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./www"
+    "start": "node ./www",
     "production" : "sudo PORT=80 NODE_ENV=devSSH forever -o ../logs/forever.log start ./www"
   },
   "dependencies": {

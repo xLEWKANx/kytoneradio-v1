@@ -40,7 +40,7 @@ router.route('/login')
         if (err)
           return next(err);
         if (!user){
-          res.send({success: false})
+          res.redirect('/login')
           return;
         }
         req.logIn(user, function(err) {

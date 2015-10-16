@@ -61,7 +61,6 @@ function reloadPlaylist(req, res, next) {
     .then(function() {
       if (daytime === meta.getDaytime()) {
         schedule.init(daytime);
-        
       }
       res.send(daytime + ' reloaded!');
     })

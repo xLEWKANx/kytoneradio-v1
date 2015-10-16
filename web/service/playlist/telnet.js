@@ -32,6 +32,11 @@ function nextTracks(playlist) {
     } catch (err) {
       console.log(err);
     }
+    var result = {
+      playing: null,
+      ready: null,
+      list: []
+    }
 
     var cmd = playlist + '.next';
     connection.exec(cmd, function(response){
@@ -40,14 +45,25 @@ function nextTracks(playlist) {
         logger.log('error', 'telnet next tracks error!');
         reject('telnet next track exucation error');
       }
-
-      var result = response.split('\n').map(function(elem) {
-        return elem.replace(/^\[\w+\]\s/, '');
+      var regEx = /^\[(\w*)\]\s/
+      response.split('\n').forEach(function(elem) {
+        if (elem.match(regEx)) {
+          if (regEx.exec(elem)[1] === 'playing') {
+            result.playing = elem.replace(regEx, '');
+          }
+          else if (regEx.exec(elem)[1] === 'ready') {
+            result.ready = elem.replace(regEx, '');
+            result.list.push(elem.replace(regEx, ''));
+          }
+        } else if (elem !== '' && elem !== 'END'){
+          result.list.push(elem);
+        } else {
+          return;
+        }
       });
-
       logger.log('info', 'telnet got next tracks');
-      resolve(result);
       connection.end();
+      resolve(result);
     })
   });
   return promise;
@@ -69,7 +85,7 @@ function reload(playlist) {
         reject('telnet reload exucation error');
       }
       logger.log('info', 'telnet playlist reloaded');
-      resolve(response.split('\n'));
+      resolve(null);
       connection.end();
     })
   });
@@ -88,3 +104,4 @@ function telnetDaytime(daytime) {
     throw new Error('daytime not defined');
   }
 }
+
