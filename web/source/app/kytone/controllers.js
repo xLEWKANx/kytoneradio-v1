@@ -2,18 +2,27 @@
   'use strict';
 
   angular.module('kytoneApp')
-    .controller('slidersCtrl', slidersCtrl)
+    .controller('mainCtrl', mainCtrl)
     .controller('postersCtrl', postersCtrl)
     .controller('postCtrl', postCtrl)
     .controller('scheduleCtrl', scheduleCtrl);
 
-  function slidersCtrl($scope){
+  function mainCtrl($scope){
     var vm = this;
     vm.slidersArr = $ctx.slidersCfg;
     for (var key in vm.slidersArr) {
       if (vm.slidersArr[key].isBig === "true") {
         vm.slidersArr[key].wrapperClass = 'cover-wrapper-big'
       }
+    }
+
+    vm.playerStatus = 'Loading';
+    vm.control = function(target) {
+      console.log(target);
+      if (target === 'play')
+        document.getElementById('player').play();
+      else
+        document.getElementById('player').pause();
     }
   }
 
@@ -45,5 +54,6 @@
     socket.on('playlist', function(data) {
       vm.next = data;
     })
+
   }
 })();

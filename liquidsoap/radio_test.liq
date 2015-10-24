@@ -94,7 +94,7 @@ radio = fallback(track_sensitive=false,
 radio = on_track(apply_metadata, radio)
 
 out(
-  %mp3(bitrate = 128, id3v2 = true),
+  %mp3(bitrate = 320, id3v2 = true),
   description = "MP3 320 Kbps",
   mount = "stream",
   mksafe(radio)

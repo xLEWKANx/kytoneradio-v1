@@ -9,22 +9,31 @@
     'ngTouch',
     'ngResource',
     'slick',
-    'btford.socket-io'
+    'btford.socket-io',
+    'LocalStorageModule'
   ]);
 
   angular.module('kytoneApp').config(config);
 
   /* @ngInject */
 
-  function config($routeProvider, $locationProvider,$sceProvider) {
-    $routeProvider
-      .when('/posters', {
-        templateUrl: 'partials/postersLine',
-        controller: 'postersCtrl'
-      })
-      .otherwise({redirectTo: '/'});
+  function config(
+    $routeProvider,
+    $locationProvider,
+    $sceProvider,
+    localStorageServiceProvider
+    ) {
+
+      $routeProvider
+        .when('/posters', {
+          templateUrl: 'partials/postersLine',
+          controller: 'postersCtrl'
+        })
+        .otherwise({redirectTo: '/'});
 
       $sceProvider.enabled(false);
 
-  }
+      localStorageServiceProvider
+        .setPrefix('kytone');
+    }
 })();

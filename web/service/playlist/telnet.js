@@ -30,7 +30,8 @@ function nextTracks(playlist) {
     try {
       connection.connect(params);
     } catch (err) {
-      console.log(err);
+      logger.log('error', 'telnet connection error');
+      reject(err);
     }
     var result = {
       playing: null,

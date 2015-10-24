@@ -1,24 +1,35 @@
 var scheduler = require('./scheduler.js');
-var prev = scheduler.schedule.first;
+var prevPl = scheduler.schedule.first;
+var prevTr = scheduler.track.current;
 
 module.exports = function(io) {
 
   io.on('connection', function() {
     io.emit('playlist', scheduler.schedule.stor);
+    io.emit('track', prevTr);
   })
 
   io.on('error', function(err) {
     console.log(err);
-    logger.log('error', 'socket io error');
+    logger.log('error', 'socket io error', err);
   })
 
   setInterval(function() {
-    var current = scheduler.schedule.first;
+    // Playlist update
+    var currentPl = scheduler.schedule.first;
 
-    if (current !== prev) {
+    if (currentPl !== prevPl) {
       io.emit('playlist', scheduler.schedule.stor);
     }
-    prev = current;
+    prevPl = currentPl;
 
+    // Track update
+    var currentTr = scheduler.track.current;
+
+    if (currentTr !== prevTr) {
+      io.emit('track', currentTr);
+    }
+
+    prevTr = currentTr;
   }, 3000)
 }

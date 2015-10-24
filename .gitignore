@@ -2,6 +2,7 @@ node_modules
 web/public
 *.cfg
 .vagrant
+music
 *.mp3
 *.m3u
 #logs

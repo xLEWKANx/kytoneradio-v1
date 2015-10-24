@@ -34,7 +34,7 @@
     return service;
 
     function openPost($event, outerIndex, innerIndex, startCoords) {
-      if($event.clientX == startCoords.x) {
+      if ($event.clientX == startCoords.x) {
         var post = Posters.get(
           {
             outerIndex: outerIndex,
@@ -42,8 +42,7 @@
           },
           function() {
             postData.currentPost = post[0];
-            console.log(post[0]);
-            if(post[0].local){
+            if (post[0].local){
               postData.postOpened = true;
               // lock scrolling and view
               lastScrollTop = $(window).scrollTop();
@@ -80,8 +79,8 @@
   }
 
   function socket(socketFactory) {
-    var mySocket = socketFactory();
-    return mySocket;
+    return socketFactory({
+    });
   };
 
 })();

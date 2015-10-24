@@ -1,6 +1,6 @@
 //- audio
-audio#player
-  source(src='http://central-srv.p-s.org.ua:15002/stream',type="audio/ogg")
+audio(player-status)#player
+  source(src='http://central-srv.p-s.org.ua:15002/stream',type="audio/mpeg" crutch)
 
 
 .player
@@ -12,13 +12,13 @@ audio#player
           td
         tr.main-row
           td.buttons
-            button#play
+            button(ng-click="main.control('play')")#play
               include ../svg/icons/play.svg
-            button#pause
+            button(ng-click="main.control('pause')")#pause
               include ../svg/icons/pause.svg
           td.volume
             .volume-container
-              #slider
+              div(volume-regulator)#slider
         tr.tech-row
           td
           td
@@ -28,7 +28,7 @@ audio#player
           td
         tr.main-row
           td
-            .now-play
+            .now-play(title-update)
               p#track-title
                 | Kyton Radio (c)
         tr.tech-row

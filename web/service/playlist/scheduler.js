@@ -13,11 +13,13 @@ class Schedule {
 
   constructor () {
     this.dataStore = [];
+    this.isLoaded = false;
   }
   get stor () { return this.dataStore }
   get first () { return this.dataStore[0]}
-  get last () { return this.dataStore[this.dataStore.length - 1]
-  }
+  get last () { return this.dataStore[this.dataStore.length - 1] }
+  get loaded () { return this.isLoaded }
+  set loaded (bool) { this.isLoaded = bool }
 
   enqueue (elem) {
     return this.dataStore.push(elem);
@@ -86,7 +88,6 @@ var storage = new Storage();
 module.exports = {
   loadPlaylist,
   next,
-  current,
   track,
   schedule
 };
@@ -109,7 +110,9 @@ function loadPlaylist() {
   .then(function(metadata) {
     schedule.clear();
     schedule.enqueue(metadata);
+    track.current = metadata;
     schedule.setTime(time.serverTime());
+    schedule.loaded = true;
     logger.log('info', 'schedule initializated with', metadata.artist, ' - ', metadata.title);
   })
   .then(function() {
@@ -122,14 +125,23 @@ function loadPlaylist() {
 }
 
 function next(position, initTime) {
+  if (!schedule.loaded) {
+    loadPlaylist();
+  }
+  console.log('schedule.loaded: ', schedule.loaded);
+  console.log('schedule.first: ', schedule.first);
+  console.log('schedule.track.current: ', track.current);
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
   var daytime = time.getDaytime(scheduleEnd);
+
   init(daytime)
     .then(function() {
       if (daytime === 'day') {
+        console.log(storage.nextDay);
         return storage.nextDay.list[position];
       }
       else if (daytime === 'night') {
+        console.log(storage.nextNight);
         return storage.nextNight.list[position];
       }
     })
@@ -154,13 +166,6 @@ function next(position, initTime) {
     .catch(console.log)
 }
 
-function current() {
-  return track.current;
-}
-
-function getSchedule() {
-  return schedule.stor;
-}
 
 // Private methods
 

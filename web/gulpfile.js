@@ -48,7 +48,7 @@ gulp.task('app',function(){
         // Doesn't work with resolve, so we must be explicit there
         add: true
     }))
-    .pipe(uglify()).on("error", notify.onError("Error: <%= error.message %>"))
+    // .pipe(uglify()).on("error", notify.onError("Error: <%= error.message %>"))
     .pipe(gulp.dest(
         $dest('app')
       ))

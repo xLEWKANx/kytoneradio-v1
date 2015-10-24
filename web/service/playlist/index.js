@@ -59,9 +59,9 @@ function reloadPlaylist(req, res, next) {
 
   telnet.reload(daytime)
     .then(function() {
-      if (daytime === meta.getDaytime()) {
-        schedule.init(daytime);
-      }
+    
+      schedule.loadPlaylist();
+
       res.send(daytime + ' reloaded!');
     })
     .catch(function(err) {

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./www",
-    "production" : "sudo PORT=80 NODE_ENV=devSSH forever -o ../logs/forever.log start ./www"
+    "production": "sudo PORT=80 NODE_ENV=devSSH forever -o ../logs/forever.log start ./www"
   },
   "dependencies": {
     "body-parser": "^1.12.4",
