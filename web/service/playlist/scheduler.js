@@ -156,10 +156,18 @@ function next(position, initTime) {
         var newScheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
         //recursive add tracks to related date
 
+        // if daytime had change
         if (daytime !== time.getDaytime(newScheduleEnd)) {
+          logger.log('info', 'day changing during initialization')
           position = 0;
         }
-        console.log(position);
+
+        // if first track had change
+        if (track.current.filename !== schedule.first.filename) {
+          logger.log('info', 'next track during initialization')
+          position -= 1;
+        }
+
         next(position+1, initTime)
       }
     })
