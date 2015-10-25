@@ -48,10 +48,9 @@ def apply_metadata(m) =
   ignore(
     http.post(headers=[("Content-Type","application/json")],
     data="#{json}",
-    "http://localhost:3000/api/playlist/liquidsoap")
+    "http://localhost:80/api/playlist/liquidsoap")
   )
 end
-
 
 # define music and mix with jingles
 music_day = playlist('#{music_day_dir}/day.m3u', mode="normal")
