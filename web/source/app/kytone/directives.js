@@ -208,7 +208,6 @@
         $interval(function() {
           var date = new Date();
           var timezone = date.getTimezoneOffset() / 60
-          console.log(date.toString());
           angular.element(element).text(
             date.toTimeString().slice(0, 5) +
             ' KYIV (' + '+'+ -timezone + ' GMT)');
@@ -222,7 +221,6 @@
       restrict: 'A',
       link: function(scope, element, attr) {
         attr.$set('src', attr.src + '?nocache=' + Math.floor(Math.random()*1000000).toString());
-        console.log(attr.src);
       }
     }
   }

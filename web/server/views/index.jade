@@ -33,7 +33,7 @@ block content
       focus-on-select="true"
     )
 
-  .player-place(ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)
+  .player-place(class="{{'player-place-' + slider.outerIndex}}" ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)
 
 block context
   script(src='/app/context.js' type='text/javascript')

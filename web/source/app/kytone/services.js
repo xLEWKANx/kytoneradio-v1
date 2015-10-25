@@ -34,9 +34,9 @@
     return service;
 
     function openPost($event, outerIndex, innerIndex, startCoords) {
-      console.log($event.clientX == startCoords.x || outerIndex === 0);
+      
       if ($event.clientX == startCoords.x || outerIndex === 0) {
-        console.log('click');
+
         var post = Posters.get(
           {
             outerIndex: outerIndex,
