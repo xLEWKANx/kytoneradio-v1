@@ -32,11 +32,6 @@ jingles_dir = "#{work_dir}/jingles"
 
 set("server.timeout",300.)
 
-# enable logging
-set("log.file.path", "#{sys_dir}/logs/liquidsoap.log")
-set("log.stdout",true)
-set("log.level", 3)
-
 def apply_metadata(m) =
   title = m["title"]
   artist = m["artist"]

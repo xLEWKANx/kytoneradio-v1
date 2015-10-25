@@ -34,7 +34,7 @@ passport.deserializeUser(function(id, cb) {
 
 // User definition
 User.find({}).exec(function(err, users) {
-  if (users === null) {
+  if (users.lenght === null) {
     User.create({
       username: 'Master',
       password: 'zvuka'
