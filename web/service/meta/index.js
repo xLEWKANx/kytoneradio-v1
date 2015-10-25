@@ -50,7 +50,7 @@ function getDaytime(ms) {
   ms = ms || new Date();
   var hours = new Date(ms).getHours();
 
-  return (hours < 22 && hours >= 7)
+  return (hours < 18 && hours >= 6)
     ? 'day'
     : 'night';
 }

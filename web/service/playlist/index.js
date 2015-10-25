@@ -90,7 +90,7 @@ function reloadPlaylist(req, res, next) {
       res.redirect('/dashboard/playlist/' + daytime);
     })
     .catch(function(err) {
-      logger('error', 'relooad error', error);
+      logger.info('error', 'relooad error', error);
       req.flash('info', 'playlist didn\'t reload');
       res.redirect('/dashboard/playlist/' + daytime);
     });
