@@ -27,7 +27,7 @@ renderer.link = function(href, title, text) {
 };
 
 marked.setOptions({
-  renderer: new marked.Renderer(),
+  renderer: renderer,
   gfm: true,
   tables: true,
   breaks: true,
