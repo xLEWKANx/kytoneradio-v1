@@ -108,16 +108,13 @@
         function activeButton(target) {
           var opposite;
           target === '#play' ? opposite = '#pause' : opposite = '#play';
-          console.log('opposite: ', opposite, 'target: ', target);
           // Activate
           $(target).addClass('animated flipInX');
-          console.log($(target).find('.animate-zone'));
           $(target).find('.animate-zone').each(function(index, el) {
             $(el).attr('class', 'animate-zone player-btn-active');
           });
           // Deactivate
           $(opposite).removeClass('animated flipInX');
-          console.log($(opposite).find('.animate-zone'))
           $(opposite).find('.animate-zone').each(function(index, el) {
             $(el).attr('class', 'animate-zone player-btn');
           });
@@ -136,7 +133,11 @@
           3000,
           10);
         }
-        element.on('loadeddata', function() {
+        element.on('loadstart', function() {
+          console.log('loadstart');
+          scope.stop();
+        })
+        element.on('canplay', function() {
           scope.main.playerStatus = 'Ready';
           scope.stop();
           scope.$apply();
@@ -161,13 +162,20 @@
           element.load();
           scope.$apply();
         });
-
+        element.on('stalled', function() {
+          console.log('stalled');
+        });
+        element.on('durationchange', function() {
+          console.log('durationchange');
+        })
         element.on('suspend', function() {
+          console.log('suspened');
           scope.main.playerStatus = 'Reconnecting...'
           scope.start();
           scope.$apply();
         });
         element.on('ended', function() {
+          console.log('ended');
           scope.main.playerStatus = 'Reconnecting...'
           scope.start();
           scope.$apply();
