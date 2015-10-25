@@ -128,9 +128,6 @@ function next(position, initTime) {
   if (!schedule.loaded) {
     loadPlaylist();
   }
-  console.log('schedule.loaded: ', schedule.loaded);
-  console.log('schedule.first: ', schedule.first);
-  console.log('schedule.track.current: ', track.current);
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
   var daytime = time.getDaytime(scheduleEnd);
 
@@ -161,7 +158,7 @@ function next(position, initTime) {
           logger.log('info', 'day changing during initialization')
           position = 0;
         }
-
+        console.log('check conditions: ', track.current.filename !== schedule.first.filename)
         // if first track had change
         if (track.current.filename !== schedule.first.filename) {
           logger.log('info', 'next track during initialization')
@@ -169,6 +166,9 @@ function next(position, initTime) {
         }
 
         next(position+1, initTime)
+      } else {
+        // Save log
+        logger.log('info', 'playlist initializated', JSON.stringify(schedule.stor, null, 4));
       }
     })
     .catch(console.log)

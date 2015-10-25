@@ -8,7 +8,7 @@ var _night = path.join(_music_dir, './night');
 
 var config = {
   db: {
-    url: 'mongodb://admin:lolka@ds059672.mongolab.com:59672/kytoneradio'
+    url: 'mongodb://localhost/kytoneradio'
   },
   paths: {
     day: _day,
