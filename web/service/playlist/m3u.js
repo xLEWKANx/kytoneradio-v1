@@ -2,6 +2,7 @@ var path = require('path'),
     fs = require('fs'),
     logger = require('../../server/logger/winston.js'),
     _ = require('lodash'),
+    slash = require('slash'),
     config = require('../../server/config');
 
 module.exports = {
@@ -53,7 +54,7 @@ function rebase(files, temp, daytime) {
         reject(err);
       }
       var result = data.toString().split('\n').map(e => {
-        var filename = path.basename(e);
+        var filename = path.basename(slash(e));
         return filename.replace(/\s+$/, "");
       })
       result = _.remove(result, function(n) {
