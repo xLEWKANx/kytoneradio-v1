@@ -1,10 +1,11 @@
 var path = require('path'),
     fs = require('fs'),
     logger = require('../../server/logger/winston.js'),
+    _ = require('lodash'),
     config = require('../../server/config');
 
 module.exports = {
-  create, read
+  create, read, rebase
 }
 
 function create(files, daytime) {
@@ -40,4 +41,36 @@ function read(daytime) {
   });
 
   return promise;
+}
+
+function rebase(files, temp, daytime) {
+  var promise = new Promise(function(resolve, reject) {
+  var trackPath = config.paths.music[daytime];
+  var filenames = files.map(e => {return path.basename(e)})
+    fs.readFile(temp, function(err, data) {
+      if (err) {
+        logger.log('error', 'playlist reading fail', err);
+        reject(err);
+      }
+      var result = data.toString().split('\n').map(e => {
+        var filename = path.basename(e);
+        return filename.replace(/\s+$/, "");
+      })
+      result = _.remove(result, function(n) {
+        return n != '';
+      })
+      if (_.difference(filenames, result).length < 1) {
+        logger.log('data', 'playlist rebased with ', result.length, 'tracks');
+        result = result.map(e => {return path.join(trackPath, e)})
+        resolve(create(result, daytime));
+      } else {
+        logger.info('playlist and files do not match')
+        logger.info(filenames, result)
+        logger.info(_.difference(filenames, result));
+        reject('playlist and files do not match');
+      }
+    });
+
+    return promise;
+  });
 }

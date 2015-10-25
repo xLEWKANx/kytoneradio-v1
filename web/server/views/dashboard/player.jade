@@ -5,10 +5,19 @@ block content
     .panel-heading
       h1=dest.charAt(0).toUpperCase() + dest.slice(1)
       .info-box
+        strong=message
     .panel-body
       .playlist-block
-        button(id=context).set-playlist Set playlist
-        button(id=context).reload-playlist Reaload Playlist
+        form(
+          action="/api/playlist/" + context + "/upload"
+          method="POST"
+          enctype="multipart/form-data"
+        )
+          .form-group
+            input(name="file" type="file" multiple="multiple").upload-file
+            input(name="upload" type="submit").upload-playlist
+            a(href="/api/playlist/" + context + "/set").set-playlist Set playlist
+            a(href="/api/playlist/" + context + "/reload").reload-playlist Reaload Playlist
         .playlist-window
           table.playlist-tracks
             for track in tracks

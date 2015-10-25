@@ -14,6 +14,7 @@ var meta = require('../service/meta');
 var passport = require('../service/meta/passport');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var flash = require('connect-flash');
 
 var app = express();
 
@@ -41,9 +42,9 @@ app.use(cookieParser());
 app.use(session(sessionOpts));
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(express.static(config.paths.public));
 
+app.use(flash());
 app.use('/', routes);
 
 

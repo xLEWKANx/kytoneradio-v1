@@ -11,9 +11,17 @@ var $playlist = require('../../service/playlist'),
     $scheduler = require('../../service/playlist/scheduler');
     $send = require('../../service/playlist/updater').send;
 
+var multer  = require('multer');
+var upload = multer({
+    dest: './service/playlist/temp'
+  }
+);
+
 router.get('/api/playlist/:daytime/set', $playlist.scanList);
 
 router.get('/api/playlist/:daytime/reload', $playlist.reloadPlaylist);
+
+router.post('/api/playlist/:daytime/upload', upload.single('file'), $playlist.uploadPlaylist);
 
 router.get('/api/playlist/next', function(req, res, next) {
   res.send($scheduler.schedule.stor);
@@ -30,7 +38,7 @@ router.post('/api/playlist/liquidsoap', function(req, res, next) {
     $scheduler.schedule.dequeue();
     $scheduler.next(3, Date.parse(req.body.on_air));
     if ($scheduler.track.current.filename !== $scheduler.schedule.first.filename) {
-      console.log('ERRORORORORORORO');
+      $scheduler.loadPlaylist();
     }
     res.end();
   } else {
@@ -39,3 +47,8 @@ router.post('/api/playlist/liquidsoap', function(req, res, next) {
 })
 
 module.exports = router;
+
+function fileFilter(req, file, cb) {
+  console.log(file);
+  cb(null, true);
+}

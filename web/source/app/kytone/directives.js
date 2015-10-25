@@ -7,6 +7,7 @@
     .directive('titleUpdate', titleUpdate)
     .directive('volumeRegulator', volumeRegulator)
     .directive('playerStatus', playerStatus)
+    .directive('socIcon', socIcon)
     .directive('crutch', crutch);
 
   function myPosterPlace() {
@@ -36,7 +37,14 @@
           var elemWidth = angular.element(element)[0].clientWidth;
           var maxWitdh = $('#plPlace')[0].clientWidth;
           if(elemWidth > maxWitdh) {
-            angular.element(element).addClass('track-scroll');
+            angular.element(element).addClass('scroll');
+            $(element).hover(
+              function(el) {
+                angular.element(element).addClass('stop');
+              },
+              function(el) {
+                angular.element(element).removeClass('stop');
+              })
           }
         });
       }
@@ -156,18 +164,12 @@
           console.log('source error: ', error);
         })
         element.on('error', function(error) {
-          scope.main.playerStatus = 'Ups, error';
           console.log('error: ', error);
           console.log(error.target.error);
-          element.load();
+          scope.main.playerStatus = 'Reconnecting...'
+          scope.start();
           scope.$apply();
         });
-        element.on('stalled', function() {
-          console.log('stalled');
-        });
-        element.on('durationchange', function() {
-          console.log('durationchange');
-        })
         element.on('suspend', function() {
           console.log('suspened');
           scope.main.playerStatus = 'Reconnecting...'
@@ -180,6 +182,20 @@
           scope.start();
           scope.$apply();
         });
+      }
+    }
+  }
+
+  function socIcon() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr) {
+        $(element).hover(function(event) {
+         $(this).addClass('animated flipInX');
+         $(this).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+              $(this).removeClass('animated flipInX');
+          });
+      });
       }
     }
   }

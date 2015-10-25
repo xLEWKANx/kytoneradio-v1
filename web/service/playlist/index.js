@@ -14,6 +14,7 @@ var telnet = require('./telnet'),
 module.exports = {
   scanList,
   renderList,
+  uploadPlaylist,
   reloadPlaylist
 }
 
@@ -25,13 +26,15 @@ function scanList(req, res, next) {
       return m3u.create(files, daytime);
     })
     .then(function(meta) {
-      res.send('new playlist with ' + meta.length + ' tracks, please reload');
+      req.flash('info', 'new playlist with ' + meta.length + ' tracks, please reload')
+      res.redirect('/dashboard/playlist/' + daytime);
     })
     .catch(function(err) {
       logger.log('error', 'playlist creation', err);
-      res.send('playlist creation problem (check meta or delete \
-        non-mp3 files)');
-    });
+      req.flash('info', 'playlist creation problem (check meta or delete \
+        non-mp3 files)')
+      res.redirect('/dashboard/playlist/' + daytime);
+    })
 }
 
 function renderList(req, res, next) {
@@ -44,29 +47,52 @@ function renderList(req, res, next) {
         {
           dest: 'Kytone ' + daytime.charAt(0).toUpperCase() + daytime.slice(1),
           context: daytime,
-          tracks: arr
+          tracks: arr,
+          message: req.flash('info')
         })
     })
     .catch(function(err) {
       logger.log('error', 'playlist reading', err);
-      res.send(new Error('playlist reading problem'));
+      req.flash('info', 'playlist reading problem');
+      res.redirect('/dashboard/playlist/' + daytime);
     });
 
 }
+
+function uploadPlaylist(req, res, next) {
+  var daytime = req.params.daytime;
+  var temp = path.join(req.file.destination, req.file.filename);
+
+  scanDir(daytime, temp)
+    .then(function(files) {
+      return m3u.rebase(files, temp, daytime);
+    })
+    .then(function() {
+      fs.unlinkSync(temp);
+    })
+    .catch(function(err) {
+      logger.log('error', 'playlist uploading', err);
+      req.flash('info', 'playlist uploading problem');
+      res.redirect('/dashboard/playlist/' + daytime);
+    });
+
+  res.redirect('/dashboard/playlist/' + daytime)
+}
+
 
 function reloadPlaylist(req, res, next) {
   var daytime = req.params.daytime;
 
   telnet.reload(daytime)
     .then(function() {
-    
       schedule.loadPlaylist();
-
-      res.send(daytime + ' reloaded!');
+      req.flash('info', daytime + ' reloaded!');
+      res.redirect('/dashboard/playlist/' + daytime);
     })
     .catch(function(err) {
       logger('error', 'relooad error', error);
-      res.send('playlist didn\'t reload');
+      req.flash('info', 'playlist didn\'t reload');
+      res.redirect('/dashboard/playlist/' + daytime);
     });
 }
 
@@ -98,4 +124,5 @@ function savetoDB(meta) {
 
   return promise;
 }
+
 
