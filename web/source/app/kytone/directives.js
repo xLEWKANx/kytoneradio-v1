@@ -8,6 +8,7 @@
     .directive('volumeRegulator', volumeRegulator)
     .directive('playerStatus', playerStatus)
     .directive('socIcon', socIcon)
+    .directive('timeUpdate', timeUpdate)
     .directive('crutch', crutch);
 
   function myPosterPlace() {
@@ -193,9 +194,25 @@
         $(element).hover(function(event) {
          $(this).addClass('animated flipInX');
          $(this).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-              $(this).removeClass('animated flipInX');
+            $(this).removeClass('animated flipInX');
           });
       });
+      }
+    }
+  }
+
+  function timeUpdate($interval) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr) {
+        $interval(function() {
+          var date = new Date();
+          var timezone = date.getTimezoneOffset() / 60
+          console.log(date.toString());
+          angular.element(element).text(
+            date.toTimeString().slice(0, 5) +
+            ' KYIV (' + '+'+ -timezone + ' GMT)');
+        }, 1000 * 60)
       }
     }
   }
