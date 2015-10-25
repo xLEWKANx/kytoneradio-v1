@@ -32,5 +32,18 @@ passport.deserializeUser(function(id, cb) {
 });
 
 
+// User definition
+User.find({}).exec(function(err, users) {
+  if (users === null) {
+    User.create({
+      username: 'Master',
+      password: 'zvuka'
+    }, function(err) {
+      if (err) console.log(err);
+      logger.info('user saved!');
+    })
+  }
+})
+
 module.exports = passport;
 
