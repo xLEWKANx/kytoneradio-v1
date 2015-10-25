@@ -104,6 +104,24 @@
     return {
       restrict: 'A',
       link: function(scope, element, attr) {
+
+        function activeButton(target) {
+          var opposite;
+          target === '#play' ? opposite = '#pause' : opposite = '#play';
+          console.log('opposite: ', opposite, 'target: ', target);
+          // Activate
+          $(target).addClass('animated flipInX');
+          console.log($(target).find('.animate-zone'));
+          $(target).find('.animate-zone').each(function(index, el) {
+            $(el).attr('class', 'animate-zone player-btn-active');
+          });
+          // Deactivate
+          $(opposite).removeClass('animated flipInX');
+          console.log($(opposite).find('.animate-zone'))
+          $(opposite).find('.animate-zone').each(function(index, el) {
+            $(el).attr('class', 'animate-zone player-btn');
+          });
+        }
         var reconnect;
 
         scope.stop = function() {
@@ -124,10 +142,12 @@
           scope.$apply();
         });
         element.on('pause', function() {
+          activeButton('#pause');
           scope.main.playerStatus = 'Paused';
           scope.$apply();
         });
         element.on('playing', function() {
+          activeButton('#play');
           scope.main.playerStatus = 'Playing';
           scope.$apply();
         });

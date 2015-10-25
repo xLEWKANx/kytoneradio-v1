@@ -91,22 +91,33 @@ button:focus, div:focus, img:focus {
 }
 
 @keyframes scroll {
-    0% {
-      transform: translate(0, 0)
-    }
-    20% {
-      transform: translate(0, 0)
-    }
-    70% {
-      transform: translate(-50%, 0)
-    }
-    100% {
-      transform: translate(0, 0)
-    }
+  0% {
+    transform: translate(0, 0)
+  }
+  20% {
+    transform: translate(0, 0)
+  }
+  70% {
+    transform: translate(-50%, 0)
+  }
+  100% {
+    transform: translate(0, 0)
+  }
 }
 
 /* The element to apply the animation to */
 .track-scroll {
-    animation: scroll 30s infinite;
-    animation-direction: alternate;
+  animation: scroll 30s infinite;
+  animation-direction: alternate;
+}
+
+/* Player animation */
+
+
+.player-btn-active {
+  fill: #000;
+}
+
+.player-btn {
+  fill: #fff;
 }
