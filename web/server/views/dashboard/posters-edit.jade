@@ -51,6 +51,6 @@ block content
                 style='resize: virtical;'
               )=poster.content
               if (poster_id !== '/dashboard/posters')
-                .btn-group.pull-right
-                  form(action=poster_id+'/remove', method='post')
-                    button.btn.btn-danger(type='submit') Delete
+      form(action=poster_id+'/remove', method='post')
+        .btn-group.pull-right
+          input.btn.btn-danger(type='submit' value="Delete")
