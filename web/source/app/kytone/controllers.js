@@ -24,6 +24,8 @@
       else
         document.getElementById('player').pause();
     }
+
+
   }
 
   function postersCtrl($scope, Posters, postFunc){
@@ -47,6 +49,12 @@
     vm.getContent = postFunc.getHtmlContent;
     vm.isOpened = postFunc.isOpened;
     vm.closePost = postFunc.closePost;
+    vm.openPost = postFunc.openPost
+    vm.startCoords = {}
+    vm.writeCoords = function(x) {
+      vm.startCoords.x = x.clientX
+      vm.startCoords.y = x.clientY
+    }
   }
 
   function scheduleCtrl($scope, socket, Schedule) {

@@ -11,7 +11,7 @@
             include ../svg/icons/facebook.svg
           a.soc-icon.icon-y(href='#' soc-icon)
             include ../svg/icons/youtube.svg
-          a.soc-icon.icon-m(href='#' soc-icon)
+          a.soc-icon.icon-m(ng-click="post.openPost($event, 0, 0, post.startCoords);"  soc-icon)
             include ../svg/icons/mistery.svg
       tr.top-center-row
         td.border-bottom

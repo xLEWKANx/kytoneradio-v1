@@ -136,7 +136,7 @@
 
         scope.start = function() {
           reconnect = $interval(function() {
-            console.log('reconncecting');
+            console.log('reconncect');
             element.load();
           },
           3000,
@@ -153,12 +153,12 @@
         });
         element.on('pause', function() {
           activeButton('#pause');
-          scope.main.playerStatus = 'Paused';
+          scope.main.playerStatus = 'Pause';
           scope.$apply();
         });
         element.on('playing', function() {
           activeButton('#play');
-          scope.main.playerStatus = 'Playing';
+          scope.main.playerStatus = 'Play';
           scope.$apply();
         });
         angular.element(element).children().on('error', function(error) {
