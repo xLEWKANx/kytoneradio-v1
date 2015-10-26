@@ -49,8 +49,9 @@
               lastScrollTop = $(window).scrollTop();
               $(window).scrollTop(0);
             } else if ($event.type === 'touchend' && !post[0].local) {
-              console.log($event);
-
+              console.log(postData.currentPost);
+              console.log($event.type === 'touchend' && !post[0].local);
+              $window.open(postData.currentPost.outerUrl, '_blank');
             }
           }
         );
