@@ -46,7 +46,6 @@
         $timeout( function() {
           var elemWidth = angular.element(element)[0].clientWidth;
           var maxWitdh = $('#plPlace')[0].clientWidth - $('.track-time')[0].clientWidth;
-          console.log(elemWidth, maxWitdh);
           if(elemWidth > maxWitdh) {
             angular.element(element).addClass('scroll');
             $(element).hover(
