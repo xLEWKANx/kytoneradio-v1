@@ -1,14 +1,12 @@
-div#cliclable(
+.slide#cliclable(
   ng-repeat="poster in this.posters.postersArr"
-  ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)"
   my-poster-place
   ng-mousedown="posters.writeCoords($event)"
-
   )
   a(
-    ng-touch="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)"
-    nf-if="poster.local" ng-href="{{poster.outerUrl}}" target="_blank")
-    img(ng-src="{{poster.pictureUrl}}")
+    nf-if="poster.local" ng-href="{{poster.outerUrl}}" target="_blank" rel="external"
+    class="poster-link")
+    img(ng-src="{{poster.pictureUrl}}" ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)")
 
 
 

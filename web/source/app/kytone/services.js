@@ -23,7 +23,7 @@
     return postData;
   }
 
-  function postFunc(Posters, postData, $location){
+  function postFunc(Posters, postData, $window){
     var service = {
       openPost: openPost,
       closePost: closePost,
@@ -34,8 +34,7 @@
     return service;
 
     function openPost($event, outerIndex, innerIndex, startCoords) {
-      
-      if ($event.clientX == startCoords.x || outerIndex === 0) {
+      if ($event.clientX == startCoords.x || outerIndex === 0  || $event.type === 'touchend') {
 
         var post = Posters.get(
           {
@@ -44,17 +43,18 @@
           },
           function() {
             postData.currentPost = post[0];
-            if (post[0].local){
+            if (post[0].local) {
               postData.postOpened = true;
               // lock scrolling and view
               lastScrollTop = $(window).scrollTop();
               $(window).scrollTop(0);
-            } else {
-              $location.path = post[0].outerUrl;
+            } else if ($event.type === 'touchend' && !post[0].local) {
+              console.log($event);
+
             }
           }
         );
-      }
+      };
     }
 
     function getHtmlContent(){
