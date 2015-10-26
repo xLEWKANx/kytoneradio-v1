@@ -36,7 +36,7 @@ router.post('/api/playlist/liquidsoap', function(req, res, next) {
   if (/m3u$/.test(req.body.source)) {
     $scheduler.track.current = req.body;
     $scheduler.schedule.dequeue();
-    $scheduler.next(3, Date.parse(req.body.on_air));
+    $scheduler.next(4, Date.parse(req.body.on_air));
     if ($scheduler.track.current.filename !== $scheduler.schedule.first.filename) {
       $scheduler.loadPlaylist();
     }

@@ -29,7 +29,6 @@
       },
       link: function(scope, element, attr) {
         angular.element(element).on('load', function() {
-          console.log('loaded!');
           scope.poster.count -= 1;
           if (scope.$parent.$parent.posters.count === -10) {
             $(element).closest('slick').slick('slickNext').removeClass('hidden');
@@ -46,7 +45,8 @@
       link: function(scope, element, attr) {
         $timeout( function() {
           var elemWidth = angular.element(element)[0].clientWidth;
-          var maxWitdh = $('#plPlace')[0].clientWidth;
+          var maxWitdh = $('#plPlace')[0].clientWidth - $('.track-time')[0].clientWidth;
+          console.log(elemWidth, maxWitdh);
           if(elemWidth > maxWitdh) {
             angular.element(element).addClass('scroll');
             $(element).hover(

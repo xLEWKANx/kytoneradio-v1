@@ -124,7 +124,6 @@ button:focus, div:focus, img:focus, a:focus {
 }
 .scroll-left  {
   .scroll {
-    position: absolute;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -139,11 +138,24 @@ button:focus, div:focus, img:focus, a:focus {
   @keyframes scroll-left {
 
     0% {
+      transform: translateX(0%);
+    }
+
+    50% {
+      transform: translateX(-100%);
+      visibility: hidden;
+    }
+
+    51% {
       transform: translateX(100%);
+      visibility: hidden;
+    }
+    52% {
+      visibility: visible;
     }
 
     100% {
-      transform: translateX(-100%);
+      transform: translateX(0%);
     }
   }
 

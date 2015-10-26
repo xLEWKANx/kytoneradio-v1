@@ -4,8 +4,8 @@ garbage_collect()
 
 out = output.icecast(
 
-  host = "central-srv.p-s.org.ua",
-  port = 15002,
+  host = "localhost",
+  port = 8000,
 
   user = "source",
   password = "kytone",

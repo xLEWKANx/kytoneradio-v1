@@ -38,7 +38,7 @@
       tr
         td(colspan="2").playlist-section#plPlace
           table#playlist.playlist-table
-            tr.playlist-track(ng-repeat="track in schedule.next")
+            tr.playlist-track(ng-repeat="track in schedule.next | reverse")
               td.track-time {{track.fTime}}
               td.track-title.scroll-left
                 div(scroll) {{track.artist}} - {{track.title}}

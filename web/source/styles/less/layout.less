@@ -147,29 +147,28 @@ body {
 // Labels
 
 .sponsor-row {
-
+  margin: 0 auto;
   height: 10%;
-  width: 100%;
+  width: 90%;
   display: table;
   table-layout: fixed;
   text-align: center;
   background-color: white;
-
+  position: relative;
   &.fixed{
     position: fixed;
     top: 90%;
   }
 
   .sponsor-list {
-    display: table-cell;
     vertical-align: middle;
-    position: relative;
+    padding: 0;
   }
 
   .sponsor-list li {
     display: inline-block;
     vertical-align: middle;
-    margin: 0 4em;
+    margin: 0 2.5em;
 
   }
 
@@ -177,18 +176,22 @@ body {
     height: 50px;
   }
 
-  .copyright {
-    position: relative;
-    right: 2.5%;
-    top: 50%;
-    padding-right: 0!important;
-  }
 }
 .sponsor-row-place{
   height: 10%;
   max-width: 100%;
   display: table;
 }
+  .copyright {
+    position: absolute;
+    right: 0%;
+    bottom: 0%;
+    padding-right: 0;
+
+    img {
+      height: 17px;
+    }
+  }
 // Post
 
 .post-left {

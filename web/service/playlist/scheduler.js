@@ -149,7 +149,7 @@ function next(position, initTime) {
       schedule.setTime(initTime);
     })
     .then(function() {
-      if (schedule.stor.length != 5) {
+      if (schedule.stor.length != 6) {
         var newScheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
         //recursive add tracks to related date
 
