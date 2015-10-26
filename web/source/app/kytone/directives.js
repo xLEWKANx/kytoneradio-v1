@@ -3,6 +3,7 @@
 
   angular.module('kytoneApp')
     .directive('myPosterPlace', myPosterPlace)
+    .directive('imgReady', imgReady)
     .directive('scroll', scroll)
     .directive('titleUpdate', titleUpdate)
     .directive('volumeRegulator', volumeRegulator)
@@ -17,16 +18,25 @@
       if (scope.$last) {
         scope.$parent.elemReady = true;
       }
-      angular.element(element).find('img').on('load', function() {
-        scope.$parent.$parent.posters.count -= 1;
-        if (scope.$parent.$parent.posters.count === -10) {
-          var dir = scope.$parent.$parent.$parent.$odd ? 'slickNext' : 'slickPrev'
-          $(angular.element(element).parent().parent().parent()).slick(dir);
-          angular.element(element).parent().parent().parent().removeClass('hidden');
-        }
-      });
-    
     };
+  }
+
+  function imgReady() {
+    return {
+      restrict: 'A',
+      scope: {
+        poster: '='
+      },
+      link: function(scope, element, attr) {
+        angular.element(element).on('load', function() {
+          console.log('loaded!');
+          scope.poster.count -= 1;
+          if (scope.$parent.$parent.posters.count === -10) {
+            $(element).closest('slick').slick('slickNext').removeClass('hidden');
+          }
+        });
+      }
+    }
   }
 
   function scroll($timeout) {

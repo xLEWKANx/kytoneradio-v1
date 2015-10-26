@@ -4,10 +4,22 @@
   ng-mousedown="posters.writeCoords($event)"
   )
   a(
-    nf-if="poster.local" ng-href="{{poster.outerUrl}}" target="_blank" rel="external"
+    ng-if="poster.local"
     class="poster-link")
-    img(ng-src="{{poster.pictureUrl}}" ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)")
-
+    img(
+      ng-src="{{poster.pictureUrl}}"
+      ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)"
+      img-ready
+      poster="this.posters"
+    )
+  a(
+    ng-if="!poster.local" ng-href="{{poster.outerUrl}}" target="_blank" rel="external"
+    class="poster-link")
+    img(
+      ng-src="{{poster.pictureUrl}}"
+      img-ready
+      poster="this.posters"
+    )
 
 
 
