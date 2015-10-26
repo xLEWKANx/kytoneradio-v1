@@ -118,10 +118,7 @@ gulp.task('develop', function () {
     })
 })
 
-gulp.task('build',['styles','app', 'app:lib','views','img','misc', 'fonts'],
-  function(){
-  gulp.start('develop');
-})
+gulp.task('build',['styles','app', 'app:lib','views','img','misc', 'fonts'])
 
 gulp.task('default', function(){
   console.log('paths',_paths)
