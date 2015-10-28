@@ -122,7 +122,7 @@ gulp.task('build',['styles','app', 'app:lib','views','img','misc', 'fonts'])
 
 gulp.task('default', function(){
   console.log('paths',_paths)
-  gulp.start('build','watch');
+  gulp.start('build', 'watch', 'develop');
   return
 })
 

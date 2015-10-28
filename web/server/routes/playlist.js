@@ -33,16 +33,20 @@ router.get('/api/playlist/current', function(req, res, next) {
 
 router.post('/api/playlist/liquidsoap', function(req, res, next) {
   console.log('is source', /m3u$/.test(req.body.source))
-  if (/m3u$/.test(req.body.source)) {
-    $scheduler.track.current = req.body;
-    $scheduler.schedule.dequeue();
-    $scheduler.next(4, Date.parse(req.body.on_air));
-    if ($scheduler.track.current.filename !== $scheduler.schedule.first.filename) {
-      $scheduler.loadPlaylist();
+  try {
+    if (/m3u$/.test(req.body.source)) {
+      $scheduler.track.current = req.body;
+      $scheduler.schedule.dequeue();
+      $scheduler.next(Date.parse(req.body.on_air));
+      if ($scheduler.track.current.filename !== $scheduler.schedule.first.filename) {
+        $scheduler.loadPlaylist();
+      }
+      res.end();
+    } else {
+      res.end();
     }
-    res.end();
-  } else {
-    res.end();
+  } catch (error) {
+    throw error;
   }
 })
 

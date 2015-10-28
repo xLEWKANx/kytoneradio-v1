@@ -66,21 +66,25 @@ class Storage {
   constructor() {
     this.daylist = {};
     this.nightlist = {};
+    this.lastDaytime = null;
+    this.position = 0;
   }
-  set nextDay(obj) {
-    this.daylist = obj;
-  }
-  set nextNight(obj) {
-    this.nightlist = obj;
-  }
-  get nextDay() {
-    return this.daylist;
-  }
-  get nextNight() {
-    return this.nightlist;
-  }
-  get playing() {
-    return this.nightlist.playing || this.daylist.playing;
+  set nextDay(obj) { this.daylist = obj; }
+  set nextNight(obj) { this.nightlist = obj; }
+
+  get playing() { return this.nightlist.playing || this.daylist.playing; }
+
+  next(daytime) {
+    daytime === this.lastDaytime ? ++this.position : this.position = 0;
+    this.lastDaytime = daytime;
+    
+    if (daytime === 'day') {
+      return this.daylist.list[this.position];
+    } else if (daytime === 'night') {
+      return this.nightlist.list[this.position];
+    } else {
+      throw error;
+    }
   }
 }
 var storage = new Storage();
@@ -104,7 +108,6 @@ function loadPlaylist() {
     return init('night');
   })
   .then(function() {
-
     return getMetadata(storage.playing);
   })
   .then(function(metadata) {
@@ -116,7 +119,7 @@ function loadPlaylist() {
     logger.log('info', 'schedule initializated with', metadata.artist, ' - ', metadata.title);
   })
   .then(function() {
-    next(0, time.serverTime());
+    next(time.serverTime());
   })
   .catch(function(err) {
     logger.log('error', 'cannot initializate schedule', err);
@@ -124,62 +127,41 @@ function loadPlaylist() {
 
 }
 
-function next(position, initTime) {
+function next(initTime) {
   if (!schedule.loaded) {
     loadPlaylist();
   }
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
-  var daytime = time.getDaytime(scheduleEnd);
+  var nextDaytime = time.getDaytime(scheduleEnd);
 
-  init(daytime)
+  init(nextDaytime)
     .then(function() {
-      if (daytime === 'day') {
-        console.log(storage.nextDay);
-        return storage.nextDay.list[position];
-      }
-      else if (daytime === 'night') {
-        console.log(storage.nextNight);
-        return storage.nextNight.list[position];
-      }
+      return storage.next(nextDaytime);
     })
     .then(getMetadata)
     .then(function(metadata) {
       schedule.enqueue(metadata);
-      logger.log('info', metadata.artist, ' - ', metadata.title, ' added');
       schedule.setTime(initTime);
+      logger.log('info', metadata.artist, ' - ', metadata.title, ' added');
     })
     .then(function() {
       if (schedule.stor.length != 6) {
-        var newScheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
-        //recursive add tracks to related date
-
-        // if daytime had change
-        if (daytime !== time.getDaytime(newScheduleEnd)) {
-          logger.log('info', 'day changing during initialization')
-          position = 0;
-        }
-        console.log('check conditions: ', track.current.filename !== schedule.first.filename)
-        // if first track had change
-        if (track.current.filename !== schedule.first.filename) {
-          logger.log('info', 'next track during initialization')
-          position -= 1;
-        }
-
-        next(position+1, initTime)
+        next(initTime);
       } else {
-        // Save log
         logger.log('info', 'playlist initializated', JSON.stringify(schedule.stor, null, 4));
       }
     })
-    .catch(console.log)
+    .catch(function(err) {
+      logger.log('next playlist error', err);
+    })
 }
 
 
 // Private methods
 
-function getMetadata(file, index) {
+function getMetadata(file) {
   var daytime = path.basename(path.resolve(file, '../..'));
-
+  console.log(file);
   var promise = new Promise(function(resolve, reject) {
     var stream = fs.createReadStream(file);
 

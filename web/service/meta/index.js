@@ -1,4 +1,6 @@
 'use strict'
+var logger = require('../../server/logger/winston');
+
 class fDate {
   constructor (number) {
     this.year = new Date(number).getFullYear();
@@ -47,12 +49,15 @@ function viewTime() {
 }
 
 function getDaytime(ms) {
-  ms = ms || new Date();
+  ms = ms || new Date().getTime();
+  if (typeof ms !== 'number' ) {
+    logger.log('error', 'trying to get wrong date');
+  } else {
   var hours = new Date(ms).getHours();
-
-  return (hours < 18 && hours >= 6)
-    ? 'day'
-    : 'night';
+      return (hours < 18 && hours >= 6)
+      ? 'day'
+      : 'night';
+  }
 }
 
 function serverTime() {

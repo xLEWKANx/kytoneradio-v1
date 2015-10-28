@@ -82,7 +82,7 @@ night = rotate (weights = [1, 2], [jingles, music_night])
 live_stream = strip_blank(input.http("http://central-srv.p-s.org.ua:15002/live"))
 
 # schedule
-scheduled_stream = switch([ ({22h-7h}, night), ({7h-22h}, day) ])
+scheduled_stream = switch([ ({18h-6h}, night), ({6h-18h}, day) ])
 
 # stable cast
 stable_stream = stable;
