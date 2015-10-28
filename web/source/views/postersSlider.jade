@@ -4,11 +4,11 @@ div(
   ng-mousedown="posters.writeCoords($event)"
   )
   a(
+    ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)"
     ng-if="poster.local"
     class="poster-link")
     img(
       ng-src="{{poster.pictureUrl}}"
-      ng-click="posters.openPost($event, poster.outerIndex, poster.innerIndex, posters.startCoords)"
       img-ready
       poster="this.posters"
     )

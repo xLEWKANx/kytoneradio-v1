@@ -23,7 +23,7 @@
     return postData;
   }
 
-  function postFunc(Posters, postData, $window){
+  function postFunc(Posters, postData, $window, $timeout){
     var service = {
       openPost: openPost,
       closePost: closePost,
@@ -45,9 +45,15 @@
             postData.currentPost = post[0];
             if (post[0].local) {
               postData.postOpened = true;
-              // lock scrolling and view
+              $event.preventDefault();
+              $event.stopPropagation();
+              $event.cancelBubble = true;
+              $event.returnValue = false;
+              console.log($event);
               lastScrollTop = $(window).scrollTop();
-              $(window).scrollTop(0);
+              $timeout(function() {
+                window.scrollTo(0, 0);
+              }, 10)
             } else if ($event.type === 'touchend' && !post[0].local) {
               console.log($event);
 
