@@ -1,5 +1,5 @@
-.slide#cliclable(
-  ng-repeat="poster in this.posters.postersArr"
+div(
+  ng-repeat="poster in this.posters.postersArr | orderBy: '+innerIndex'"
   my-poster-place
   ng-mousedown="posters.writeCoords($event)"
   )
