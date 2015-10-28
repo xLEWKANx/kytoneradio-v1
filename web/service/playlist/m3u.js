@@ -36,7 +36,6 @@ function read(daytime) {
         reject(err);
       }
       var result = data.toString().split('\n');
-      logger.log('data', 'playlist read with ', result.length, 'tracks');
       resolve(result);
     });
   });

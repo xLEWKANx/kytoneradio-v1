@@ -39,6 +39,7 @@ router.post('/api/playlist/liquidsoap', function(req, res, next) {
       $scheduler.schedule.dequeue();
       $scheduler.next(Date.parse(req.body.on_air));
       if ($scheduler.track.current.filename !== $scheduler.schedule.first.filename) {
+        logger.log('error', 'schedule was not accurate, reload');
         $scheduler.loadPlaylist();
       }
       res.end();

@@ -116,13 +116,4 @@ function scanDir(daytime) {
   return promise;
 }
 
-function savetoDB(meta) {
-  var track = new Track(meta);
-  var promise = track.save(meta, function(err) {
-    if (err) logger.log('error', 'save meta err: ', err);
-  });
-
-  return promise;
-}
-
 

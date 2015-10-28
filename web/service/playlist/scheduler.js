@@ -145,14 +145,14 @@ function next(initTime) {
       logger.log('info', metadata.artist, ' - ', metadata.title, ' added');
     })
     .then(function() {
-      if (schedule.stor.length != 6) {
+      if (schedule.stor.length < 6) {
         next(initTime);
       } else {
         logger.log('info', 'playlist initializated', JSON.stringify(schedule.stor, null, 4));
       }
     })
     .catch(function(err) {
-      logger.log('next playlist error', err);
+      logger.log('error', 'next playlist error', err);
     })
 }
 
@@ -161,17 +161,37 @@ function next(initTime) {
 
 function getMetadata(file) {
   var daytime = path.basename(path.resolve(file, '../..'));
-  console.log(file);
   var promise = new Promise(function(resolve, reject) {
     var stream = fs.createReadStream(file);
 
     stream.on('error', function(err) {
-      reject(err);
+      logger.log('error', 'stream error', err);
+        var info = {
+          filename: file,
+          artist: 'no meta',
+          title: 'no meta',
+          duration: 0,
+          startsTime: null,
+          daytime: daytime,
+          fTime: null,
+          isEvent: false
+        }
+        resolve(info);
     });
     mm(stream, {duration: true}, function (err, metadata) {
       if (err) {
-        logger.log('error', 'cannot read ', file);
-        reject(err);
+        logger.log('error', 'cannot read ', file, err);
+        var info = {
+          filename: file,
+          artist: 'no meta',
+          title: 'no meta',
+          duration: 0,
+          startsTime: null,
+          daytime: daytime,
+          fTime: null,
+          isEvent: false
+        }
+        resolve(info);
       } else {
         var info = {
           filename: file,

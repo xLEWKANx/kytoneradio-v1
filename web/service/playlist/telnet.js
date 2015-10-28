@@ -42,7 +42,7 @@ function nextTracks(playlist) {
     var cmd = playlist + '.next';
     connection.exec(cmd, function(response){
 
-      if (!!(response.indexOf('ERROR') + 1)) {
+      if (!!(response.indexOf('ERROR') + 1) || (response.indexOf('time out') + 1)) {
         logger.log('error', 'telnet next tracks error!');
         reject('telnet next track exucation error');
       }
@@ -62,7 +62,6 @@ function nextTracks(playlist) {
           return;
         }
       });
-      logger.log('info', 'telnet got next tracks');
       connection.end();
       resolve(result);
     })
