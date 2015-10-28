@@ -29,11 +29,18 @@ block content
                   label.control-label(for='outerUrl') Outer URL
                   input#outerUrl.form-control(name='outerUrl', type='text', placeholder='http://url.com/', value=poster.outerUrl)
                 .form-group
-                  input#local-0(type='radio', name='local', value="true")
-                  | Local
-                  <br />
-                  input#local-0(type='radio', name='local' value="false")
-                  | Outer
+                  if (poster.local)
+                    input#local-0(type='radio', name='local', value="true" checked)
+                    | Local
+                    <br />
+                    input#local-0(type='radio', name='local' value="false")
+                    | Outer
+                  else
+                    input#local-0(type='radio', name='local', value="true")
+                    | Local
+                    <br />
+                    input#local-0(type='radio', name='local' value="false" checked)
+                    | Outer
                 .form-group
                   .btn-group
                     button#savebtn.btn.btn-primary( type='submit') Save

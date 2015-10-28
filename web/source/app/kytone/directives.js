@@ -30,7 +30,8 @@
       link: function(scope, element, attr) {
         angular.element(element).on('load', function() {
           scope.poster.count -= 1;
-          if (scope.$parent.$parent.posters.count === -10) {
+          console.log(scope.poster.count);
+          if (scope.poster.count === -8) {
             $(element).closest('slick').slick('slickNext').removeClass('hidden');
           }
         });
@@ -224,6 +225,7 @@
       }
     }
   }
+
 
   function crutch() {
     return {

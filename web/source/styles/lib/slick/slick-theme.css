@@ -27,13 +27,13 @@
 
     display: block;
 
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
     margin-top: -10px;
     padding: 0;
 
     cursor: pointer;
-
+    z-index: 10;
     color: transparent;
     border: none;
     outline: none;
@@ -65,10 +65,10 @@
 .slick-next:before
 {
     font-family: 'slick';
-    font-size: 20px;
+    font-size: 32px;
     line-height: 1;
 
-    opacity: .75;
+    opacity: 1;
     color: white;
 
     -webkit-font-smoothing: antialiased;
@@ -77,11 +77,11 @@
 
 .slick-prev
 {
-    left: -25px;
+    left: 15px;
 }
 [dir='rtl'] .slick-prev
 {
-    right: -25px;
+    right: -32px;
     left: auto;
 }
 .slick-prev:before
@@ -95,12 +95,12 @@
 
 .slick-next
 {
-    right: -25px;
+    right: 15px;
 }
 [dir='rtl'] .slick-next
 {
     right: auto;
-    left: -25px;
+    left: -32px;
 }
 .slick-next:before
 {

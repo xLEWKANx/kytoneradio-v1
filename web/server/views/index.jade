@@ -14,24 +14,21 @@ block content
       .rect5
     slick(
       ng-controller="postersCtrl as posters"
-      arrows = "false"
+      arrows = "true"
       center-mode="true"
       class="slick-slider hidden"
       infinite="true"
       init-onload="true"
       data="elemReady"
-      slides-to-show="4"
+      slides-to-show="3"
       slides-to-scroll="1"
       speed="{{slider.speed}}"
       autoplay="false"
       variable-width="true"
       ng-show="true"
       ng-include="'views/postersSlider.html'"
-      draggable="true"
-      edge-friction="0.01"
-      mobile-first="true"
+      draggable="false"
       focus-on-select="true"
-      swipe-to-slide="true"
     )
 
   .player-place(class="{{'player-place-' + slider.outerIndex}}" ng-show="{{slider.playerPlaceShow}}" ng-repeat-end)
