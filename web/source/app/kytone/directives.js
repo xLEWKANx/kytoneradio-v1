@@ -30,8 +30,7 @@
       link: function(scope, element, attr) {
         angular.element(element).on('load', function() {
           scope.poster.count -= 1;
-          console.log(scope.poster.count);
-          if (scope.poster.count === -8) {
+          if (scope.poster.count === -6) {
             $(element).closest('slick').slick('slickNext').removeClass('hidden');
           }
         });
