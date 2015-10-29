@@ -71,16 +71,21 @@ class Storage {
   }
   set nextDay(obj) { this.daylist = obj; }
   set nextNight(obj) { this.nightlist = obj; }
-
   get playing() { return this.nightlist.playing || this.daylist.playing; }
 
+  resetCounter() { this.position = 0; this.lastDaytime = null; }
   next(daytime) {
     daytime === this.lastDaytime ? ++this.position : this.position = 0;
     this.lastDaytime = daytime;
-    
+    if (this.position > 5) {
+      this.position = 5;
+    }
     if (daytime === 'day') {
+
+      logger.log('info', 'next track extracted '+ this.daylist.list[this.position] + ' ' + this.position);
       return this.daylist.list[this.position];
     } else if (daytime === 'night') {
+      logger.log('info', 'next track extracted '+ this.nightlist.list[this.position] + ' ' + this.position);
       return this.nightlist.list[this.position];
     } else {
       throw error;
@@ -97,7 +102,8 @@ module.exports = {
 };
 
 function loadPlaylist() {
-
+  schedule.loaded = false;
+  storage.resetCounter();
   var promise = new Promise(function(resolve) {resolve(null)});
   
   promise
@@ -133,13 +139,15 @@ function next(initTime) {
   }
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
   var nextDaytime = time.getDaytime(scheduleEnd);
-
+  console.log(nextDaytime);
   init(nextDaytime)
     .then(function() {
-      return storage.next(nextDaytime);
+      var next = storage.next(nextDaytime)
+      console.log(next);
+      return next;
     })
     .then(getMetadata)
-    .then(function(metadata) {
+    .then(function(metadata) {``
       schedule.enqueue(metadata);
       schedule.setTime(initTime);
       logger.log('info', metadata.artist, ' - ', metadata.title, ' added');
@@ -160,6 +168,7 @@ function next(initTime) {
 // Private methods
 
 function getMetadata(file) {
+
   var daytime = path.basename(path.resolve(file, '../..'));
   var promise = new Promise(function(resolve, reject) {
     var stream = fs.createReadStream(file);

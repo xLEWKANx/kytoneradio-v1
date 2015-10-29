@@ -70,7 +70,7 @@ function onListening() {
     "┌───── \u001b[32mconfig\u001b[39m ──────\n" + logConfig(config) + "└───────────────────"
   );
 
-  logger.info('Listening on %s port', bind);
+  logger.info('Listening on %s port ' + new Date(), bind);
 }
 
 
