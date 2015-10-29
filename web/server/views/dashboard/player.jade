@@ -5,7 +5,11 @@ block content
     .panel-heading
       h1=dest.charAt(0).toUpperCase() + dest.slice(1)
       .info-box
-        strong=message
+        if message.length
+          strong=message
+        else
+          strong Bold track - is playing or ready, depends on current daytime -
+          | Please do not delete it
     .panel-body
       .playlist-block
         form(
@@ -20,7 +24,12 @@ block content
             a(href="/api/playlist/" + context + "/reload").reload-playlist Reaload Playlist
         .playlist-window
           table.playlist-tracks
-            for track in tracks
-              ul
-                li= track
+            ol
+              for track in tracks
+                if (track === ready || track === playing)
+                  li
+                    strong= track
+                else
+                  li= track
+
 

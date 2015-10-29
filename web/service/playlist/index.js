@@ -39,8 +39,9 @@ function scanList(req, res, next) {
 
 function renderList(req, res, next) {
   var daytime = req.params.daytime;
-  
-  m3u.read(daytime)
+  var involved = schedule.storage;
+
+  m3u.read(daytime, involved)
     .then(function(arr) {
       res.render(
         'dashboard/player',
@@ -48,6 +49,8 @@ function renderList(req, res, next) {
           dest: 'Kytone ' + daytime.charAt(0).toUpperCase() + daytime.slice(1),
           context: daytime,
           tracks: arr,
+          ready: involved.ready,
+          playing: involved.playing,
           message: req.flash('info')
         })
     })
@@ -95,6 +98,7 @@ function reloadPlaylist(req, res, next) {
       res.redirect('/dashboard/playlist/' + daytime);
     });
 }
+
 
 // Private methods
 

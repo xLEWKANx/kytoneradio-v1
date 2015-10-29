@@ -72,6 +72,7 @@ class Storage {
   set nextDay(obj) { this.daylist = obj; }
   set nextNight(obj) { this.nightlist = obj; }
   get playing() { return this.nightlist.playing || this.daylist.playing; }
+  get ready() { return this.nightlist.ready || this.daylist.ready; }
 
   resetCounter() { this.position = 0; this.lastDaytime = null; }
   next(daytime) {
@@ -98,7 +99,8 @@ module.exports = {
   loadPlaylist,
   next,
   track,
-  schedule
+  schedule,
+  storage
 };
 
 function loadPlaylist() {

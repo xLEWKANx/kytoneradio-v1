@@ -23,6 +23,7 @@ router.get('/api/playlist/:daytime/reload', $playlist.reloadPlaylist);
 
 router.post('/api/playlist/:daytime/upload', upload.single('file'), $playlist.uploadPlaylist);
 
+
 router.get('/api/playlist/next', function(req, res, next) {
   res.send($scheduler.schedule.stor);
 });
