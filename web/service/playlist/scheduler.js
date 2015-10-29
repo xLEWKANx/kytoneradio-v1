@@ -72,14 +72,22 @@ class Storage {
   set nextDay(obj) { this.daylist = obj; }
   set nextNight(obj) { this.nightlist = obj; }
   get playing() { return this.nightlist.playing || this.daylist.playing; }
-  get ready() { return this.nightlist.ready || this.daylist.ready; }
+  get ready() {
+    if (time.getDaytime() === 'day')
+      return this.nightlist.ready;
+    else if (time.getDaytime() === 'night') {
+      return this.daylist.ready;
+    }
+    else
+      return null;
+  }
 
   resetCounter() { this.position = 0; this.lastDaytime = null; }
   next(daytime) {
     daytime === this.lastDaytime ? ++this.position : this.position = 0;
     this.lastDaytime = daytime;
-    if (this.position > 5) {
-      this.position = 5;
+    if (this.position > 4) {
+      this.position = 4;
     }
     if (daytime === 'day') {
 

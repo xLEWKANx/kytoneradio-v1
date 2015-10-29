@@ -18,7 +18,7 @@ block content
           enctype="multipart/form-data"
         )
           .form-group
-            input(name="file" type="file" multiple="multiple").upload-file
+            input(name="file" type="file" multiple="multiple" value="select playlist").upload-file
             input(name="upload" type="submit" value="Upload playlist").upload-playlist
             a(href="/api/playlist/" + context + "/set").set-playlist Set playlist
             a(href="/api/playlist/" + context + "/reload").reload-playlist Reaload Playlist
