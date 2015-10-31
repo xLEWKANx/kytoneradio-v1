@@ -40,7 +40,7 @@ function scanList(req, res, next) {
 function renderList(req, res, next) {
   var daytime = req.params.daytime;
   var involved = schedule.storage;
-
+  logger.log('info', 'ready: '+ involved.ready + '\nplaying: ' + involved.playing)
   m3u.read(daytime, involved)
     .then(function(arr) {
       res.render(

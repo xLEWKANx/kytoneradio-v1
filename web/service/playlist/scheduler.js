@@ -6,6 +6,7 @@ var mm = require('musicmetadata'),
     _ = require('lodash');
 
 var telnet = require('./telnet'),
+    m3u = require('./m3u'),
     time = require('../meta/');
 
 // Schedule queue definition
@@ -149,15 +150,13 @@ function next(initTime) {
   }
   var scheduleEnd = schedule.last.startsTime + schedule.last.duration*1000;
   var nextDaytime = time.getDaytime(scheduleEnd);
-  console.log(nextDaytime);
   init(nextDaytime)
     .then(function() {
       var next = storage.next(nextDaytime)
-      console.log(next);
       return next;
     })
     .then(getMetadata)
-    .then(function(metadata) {``
+    .then(function(metadata) {
       schedule.enqueue(metadata);
       schedule.setTime(initTime);
       logger.log('info', metadata.artist, ' - ', metadata.title, ' added');
@@ -170,7 +169,7 @@ function next(initTime) {
       }
     })
     .catch(function(err) {
-      logger.log('error', 'next playlist error', err);
+      logger.log('error', 'next playlist error, reloading', err);
     })
 }
 
@@ -184,46 +183,31 @@ function getMetadata(file) {
     var stream = fs.createReadStream(file);
 
     stream.on('error', function(err) {
-      logger.log('error', 'stream error', err);
+      logger.log('error', 'stream error with file: ', file);
         var info = {
           filename: file,
           artist: 'no meta',
           title: 'no meta',
-          duration: 0,
+          duration: null,
           startsTime: null,
           daytime: daytime,
           fTime: null,
           isEvent: false
-        }
+        };
         resolve(info);
     });
     mm(stream, {duration: true}, function (err, metadata) {
-      if (err) {
-        logger.log('error', 'cannot read ', file, err);
-        var info = {
-          filename: file,
-          artist: 'no meta',
-          title: 'no meta',
-          duration: 0,
-          startsTime: null,
-          daytime: daytime,
-          fTime: null,
-          isEvent: false
-        }
-        resolve(info);
-      } else {
-        var info = {
-          filename: file,
-          artist: metadata.artist.join(''),
-          title: metadata.title,
-          duration: metadata.duration,
-          startsTime: null,
-          daytime: daytime,
-          fTime: null,
-          isEvent: false
-        }
-        resolve(info);
-      }
+      var info = {
+        filename: file,
+        artist: metadata.artist.join(''),
+        title: metadata.title,
+        duration: metadata.duration,
+        startsTime: null,
+        daytime: daytime,
+        fTime: null,
+        isEvent: false
+      };
+      resolve(info);
     });
   });
   return promise;

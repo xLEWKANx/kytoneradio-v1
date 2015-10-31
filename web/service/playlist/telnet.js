@@ -85,7 +85,7 @@ function reload(playlist) {
         reject('telnet reload exucation error');
       }
       logger.log('info', 'telnet playlist reloaded');
-      resolve(null);
+      resolve(response);
       connection.end();
     })
   });

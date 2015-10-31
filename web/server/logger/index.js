@@ -9,7 +9,6 @@ var logpath = config.paths.logs + '/server.log';
 fs.exists(logpath, function (exists) {
    if (exists)
       fs.unlinkSync(logpath);
-
 });
 
 module.exports.clear = function(cb){

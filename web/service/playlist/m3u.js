@@ -6,7 +6,7 @@ var path = require('path'),
     config = require('../../server/config');
 
 module.exports = {
-  create, read, rebase
+  create, read, rebase, deleteCorrupted
 }
 
 function create(files, daytime) {
@@ -73,4 +73,22 @@ function rebase(files, temp, daytime) {
 
     return promise;
   });
+}
+
+function deleteCorrupted(file, daytime) {
+  var promise = new Promise(function(resolve) {resolve(null)});
+  promise
+  .then(function() {
+    return read(daytime);
+  })
+  .then(function(files) {
+
+    return _.pull(files, file);
+  })
+  .then(function(updated) {
+    return create(updated, daytime)
+  })
+  .catch(function(err) {
+    logger.log('error', 'deleting corrupted file from playlist error', err);
+  })
 }
