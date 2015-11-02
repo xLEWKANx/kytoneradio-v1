@@ -3,11 +3,11 @@ var config = require('../config');
 
 var logger_config = {
  levels: {
-   info: 0,
+   error: 0,
    server: 1,
-   data: 2,
-   warn: 3,
-   error: 4
+   warn: 2,
+   info: 3,
+   data: 3
  },
  colors: {
    info: 'cyan',

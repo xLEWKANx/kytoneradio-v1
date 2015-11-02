@@ -31,7 +31,7 @@ router.get('/logout', function(req, res){
 // Settings page
 router.get('/settings', function(req,res,next){
   contextMng.read(function(err,data){
-    loggerMng.getlogs(20, function(logs){
+    loggerMng.getlogs(100, function(logs){
 
       res.render('dashboard/settings',{
         dest: 'settings',

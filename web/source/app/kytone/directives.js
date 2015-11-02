@@ -46,14 +46,15 @@
         $timeout( function() {
           var elemWidth = angular.element(element)[0].clientWidth;
           var maxWitdh = $('#plPlace')[0].clientWidth - $('.track-time')[0].clientWidth;
+          angular.element(element).addClass('scroll');
+          angular.element(element).addClass('stop');
           if(elemWidth > maxWitdh) {
-            angular.element(element).addClass('scroll');
             $(element).hover(
               function(el) {
-                angular.element(element).addClass('stop');
+                angular.element(element).removeClass('stop');
               },
               function(el) {
-                angular.element(element).removeClass('stop');
+                angular.element(element).addClass('stop');
               })
           }
         });
