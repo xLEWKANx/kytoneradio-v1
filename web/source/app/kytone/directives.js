@@ -181,12 +181,12 @@
           scope.start();
           scope.$apply();
         });
-        element.on('suspend', function() {
-          console.log('suspened');
-          scope.main.playerStatus = 'Reconnecting...'
-          scope.start();
-          scope.$apply();
-        });
+        // element.on('suspend', function() {
+        //   console.log('suspened');
+        //   scope.main.playerStatus = 'Reconnecting...'
+        //   scope.start();
+        //   scope.$apply();
+        // });
         element.on('ended', function() {
           console.log('ended');
           scope.main.playerStatus = 'Reconnecting...'
