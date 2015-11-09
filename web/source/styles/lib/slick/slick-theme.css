@@ -6,15 +6,7 @@
 }
 
 /* Icons */
-@font-face
-{
-    font-family: 'slick';
-    font-weight: normal;
-    font-style: normal;
 
-    src: url('./fonts/slick.eot');
-    src: url('./fonts/slick.eot?#iefix') format('embedded-opentype'), url('./fonts/slick.woff') format('woff'), url('./fonts/slick.ttf') format('truetype'), url('./fonts/slick.svg#slick') format('svg');
-}
 /* Arrows */
 .slick-prev,
 .slick-next
@@ -23,13 +15,11 @@
     line-height: 0;
 
     position: absolute;
-    top: 50%;
-
+    top: 0;
     display: block;
 
-    width: 32px;
-    height: 32px;
-    margin-top: -10px;
+    width: 5%;
+    height: 100%;
     padding: 0;
 
     cursor: pointer;
@@ -37,23 +27,34 @@
     color: transparent;
     border: none;
     outline: none;
-    background: transparent;
 }
+
+@keyframes slick-fade {
+    from {
+        background: rgba(255, 255, 255, 0);
+    }
+    to {
+        background: rgba(255, 255, 255, .3);
+    }
+}
+
 .slick-prev:hover,
 .slick-prev:focus,
 .slick-next:hover,
 .slick-next:focus
 {
+    animation: slick-fade 0.5s;
+    animation-fill-mode: forwards;
     color: transparent;
     outline: none;
-    background: transparent;
+    background: rgba(255, 255, 255, 0);
 }
 .slick-prev:hover:before,
 .slick-prev:focus:before,
 .slick-next:hover:before,
 .slick-next:focus:before
 {
-    opacity: 1;
+    background-color: transparent;
 }
 .slick-prev.slick-disabled:before,
 .slick-next.slick-disabled:before
@@ -64,20 +65,20 @@
 .slick-prev:before,
 .slick-next:before
 {
-    font-family: 'slick';
-    font-size: 32px;
-    line-height: 1;
 
+    width: 60%;
+    margin: 0 auto;
+    height: 100%;
+    top: 0%;
+    position: absolute;
+    display: inline-block;
     opacity: 1;
     color: white;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 .slick-prev
 {
-    left: 15px;
+
 }
 [dir='rtl'] .slick-prev
 {
@@ -86,7 +87,10 @@
 }
 .slick-prev:before
 {
-    content: '←';
+    background: url('../img/left-arrow.svg') no-repeat;
+    background-position: center center;
+    right: 30%;
+    content: '';
 }
 [dir='rtl'] .slick-prev:before
 {
@@ -95,7 +99,7 @@
 
 .slick-next
 {
-    right: 15px;
+    right: 0px;
 }
 [dir='rtl'] .slick-next
 {
@@ -104,7 +108,10 @@
 }
 .slick-next:before
 {
-    content: '→';
+    background: url('../img/right-arrow.svg') no-repeat;
+    background-position: center center;
+    left: 30%;
+    content: '';
 }
 [dir='rtl'] .slick-next:before
 {

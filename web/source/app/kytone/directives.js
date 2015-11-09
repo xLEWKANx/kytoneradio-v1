@@ -84,7 +84,7 @@
         var volume = 50;
         if (localStorageService.isSupported && localStorageService.get('volume') !== null) {
           volume = localStorageService.get('volume');
-        }
+        };
         $("#slider").slider({
           value  : volume,
           step   : 5,
@@ -119,7 +119,7 @@
     }
   }
 
-  function playerStatus($interval) {
+  function playerStatus($interval, localStorageService) {
     return {
       restrict: 'A',
       link: function(scope, element, attr) {
@@ -138,7 +138,11 @@
             $(el).attr('class', 'animate-zone player-btn');
           });
         }
-        var reconnect;
+        var reconnect, isPlaying = false;
+
+        if (localStorageService.isSupported && localStorageService.get('isPlaying') !== null) {
+          isPlaying = localStorageService.get('isPlaying');
+        };
 
         scope.stop = function() {
           $interval.cancel(reconnect);
@@ -146,14 +150,16 @@
 
         scope.start = function() {
           reconnect = $interval(function() {
-            console.log('reconncect');
             element.load();
+            if (isPlaying) {
+              document.getElementById('player').play();
+            };
           },
           3000,
           10);
         }
         element.on('loadstart', function() {
-          console.log('loadstart');
+
           scope.stop();
         })
         element.on('canplay', function() {
@@ -172,11 +178,10 @@
           scope.$apply();
         });
         angular.element(element).children().on('error', function(error) {
-          console.log('source error: ', error);
+
         })
         element.on('error', function(error) {
-          console.log('error: ', error);
-          console.log(error.target.error);
+
           scope.main.playerStatus = 'Reconnecting...'
           scope.start();
           scope.$apply();
@@ -188,7 +193,7 @@
         //   scope.$apply();
         // });
         element.on('ended', function() {
-          console.log('ended');
+
           scope.main.playerStatus = 'Reconnecting...'
           scope.start();
           scope.$apply();

@@ -7,7 +7,7 @@
     .controller('postCtrl', postCtrl)
     .controller('scheduleCtrl', scheduleCtrl);
 
-  function mainCtrl($scope){
+  function mainCtrl($scope, localStorageService){
     var vm = this;
     vm.slidersArr = $ctx.slidersCfg;
     for (var key in vm.slidersArr) {
@@ -18,11 +18,16 @@
 
     vm.playerStatus = 'Loading';
     vm.control = function(target) {
-      console.log(target);
-      if (target === 'play')
+      function playStatus(val) {
+        return localStorageService.set('isPlaying', val);
+      }
+      if (target === 'play') {
+        playStatus(true);
         document.getElementById('player').play();
-      else
+      } else {
+        playStatus(false);
         document.getElementById('player').pause();
+      }
     }
 
 
