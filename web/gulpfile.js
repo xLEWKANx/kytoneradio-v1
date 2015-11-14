@@ -28,7 +28,7 @@ gulp.task('styles',function(){
     .src(_paths.styles+'/*.less')
     .pipe(less()).on("error", notify.onError("Error: <%= error.message %>"))
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(minifycss())
+    .pipe(minifycss({keepSpecialComments: '0'}))
     .pipe(gulp.dest(
         $dest('styles')
       ))

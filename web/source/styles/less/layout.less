@@ -47,7 +47,14 @@ body {
 
   .bottom-center-row, .top-center-row {
     vertical-align: top;
-    height: 32.5%;
+  }
+
+  .top-center-row {
+    height: 37%;
+  }
+
+  .bottom-center-row {
+    height: 28%;
   }
 
   .soc-icons {
@@ -87,6 +94,7 @@ body {
       background: white;
       padding-left: 2em;
       padding-right: 1em;
+      text-align: left;
     }
 
     .track-title {
@@ -158,13 +166,10 @@ body {
   text-align: center;
   background-color: white;
   position: relative;
-  &.fixed{
-    position: fixed;
-    top: 90%;
-  }
 
   .sponsor-list {
     vertical-align: middle;
+    position: relative;
     padding: 0;
     height: 100%;
     margin: 0;
@@ -194,17 +199,19 @@ body {
 
   .copyright {
     position: absolute;
-    padding-right: 0;
+    padding-right: 0px;
     right: 0;
-    left: 0;
     bottom: 0;
     img {
-      height: 1em;
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 1.2em;
     }
+    text-align: left;
   }
 }
   // Post
-
 
 .post-left {
   border-right: 2px solid @border-color;
