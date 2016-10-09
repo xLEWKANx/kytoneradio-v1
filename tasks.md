@@ -1,5 +1,5 @@
 # Loopback migration
-- [ ] setup icecast and liquidsoap
+- [x] setup icecast and liquidsoap
 - [ ] setup angular-admin
 - [ ] posters api
 - [ ] playlist api

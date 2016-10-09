@@ -25,8 +25,6 @@
 </body>
 <script type="text/javascript">
 
-window.location = "http://kytoneradio.com/"
-
 </script>
 </html>
 </xsl:template>

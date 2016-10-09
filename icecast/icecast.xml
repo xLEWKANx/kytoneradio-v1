@@ -191,13 +191,13 @@
 
     <paths>
         <!-- basedir is only used if chroot is enabled -->
-        <basedir>/home/curator/kytoneradio/icecast</basedir>
+        <!-- <basedir>/home/curator/kytoneradio/icecast</basedir> -->
 
         <!-- Note that if <chroot> is turned on below, these paths must both
              be relative to the new root, not the original root -->
-        <logdir>/home/curator/kytoneradio/logs</logdir>
-        <webroot>/home/curator/kytoneradio/icecast/web</webroot>
-        <adminroot>/home/curator/kytoneradio/icecast/admin</adminroot>
+        <logdir>/Users/macus/Documents/projects/kytoneradio/logs</logdir>
+        <webroot>/Users/macus/Documents/projects/kytoneradio/icecast/web</webroot>
+        <adminroot>/Users/macus/Documents/projects/kytoneradio/icecast/admin</adminroot>
         <!-- <pidfile>/usr/local/share/icecast/icecast.pid</pidfile> -->
 
         <!-- Aliases: treat requests for 'source' path as being for 'dest' path
@@ -221,8 +221,8 @@
     <logging>
         <accesslog>access.log</accesslog>
         <errorlog>error.log</errorlog>
-        <!-- <playlistlog>playlist.log</playlistlog> -->
-        <loglevel>3</loglevel> <!-- 4 Debug, 3 Info, 2 Warn, 1 Error -->
+        <playlistlog>playlist.log</playlistlog>
+        <loglevel>2</loglevel> <!-- 4 Debug, 3 Info, 2 Warn, 1 Error -->
         <logsize>10000</logsize> <!-- Max size of a logfile -->
         <!-- If logarchive is enabled (1), then when logsize is reached
              the logfile will be moved to [error|access|playlist].log.DATESTAMP,

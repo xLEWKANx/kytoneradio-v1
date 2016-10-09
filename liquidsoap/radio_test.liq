@@ -5,7 +5,7 @@ garbage_collect()
 out = output.icecast(
 
   host = "localhost",
-  port = 8000,
+  port = 15002,
 
   user = "source",
   password = "kytone",
@@ -23,8 +23,8 @@ set("server.telnet.bind_addr", "127.0.0.1")
 set("server.telnet", true)
 
 # work directories
-work_dir = "D:\projects\kytoneradio"
-sys_dir = "D:\projects\kytoneradio"
+work_dir = "/Users/macus/Documents/projects/kytoneradio"
+sys_dir = "/Users/macus/Documents/projects/kytoneradio"
 music_day_dir = "#{work_dir}/music/day"
 music_night_dir = "#{work_dir}/music/night"
 stable_dir = "#{work_dir}/music/stable"
@@ -99,7 +99,3 @@ out(
   mount = "stream",
   mksafe(radio)
 )
-
-
-
-
