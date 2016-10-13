@@ -1,0 +1,18 @@
+{
+  "extends": "standard",
+  "rules": {
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-var": 1,
+    "padded-blocks": 0,
+    "prefer-arrow-callback": [
+      "error",
+      {
+        "allowNamedFunctions": true
+      }
+    ],
+    "prefer-template": 1
+  }
+}
