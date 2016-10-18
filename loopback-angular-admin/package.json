@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "rimraf dist && webpack --bail --progress --profile",
-    "dev": "DEBUG=boot:* INITDB=1 API_URL=http://localhost:3027/api/ gulp",
+    "dev": "DEBUG=boot:* API_URL=http://localhost:3027/api/ gulp",
     "dev-client": "webpack-dev-server",
     "dev-debug": "DEBUG_API=1 gulp",
     "postinstall": "npm run build",

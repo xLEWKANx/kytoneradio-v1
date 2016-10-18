@@ -58,6 +58,10 @@
     "dataSource": "db",
     "public": true
   },
+  "Slide": {
+    "dataSource": "db",
+    "public": true
+  },
   "Setting": {
     "dataSource": "db",
     "public": true

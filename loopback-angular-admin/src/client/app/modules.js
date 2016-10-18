@@ -9,6 +9,7 @@ import './posts/'
 import './products/'
 import './sandbox/'
 import './settings/'
+import './slides/'
 import './users/'
 
 export const modules = [
@@ -23,5 +24,6 @@ export const modules = [
   'com.module.products',
   'com.module.sandbox',
   'com.module.settings',
+  'com.module.slides',
   'com.module.users',
 ]

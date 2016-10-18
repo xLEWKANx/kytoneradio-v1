@@ -3,7 +3,7 @@
   "rules": {
     "comma-dangle": [
       "error",
-      "always-multiline"
+      "only-multiline"
     ],
     "no-var": 1,
     "padded-blocks": 0,

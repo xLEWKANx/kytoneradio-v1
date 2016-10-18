@@ -28,6 +28,9 @@ module.exports = function (app) {
     Page: {
       count: 15,
     },
+    Slide: {
+      count: 30
+    }
   }
 
   if (app.dataSources.db.connected) {
@@ -41,7 +44,7 @@ module.exports = function (app) {
       const options = structure[model]
       log('Creating %s items for model %s', options.count, model)
       for (let i = 0; i < options.count; i++) {
-        promises.push(app.models[model].createFakeData(faker))
+        promises.push(app.models[model].createFakeData(faker, i))
       }
     }
   }
