@@ -26,6 +26,10 @@
     "loopback#static": {
       "params": "$!../dist",
       "paths": ["/dashboard"]
+    },
+    "./middleware/pugStatic": {
+      "params": "$!../dist",
+      "paths": ["/"]
     }
   },
   "final": {
