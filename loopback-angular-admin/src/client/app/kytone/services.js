@@ -6,7 +6,7 @@
     .factory('Schedule', Schedule)
     .factory('postData', postData)
     .factory('postFunc', postFunc)
-    .factory('socket', socket);
+    // .factory('socket', socket);
 
   function Posters($resource) {
     return $resource('/api/posters/:outerIndex/:innerIndex', {}, {
@@ -86,9 +86,9 @@
     });
   }
 
-  function socket(socketFactory) {
-    return socketFactory({
-    });
-  };
+  // function socket(socketFactory) {
+  //   return socketFactory({
+  //   });
+  // };
 
 })();

@@ -7,28 +7,33 @@
     .controller('postCtrl', postCtrl)
     .controller('scheduleCtrl', scheduleCtrl);
 
-  function mainCtrl($scope, localStorageService){
+  function mainCtrl($scope, localStorageService, Setting){
     var vm = this;
-    vm.slidersArr = $ctx.slidersCfg;
-    for (var key in vm.slidersArr) {
-      if (vm.slidersArr[key].isBig === "true") {
-        vm.slidersArr[key].wrapperClass = 'cover-wrapper-big'
-      }
-    }
 
-    vm.playerStatus = 'Loading';
-    vm.control = function(target) {
-      function playStatus(val) {
-        return localStorageService.set('isPlaying', val);
+    Setting.findById({id: 1}, function(result) {
+      vm.slidersArr = result.options
+      for (var key in result.options) {
+        if (result.options[key].isBig === "true") {
+          result.options[key].wrapperClass = 'cover-wrapper-big'
+        }
       }
-      if (target === 'play') {
-        playStatus(true);
-        document.getElementById('player').play();
-      } else {
-        playStatus(false);
-        document.getElementById('player').pause();
+
+      vm.playerStatus = 'Loading';
+      vm.control = function(target) {
+        function playStatus(val) {
+          return localStorageService.set('isPlaying', val);
+        }
+        if (target === 'play') {
+          playStatus(true);
+          document.getElementById('player').play();
+        } else {
+          playStatus(false);
+          document.getElementById('player').pause();
+        }
       }
-    }
+
+    });
+
 
 
   }
@@ -62,11 +67,11 @@
     }
   }
 
-  function scheduleCtrl($scope, socket, Schedule) {
+  function scheduleCtrl($scope, /* socket, */ Schedule) {
     var vm = this;
-    socket.on('playlist', function(data) {
-      vm.next = data;
-    })
+    // socket.on('playlist', function(data) {
+    //   vm.next = data;
+    // })
 
   }
 })();

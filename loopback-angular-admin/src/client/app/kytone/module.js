@@ -9,8 +9,9 @@
     'ngTouch',
     'ngResource',
     'slick',
-    'btford.socket-io',
-    'LocalStorageModule'
+    // 'btford.socket-io',
+    'LocalStorageModule',
+    'lbServices'
   ]);
 
   angular.module('kytoneApp').config(config);

@@ -33,7 +33,36 @@ module.exports = function (app) {
         'skin-blue',
         'not-fixed',
       ],
-    } ]
+    }, {
+      id: 1,
+      key: 'sliders',
+      value: 'fixed',
+      options: [{
+        outerIndex: 0,
+        autoplay: true,
+        speed: 800,
+        isBig: false,
+        pauseOnHove: true,
+        rtl: false,
+        playerPlaceShow: false
+      }, {
+        outerIndex: 1,
+        autoplay: true,
+        speed: 800,
+        isBig: true,
+        pauseOnHove: true,
+        rtl: false,
+        playerPlaceShow: true
+      }, {
+        outerIndex: 2,
+        autoplay: true,
+        speed: 800,
+        isBig: false,
+        pauseOnHove: true,
+        rtl: false,
+        playerPlaceShow: false
+      }]
+    }]
 
     settings.forEach((setting) => {
       Setting.create(setting, (err) => {

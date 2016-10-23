@@ -11,7 +11,7 @@ module.exports = function (app) {
       .then((res) => {
         console.log('[DEV_ACCESS_TOKEN] Adding AccessToken: %s', res.id)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => err)
   }
 
 }

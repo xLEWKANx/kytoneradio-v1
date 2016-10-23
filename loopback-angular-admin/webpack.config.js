@@ -19,7 +19,7 @@ const isProd = ENV === 'build'
  * Path to the client application
  * @type {string}
  */
-const clientApp = `${__dirname}/src/client`
+const clientApp = `${__dirname}/src/dashboard`
 const clientAppPort = 9000
 
 module.exports = function makeWebpackConfig () {
@@ -48,7 +48,7 @@ module.exports = function makeWebpackConfig () {
    */
   config.output = isTest ? {} : {
     // Absolute output directory
-    path: `${__dirname}/dist`,
+    path: `${__dirname}/dist/dashboard`,
 
     // Output path from the view of the page
     // Uses webpack-dev-server in development

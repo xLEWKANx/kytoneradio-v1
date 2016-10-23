@@ -23,14 +23,13 @@
     }
   },
   "files": {
-    "loopback#static": {
-      "params": "$!../dist",
-      "paths": ["/dashboard"]
-    },
-    "./middleware/pugStatic": {
-      "params": "$!../dist",
+    "loopback#static": [{
+      "params": "$!../dist/client",
       "paths": ["/"]
-    }
+    }, {
+      "params": "$!../dist/dashboard",
+      "paths": ["/dashboard"]
+    }]
   },
   "final": {
     "loopback#urlNotFound": {},

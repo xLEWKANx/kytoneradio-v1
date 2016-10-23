@@ -62,16 +62,16 @@
     };
   }
 
-  function titleUpdate(socket) {
+  function titleUpdate(/* socket */) {
     return {
       restrict: 'A',
       link: function(scope, element, attr) {
-        socket.on('track', function(data) {
-          if (!(data.artist && data.title)) {
-            angular.element(element).find('p').text('Kytone Radio (c)');
-          } else
-          angular.element(element).find('p').text(data.artist + ' - ' + data.title);
-        })
+        // socket.on('track', function(data) {
+        //   if (!(data.artist && data.title)) {
+        //     angular.element(element).find('p').text('Kytone Radio (c)');
+        //   } else
+        //   angular.element(element).find('p').text(data.artist + ' - ' + data.title);
+        // })
         $(element).liMarquee();
       }
     }
@@ -241,4 +241,3 @@
     }
   }
 })();
-
