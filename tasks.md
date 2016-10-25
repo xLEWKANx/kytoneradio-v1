@@ -1,7 +1,7 @@
 # Loopback migration
 - [x] setup icecast and liquidsoap
-- [ ] setup angular-admin
-- [ ] posters api
+- [x] setup angular-admin
+- [x] posters api
 - [ ] playlist api
 - [ ] event api
 - [ ] user api
@@ -11,17 +11,17 @@ ___
 
 ### setup icecast and liquidsoap
 ### setup angular-admin
-  1. grunt file (autoreload, nodemon, lb-gen)
+  1. grunt file (autoreload, nodemon, lb-gen) ✓
   2. mongodb local
-  3. loopback config (config, datasources, middleware,)
-  4. eshint
-  5. fork admin-ui
+  3. loopback config (config, datasources, middleware,) ✓
+  4. eshint ✓
+  5. fork admin-ui ✓
 
 ___
 ### posters api
-  1. model
-  2. test data
-  3. admin edit with formly
+  1. model ✓
+  2. test data ✓
+  3. admin edit with formly (sort by outerIndex)
 
 ___  
 ### playlist api  (media player module?)
