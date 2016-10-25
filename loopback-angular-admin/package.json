@@ -49,6 +49,7 @@
     "loopback-component-storage": "1.8.1",
     "loopback-connector-mongodb": "1.15.1",
     "loopback-datasource-juggler": "2.46.0",
+    "moment": "2.15.2",
     "nodemon": "1.9.2",
     "passport": "0.3.2",
     "passport-facebook": "2.1.0",

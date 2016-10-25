@@ -9,6 +9,7 @@
     'ngTouch',
     'ngResource',
     'slick',
+    'hc.marked',
     // 'btford.socket-io',
     'LocalStorageModule',
     'lbServices'

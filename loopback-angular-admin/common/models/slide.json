@@ -24,9 +24,6 @@
     "local": {
       "type": "boolean"
     },
-    "pictureUrl": {
-      "type": "string"
-    },
     "outerUrl": {
       "type": "string"
     }

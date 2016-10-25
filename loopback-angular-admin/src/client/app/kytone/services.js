@@ -23,7 +23,7 @@
     return postData;
   }
 
-  function postFunc(Posters, postData, $window, $timeout){
+  function postFunc(Slide, postData, $window, $timeout){
     var service = {
       openPost: openPost,
       closePost: closePost,
@@ -35,11 +35,13 @@
 
     function openPost($event, outerIndex, innerIndex, startCoords) {
       if ($event.clientX == startCoords.x || outerIndex === 0  || $event.type === 'touchend') {
-
-        var post = Posters.get(
-          {
-            outerIndex: outerIndex,
-            innerIndex: innerIndex
+        var post = Slide.find({
+          filter: {
+              where: {
+                outerIndex: outerIndex,
+                innerIndex: innerIndex
+              }
+            }
           },
           function() {
             postData.currentPost = post[0];
@@ -49,13 +51,13 @@
               $event.stopPropagation();
               $event.cancelBubble = true;
               $event.returnValue = false;
-              console.log($event);
+
               lastScrollTop = $(window).scrollTop();
               $timeout(function() {
                 window.scrollTo(0, 0);
               }, 10)
             } else if ($event.type === 'touchend' && !post[0].local) {
-              console.log($event);
+
 
             }
           }

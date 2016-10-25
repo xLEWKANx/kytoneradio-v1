@@ -1,6 +1,7 @@
 'use strict'
 import pug from 'pug'
 import path from 'path'
+import moment from 'moment'
 
 const viewsDir = '../../src/client/views/'
 
@@ -13,9 +14,12 @@ module.exports = function (server) {
     let homePath = path.join(__dirname, viewsDir, 'index.pug')
     let rendererFn = pug.compileFile(homePath)
 
+    let time = moment().format('HH:mm')
+    let timezone = moment().format('Z').charAt(2)
+
     res.write(rendererFn({
       title: 'kytoneradio',
-      timenow: 'meta.viewTime()',
+      timenow: `${time} KYIV (+${timezone} GMT)`,
       brands: []
     }))
     res.end()

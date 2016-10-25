@@ -12,7 +12,7 @@ const MODULES = [
 
 angular.module(NAME, MODULES)
   .run(($rootScope, Slide, gettextCatalog) => {
-    console.log('slides', gettextCatalog.getString('Slides'))
+
     $rootScope.addMenu(gettextCatalog.getString('Slides'), 'app.slides.list', 'fa-edit')
     Slide.find((slides) => $rootScope
       .addDashboardBox(gettextCatalog.getString('Slides'), 'bg-red', 'ion-document-text', slides.length, 'app.slides.list')

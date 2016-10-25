@@ -41,8 +41,10 @@
   function postersCtrl($scope, Slide, postFunc){
     var vm = this;
     vm.postersArr = Slide.find({
-      where: {
-        outerIndex: $scope.$parent.$index
+      filter: {
+        where: {
+          outerIndex: $scope.$parent.$index
+        }
       }
     }, function() {
       vm.count = vm.postersArr.length;

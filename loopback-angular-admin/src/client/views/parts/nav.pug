@@ -13,7 +13,7 @@
             include ../svg/icons/insta.svg
           a.soc-icon.icon-m(ng-click="post.openPost($event, 0, 0, post.startCoords);" tabindex='-1' soc-icon)
             include ../svg/icons/mistery.svg
-        
+
       tr.top-center-row
         td.border-bottom
         td
@@ -53,4 +53,4 @@
         td
         td
       .post-right(ng-show="post.isOpened()" class="ng-hide" )
-        .post-content(ng-bind-html='post.getContent()')
+        span.post-content(marked="post.postData.currentPost.content")
