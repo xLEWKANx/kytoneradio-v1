@@ -21,5 +21,14 @@ module.exports = function (server) {
     res.end()
     next()
   })
+
+  router.get('/views/:page', (req, res, next) => {
+    let homePath = path.join(__dirname, viewsDir, `${req.params.page}.pug`)
+    let rendererFn = pug.compileFile(homePath)
+
+    res.write(rendererFn({}))
+    res.end()
+    next()
+  })
   server.use(router)
 }

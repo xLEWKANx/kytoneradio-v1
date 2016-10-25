@@ -13,7 +13,7 @@
     Setting.findById({id: 1}, function(result) {
       vm.slidersArr = result.options
       for (var key in result.options) {
-        if (result.options[key].isBig === "true") {
+        if (result.options[key].isBig) {
           result.options[key].wrapperClass = 'cover-wrapper-big'
         }
       }
@@ -38,9 +38,13 @@
 
   }
 
-  function postersCtrl($scope, Posters, postFunc){
+  function postersCtrl($scope, Slide, postFunc){
     var vm = this;
-    vm.postersArr = Posters.query({outerIndex: $scope.$parent.$index + 1}, function() {
+    vm.postersArr = Slide.find({
+      where: {
+        outerIndex: $scope.$parent.$index
+      }
+    }, function() {
       vm.count = vm.postersArr.length;
     });
     vm.count = [];

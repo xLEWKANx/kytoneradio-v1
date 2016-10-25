@@ -55,9 +55,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "AccessToken",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/accessTokens/:id",
           { 'id': '@id' },
           {
@@ -755,9 +755,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "RoleMapping",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/RoleMappings/:id",
           { 'id': '@id' },
           {
@@ -1451,9 +1451,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Role",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/Roles/:id",
           { 'id': '@id' },
           {
@@ -2491,9 +2491,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "UserCredential",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/userCredentials/:id",
           { 'id': '@id' },
           {
@@ -3187,9 +3187,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "UserIdentity",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/userIdentities/:id",
           { 'id': '@id' },
           {
@@ -3883,9 +3883,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Page",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/pages/:id",
           { 'id': '@id' },
           {
@@ -4512,9 +4512,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Note",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/notes/:id",
           { 'id': '@id' },
           {
@@ -5107,9 +5107,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Post",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/posts/:id",
           { 'id': '@id' },
           {
@@ -5702,9 +5702,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Slide",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/slides/:id",
           { 'id': '@id' },
           {
@@ -6297,9 +6297,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Setting",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/settings/:id",
           { 'id': '@id' },
           {
@@ -6892,9 +6892,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Product",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/products/:id",
           { 'id': '@id' },
           {
@@ -7588,9 +7588,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Category",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/categories/:id",
           { 'id': '@id' },
           {
@@ -8542,9 +8542,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Event",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/events/:id",
           { 'id': '@id' },
           {
@@ -9137,9 +9137,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "AuthProvider",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/AuthProviders/:id",
           { 'id': '@id' },
           {
@@ -9732,9 +9732,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "User",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/users/:id",
           { 'id': '@id' },
           {
@@ -10620,6 +10620,11 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
                 response: function(response) {
                   LoopBackAuth.currentUserData = response.data;
                   return response.resource;
+                },
+                responseError: function(responseError) {
+                  LoopBackAuth.clearUser();
+                  LoopBackAuth.clearStorage();
+                  return $q.reject(responseError);
                 },
               },
               __isGetCurrentUser__: true,
@@ -12145,9 +12150,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Meta",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/Meta/:id",
           { 'id': '@id' },
           {
@@ -12260,9 +12265,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
   module.factory(
     "Container",
     [
-      'LoopBackResource', 'LoopBackAuth', '$injector',
-      function(Resource, LoopBackAuth, $injector) {
-        var R = Resource(
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
         urlBase + "/containers/:id",
           { 'id': '@id' },
           {

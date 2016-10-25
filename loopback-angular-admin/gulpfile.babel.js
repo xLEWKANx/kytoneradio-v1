@@ -106,7 +106,7 @@ gulp.task('app', () => gulp
     // Doesn't work with resolve, so we must be explicit there
     add: true
   }))
-  .pipe(uglify()).on('error', notify.onError('Error: <%= error.message %>'))
+  // .pipe(uglify()).on('error', notify.onError('Error: <%= error.message %>'))
   .pipe(gulp.dest(
       'dist/client/app'
     ))
@@ -120,7 +120,7 @@ gulp.task('app:lib', () => gulp
     _paths.app_lib + '/**/*.js'
   ])
   .pipe(concat('lib.js'))
-  .pipe(uglify())
+  // .pipe(uglify())
   .pipe(gulp.dest(
       'dist/client/app'
     ))
@@ -150,8 +150,8 @@ gulp.task('watch:client', function(){
   //
   // gulp.watch([_paths.views + '/**/*.jade'],['views']);
   //
-  // gulp.watch([_paths.misc+'/**/*'],['misc']);
+  gulp.watch([_paths.img+'/**/*'],['img']);
 
 });
 
-gulp.task('client', ['styles', 'app', 'app:lib'])
+gulp.task('client', ['styles', 'app', 'app:lib', 'img'])
