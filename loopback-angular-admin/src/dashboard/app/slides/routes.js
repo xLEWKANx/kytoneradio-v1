@@ -19,7 +19,14 @@ angular
       templateUrl: templateUrlList,
       controllerAs: 'ctrl',
       controller: function listCtrl (slides) {
-        this.slides = slides
+        this.slides = slides.reduce((prev, cur) => {
+          if (prev[cur.outerIndex]) {
+            prev[cur.outerIndex].push(cur)
+          } else {
+            prev[cur.outerIndex] = [cur]
+          }
+          return prev
+        }, {})
       },
       resolve: {
         slides: (SlidesService) => SlidesService.getSlides(),
