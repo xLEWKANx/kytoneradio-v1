@@ -25,6 +25,8 @@ import 'ace-editor-builds/src-min-noconflict/theme-monokai'
 import 'angular-ui-ace'
 import 'ng-toast'
 import 'ng-toast/dist/ngToast.css'
+import 'ng-sortable'
+import 'ng-sortable/dist/ng-sortable.css'
 import 'sweetalert'
 import 'sweetalert/dist/sweetalert.css'
 
@@ -33,6 +35,7 @@ export const dependencies = [
   'angular.filter',
   'angularBootstrapNavTree',
   'angularFileUpload',
+  'as.sortable',
   'hc.marked',
   'oitozero.ngSweetAlert',
   'config',

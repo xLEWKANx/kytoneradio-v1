@@ -7,27 +7,40 @@
       </a>
     </span>
   </div>
-  <div class="row">
-    <div class="col-md-4" ng-repeat="(key, row) in ctrl.slides">
-      <div class='list-group'>
+  <div class="row" id="grid-container">
+    <div
+      class="col-md-4"
+      id="grid-container"
+      ng-repeat="(key, row) in ctrl.slides"
+    >
+      <div class='list-group' ng-model="row" as-sortable="ctrl.sortableOptions">
         <h4 class="text-center"> Row {{key}}:</h4>
-        <div ng-repeat="item in row | orderBy:'innerIndex'" class="list-group-item">
-         <span class="pull-right btn-group">
-          <a href="" class="btn btn-xs btn-default" ui-sref="^.edit({id: item.id})">
-            <i class="fa fa-pencil"></i>
-          </a>
-          <a href="" class="btn btn-xs btn-danger" ui-sref="^.delete({id: item.id})">
-            <i class="fa fa-trash-o"></i>
-          </a>
-        </span>
+        <div
+          ng-repeat="item in row | orderBy:'innerIndex'"
+          class="list-group-item"
+          as-sortable-item
+        >
+          <span class="pull-right btn-group">
+            <a href="" class="btn btn-xs btn-default" ui-sref="^.edit({id: item.id})">
+              <i class="fa fa-pencil"></i>
+            </a>
+            <a href="" class="btn btn-xs btn-danger" ui-sref="^.delete({id: item.id})">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </span>
           <h4 class="list-group-item-heading">
             <small>
-                index: {{item.innerIndex}}, local: {{item.local}}
+              index: {{item.innerIndex}}, local: {{item.local}}
             </small>
           </h4>
 
-          <div class="box-body">
-            <img ng-if="item.pictureUrl" ng-src="{{item.pictureUrl}}"/>
+
+          <div class="box-body" as-sortable-item-handle>
+            <img
+
+              ng-if="item.pictureUrl"
+              ng-src="{{item.pictureUrl}}"
+            />
           </div>
 
         </div>

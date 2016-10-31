@@ -3,6 +3,7 @@ import angular from 'angular'
 
 import './services'
 import './routes'
+import './style.css'
 
 const NAME = 'com.module.slides'
 const MODULES = [

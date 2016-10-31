@@ -27,6 +27,18 @@ angular
           }
           return prev
         }, {})
+
+        this.sortableOptions = {
+
+
+          itemMoved: (event) => {
+            console.log(event, this)
+          },
+          orderChanged: (event) => {
+            console.log(event, this)
+          },
+
+        }
       },
       resolve: {
         slides: (SlidesService) => SlidesService.getSlides(),
