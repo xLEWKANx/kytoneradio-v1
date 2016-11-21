@@ -20,14 +20,15 @@ angular
       templateUrl: templateUrlList,
       controllerAs: 'ctrl',
       controller: function listCtrl (slides) {
-        this.slides = slides.reduce((prev, cur) => {
-          if (prev[cur.outerIndex]) {
-            prev[cur.outerIndex].push(cur)
-          } else {
-            prev[cur.outerIndex] = [cur]
-          }
-          return prev
-        }, {})
+        this.slides = slides.sort((a, b) => a.innerIndex - b.innerIndex)
+          .reduce((prev, cur) => {
+            if (prev[cur.outerIndex]) {
+              prev[cur.outerIndex].push(cur)
+            } else {
+              prev[cur.outerIndex] = [cur]
+            }
+            return prev
+          }, {})
 
         function changePosiion(e) {
           console.log('scope', e)
@@ -36,12 +37,13 @@ angular
           let draggable = src.itemScope.modelValue
           if (src.sortableScope.$parent.key !== dest.sortableScope.$parent.key) {
             src.itemScope.modelValue.outerIndex = dest.sortableScope.$parent.key
-            draggable.$save()
           }
-          _.each(dest.sortableScope.modelValue, (model, index) => {
+
+          let models = _.map(dest.sortableScope.modelValue, (model, index) => {
             model.innerIndex = index
             model.$save()
           })
+
         }
 
         this.sortableOptions = {

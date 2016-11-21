@@ -16,7 +16,7 @@
       <div class='list-group' ng-model="row" as-sortable="ctrl.sortableOptions">
         <h4 class="text-center"> Row {{key}}:</h4>
         <div
-          ng-repeat="item in row | orderBy:'innerIndex'"
+          ng-repeat="item in row"
           class="list-group-item"
           as-sortable-item
         >
