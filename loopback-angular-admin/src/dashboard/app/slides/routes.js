@@ -5,6 +5,7 @@ import templateUrlForm from './views/form.html'
 import templateUrlList from './views/list.html'
 import templateUrlMain from './views/main.html'
 import templateUrlView from './views/view.html'
+import _ from 'underscore'
 
 angular
   .module('com.module.slides.routes', [])
@@ -28,16 +29,24 @@ angular
           return prev
         }, {})
 
+        function changePosiion(e) {
+          console.log('scope', e)
+          let dest = e.dest
+          let src = e.source
+          let draggable = src.itemScope.modelValue
+          if (src.sortableScope.$parent.key !== dest.sortableScope.$parent.key) {
+            src.itemScope.modelValue.outerIndex = dest.sortableScope.$parent.key
+            draggable.$save()
+          }
+          _.each(dest.sortableScope.modelValue, (model, index) => {
+            model.innerIndex = index
+            model.$save()
+          })
+        }
+
         this.sortableOptions = {
-
-
-          itemMoved: (event) => {
-            console.log(event, this)
-          },
-          orderChanged: (event) => {
-            console.log(event, this)
-          },
-
+          itemMoved: changePosiion,
+          orderChanged: changePosiion
         }
       },
       resolve: {
