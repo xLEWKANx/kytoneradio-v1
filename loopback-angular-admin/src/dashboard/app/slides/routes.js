@@ -34,12 +34,12 @@ angular
           console.log('scope', e)
           let dest = e.dest
           let src = e.source
-          let draggable = src.itemScope.modelValue
+
           if (src.sortableScope.$parent.key !== dest.sortableScope.$parent.key) {
             src.itemScope.modelValue.outerIndex = dest.sortableScope.$parent.key
           }
 
-          let models = _.map(dest.sortableScope.modelValue, (model, index) => {
+          _.each(dest.sortableScope.modelValue, (model, index) => {
             model.innerIndex = index
             model.$save()
           })

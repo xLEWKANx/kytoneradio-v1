@@ -1,5 +1,4 @@
 'use strict'
-import Promise from 'bluebird'
 
 module.exports = function (Slide) {
 
