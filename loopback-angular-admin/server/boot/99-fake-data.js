@@ -30,6 +30,9 @@ module.exports = function (app) {
     },
     Slide: {
       count: 30
+    },
+    Track: {
+      count: 30
     }
   }
 
@@ -41,11 +44,15 @@ module.exports = function (app) {
 
   function createFakeData () {
     for (let model in structure) {
-      const options = structure[model]
-      log('Creating %s items for model %s', options.count, model)
-      for (let i = 0; i < options.count; i++) {
-        promises.push(app.models[model].createFakeData(faker, i))
-      }
+      app.models[model].count((err, count) => {
+        console.log(model, count)
+        if (count || err) return
+        const options = structure[model]
+        log('Creating %s items for model %s', options.count, model)
+        for (let i = 0; i < options.count; i++) {
+          promises.push(app.models[model].createFakeData(faker, i))
+        }
+      })
     }
   }
 

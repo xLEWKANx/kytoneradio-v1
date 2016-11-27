@@ -1,0 +1,30 @@
+{
+  "name": "Playlist",
+  "plural": "playlist",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "position": {
+      "type": "number",
+      "required": "true"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "track": {
+      "type": "hasOne",
+      "model": "Track",
+      "foreignKey": "playlistId"
+    },
+    "event": {
+      "type": "hasOne",
+      "model": "Event",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
