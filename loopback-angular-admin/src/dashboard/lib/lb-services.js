@@ -8549,6 +8549,12 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
           { 'id': '@id' },
           {
 
+            // INTERNAL. Use Event.playlist() instead.
+            "prototype$__get__playlist": {
+              url: urlBase + "/events/:id/playlist",
+              method: "GET",
+            },
+
             /**
              * @ngdoc method
              * @name lbServices.Event#create
@@ -8970,6 +8976,37 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               url: urlBase + "/events/change-stream",
               method: "POST",
             },
+
+            // INTERNAL. Use Playlist.event() instead.
+            "::get::Playlist::event": {
+              url: urlBase + "/playlist/:id/event",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Playlist.event.create() instead.
+            "::create::Playlist::event": {
+              url: urlBase + "/playlist/:id/event",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Playlist.event.createMany() instead.
+            "::createMany::Playlist::event": {
+              isArray: true,
+              url: urlBase + "/playlist/:id/event",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Playlist.event.update() instead.
+            "::update::Playlist::event": {
+              url: urlBase + "/playlist/:id/event",
+              method: "PUT",
+            },
+
+            // INTERNAL. Use Playlist.event.destroy() instead.
+            "::destroy::Playlist::event": {
+              url: urlBase + "/playlist/:id/event",
+              method: "DELETE",
+            },
           }
         );
 
@@ -9112,6 +9149,42 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         */
         R.modelName = "Event";
 
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Event#playlist
+             * @methodOf lbServices.Event
+             *
+             * @description
+             *
+             * Fetches belongsTo relation playlist.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `refresh` – `{boolean=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Playlist` object.)
+             * </em>
+             */
+        R.playlist = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::get::Event::playlist"];
+          return action.apply(R, arguments);
+        };
 
 
         return R;
@@ -12700,34 +12773,144 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
-            // INTERNAL. Use Playlist.tracks() instead.
-            "::get::Playlist::tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            /**
+             * @ngdoc method
+             * @name lbServices.Track#prototype$getMeta
+             * @methodOf lbServices.Track
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+            "prototype$getMeta": {
+              url: urlBase + "/tracks/:id/getMeta",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track#getMeta
+             * @methodOf lbServices.Track
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+            "getMeta": {
+              url: urlBase + "/tracks/getMeta",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track#scanDir
+             * @methodOf lbServices.Track
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+            "scanDir": {
+              url: urlBase + "/tracks/scanDir",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Playlist.track() instead.
+            "::get::Playlist::track": {
+              url: urlBase + "/playlist/:id/track",
               method: "GET",
             },
 
-            // INTERNAL. Use Playlist.tracks.create() instead.
-            "::create::Playlist::tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            // INTERNAL. Use Playlist.track.create() instead.
+            "::create::Playlist::track": {
+              url: urlBase + "/playlist/:id/track",
               method: "POST",
             },
 
-            // INTERNAL. Use Playlist.tracks.createMany() instead.
-            "::createMany::Playlist::tracks": {
+            // INTERNAL. Use Playlist.track.createMany() instead.
+            "::createMany::Playlist::track": {
               isArray: true,
-              url: urlBase + "/playlist/:id/tracks",
+              url: urlBase + "/playlist/:id/track",
               method: "POST",
             },
 
-            // INTERNAL. Use Playlist.tracks.update() instead.
-            "::update::Playlist::tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            // INTERNAL. Use Playlist.track.update() instead.
+            "::update::Playlist::track": {
+              url: urlBase + "/playlist/:id/track",
               method: "PUT",
             },
 
-            // INTERNAL. Use Playlist.tracks.destroy() instead.
-            "::destroy::Playlist::tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            // INTERNAL. Use Playlist.track.destroy() instead.
+            "::destroy::Playlist::track": {
+              url: urlBase + "/playlist/:id/track",
               method: "DELETE",
             },
           }
@@ -12940,27 +13123,51 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
           { 'id': '@id' },
           {
 
-            // INTERNAL. Use Playlist.tracks() instead.
-            "prototype$__get__tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            // INTERNAL. Use Playlist.track() instead.
+            "prototype$__get__track": {
+              url: urlBase + "/playlist/:id/track",
               method: "GET",
             },
 
-            // INTERNAL. Use Playlist.tracks.create() instead.
-            "prototype$__create__tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            // INTERNAL. Use Playlist.track.create() instead.
+            "prototype$__create__track": {
+              url: urlBase + "/playlist/:id/track",
               method: "POST",
             },
 
-            // INTERNAL. Use Playlist.tracks.update() instead.
-            "prototype$__update__tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            // INTERNAL. Use Playlist.track.update() instead.
+            "prototype$__update__track": {
+              url: urlBase + "/playlist/:id/track",
               method: "PUT",
             },
 
-            // INTERNAL. Use Playlist.tracks.destroy() instead.
-            "prototype$__destroy__tracks": {
-              url: urlBase + "/playlist/:id/tracks",
+            // INTERNAL. Use Playlist.track.destroy() instead.
+            "prototype$__destroy__track": {
+              url: urlBase + "/playlist/:id/track",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Playlist.event() instead.
+            "prototype$__get__event": {
+              url: urlBase + "/playlist/:id/event",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Playlist.event.create() instead.
+            "prototype$__create__event": {
+              url: urlBase + "/playlist/:id/event",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Playlist.event.update() instead.
+            "prototype$__update__event": {
+              url: urlBase + "/playlist/:id/event",
+              method: "PUT",
+            },
+
+            // INTERNAL. Use Playlist.event.destroy() instead.
+            "prototype$__destroy__event": {
+              url: urlBase + "/playlist/:id/event",
               method: "DELETE",
             },
 
@@ -13386,6 +13593,12 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
+            // INTERNAL. Use Event.playlist() instead.
+            "::get::Event::playlist": {
+              url: urlBase + "/events/:id/playlist",
+              method: "GET",
+            },
+
             // INTERNAL. Use Track.playlist() instead.
             "::get::Track::playlist": {
               url: urlBase + "/tracks/:id/playlist",
@@ -13535,27 +13748,27 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
     /**
      * @ngdoc object
-     * @name lbServices.Playlist.tracks
-     * @header lbServices.Playlist.tracks
+     * @name lbServices.Playlist.track
+     * @header lbServices.Playlist.track
      * @object
      * @description
      *
-     * The object `Playlist.tracks` groups methods
+     * The object `Playlist.track` groups methods
      * manipulating `Track` instances related to `Playlist`.
      *
-     * Call {@link lbServices.Playlist#tracks Playlist.tracks()}
+     * Call {@link lbServices.Playlist#track Playlist.track()}
      * to query all related instances.
      */
 
 
             /**
              * @ngdoc method
-             * @name lbServices.Playlist#tracks
+             * @name lbServices.Playlist#track
              * @methodOf lbServices.Playlist
              *
              * @description
              *
-             * Fetches hasOne relation tracks.
+             * Fetches hasOne relation track.
              *
              * @param {Object=} parameters Request parameters.
              *
@@ -13578,20 +13791,20 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              * This usually means the response is a `Track` object.)
              * </em>
              */
-        R.tracks = function() {
+        R.track = function() {
           var TargetResource = $injector.get("Track");
-          var action = TargetResource["::get::Playlist::tracks"];
+          var action = TargetResource["::get::Playlist::track"];
           return action.apply(R, arguments);
         };
 
             /**
              * @ngdoc method
-             * @name lbServices.Playlist.tracks#create
-             * @methodOf lbServices.Playlist.tracks
+             * @name lbServices.Playlist.track#create
+             * @methodOf lbServices.Playlist.track
              *
              * @description
              *
-             * Creates a new instance in tracks of this model.
+             * Creates a new instance in track of this model.
              *
              * @param {Object=} parameters Request parameters.
              *
@@ -13616,20 +13829,20 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              * This usually means the response is a `Track` object.)
              * </em>
              */
-        R.tracks.create = function() {
+        R.track.create = function() {
           var TargetResource = $injector.get("Track");
-          var action = TargetResource["::create::Playlist::tracks"];
+          var action = TargetResource["::create::Playlist::track"];
           return action.apply(R, arguments);
         };
 
             /**
              * @ngdoc method
-             * @name lbServices.Playlist.tracks#createMany
-             * @methodOf lbServices.Playlist.tracks
+             * @name lbServices.Playlist.track#createMany
+             * @methodOf lbServices.Playlist.track
              *
              * @description
              *
-             * Creates a new instance in tracks of this model.
+             * Creates a new instance in track of this model.
              *
              * @param {Object=} parameters Request parameters.
              *
@@ -13654,20 +13867,20 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              * This usually means the response is a `Track` object.)
              * </em>
              */
-        R.tracks.createMany = function() {
+        R.track.createMany = function() {
           var TargetResource = $injector.get("Track");
-          var action = TargetResource["::createMany::Playlist::tracks"];
+          var action = TargetResource["::createMany::Playlist::track"];
           return action.apply(R, arguments);
         };
 
             /**
              * @ngdoc method
-             * @name lbServices.Playlist.tracks#destroy
-             * @methodOf lbServices.Playlist.tracks
+             * @name lbServices.Playlist.track#destroy
+             * @methodOf lbServices.Playlist.track
              *
              * @description
              *
-             * Deletes tracks of this model.
+             * Deletes track of this model.
              *
              * @param {Object=} parameters Request parameters.
              *
@@ -13685,20 +13898,20 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * This method returns no data.
              */
-        R.tracks.destroy = function() {
+        R.track.destroy = function() {
           var TargetResource = $injector.get("Track");
-          var action = TargetResource["::destroy::Playlist::tracks"];
+          var action = TargetResource["::destroy::Playlist::track"];
           return action.apply(R, arguments);
         };
 
             /**
              * @ngdoc method
-             * @name lbServices.Playlist.tracks#update
-             * @methodOf lbServices.Playlist.tracks
+             * @name lbServices.Playlist.track#update
+             * @methodOf lbServices.Playlist.track
              *
              * @description
              *
-             * Update tracks of this model.
+             * Update track of this model.
              *
              * @param {Object=} parameters Request parameters.
              *
@@ -13723,9 +13936,204 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              * This usually means the response is a `Track` object.)
              * </em>
              */
-        R.tracks.update = function() {
+        R.track.update = function() {
           var TargetResource = $injector.get("Track");
-          var action = TargetResource["::update::Playlist::tracks"];
+          var action = TargetResource["::update::Playlist::track"];
+          return action.apply(R, arguments);
+        };
+    /**
+     * @ngdoc object
+     * @name lbServices.Playlist.event
+     * @header lbServices.Playlist.event
+     * @object
+     * @description
+     *
+     * The object `Playlist.event` groups methods
+     * manipulating `Event` instances related to `Playlist`.
+     *
+     * Call {@link lbServices.Playlist#event Playlist.event()}
+     * to query all related instances.
+     */
+
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist#event
+             * @methodOf lbServices.Playlist
+             *
+             * @description
+             *
+             * Fetches hasOne relation event.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `refresh` – `{boolean=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Event` object.)
+             * </em>
+             */
+        R.event = function() {
+          var TargetResource = $injector.get("Event");
+          var action = TargetResource["::get::Playlist::event"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist.event#create
+             * @methodOf lbServices.Playlist.event
+             *
+             * @description
+             *
+             * Creates a new instance in event of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Event` object.)
+             * </em>
+             */
+        R.event.create = function() {
+          var TargetResource = $injector.get("Event");
+          var action = TargetResource["::create::Playlist::event"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist.event#createMany
+             * @methodOf lbServices.Playlist.event
+             *
+             * @description
+             *
+             * Creates a new instance in event of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Event` object.)
+             * </em>
+             */
+        R.event.createMany = function() {
+          var TargetResource = $injector.get("Event");
+          var action = TargetResource["::createMany::Playlist::event"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist.event#destroy
+             * @methodOf lbServices.Playlist.event
+             *
+             * @description
+             *
+             * Deletes event of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+        R.event.destroy = function() {
+          var TargetResource = $injector.get("Event");
+          var action = TargetResource["::destroy::Playlist::event"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist.event#update
+             * @methodOf lbServices.Playlist.event
+             *
+             * @description
+             *
+             * Update event of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Event` object.)
+             * </em>
+             */
+        R.event.update = function() {
+          var TargetResource = $injector.get("Event");
+          var action = TargetResource["::update::Playlist::event"];
           return action.apply(R, arguments);
         };
 
@@ -13735,13 +14143,13 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
 /**
  * @ngdoc object
- * @name lbServices.Container
- * @header lbServices.Container
+ * @name lbServices.MusicStorage
+ * @header lbServices.MusicStorage
  * @object
  *
  * @description
  *
- * A $resource object for interacting with the `Container` model.
+ * A $resource object for interacting with the `MusicStorage` model.
  *
  * ## Example
  *
@@ -13751,19 +14159,19 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
  *
  */
   module.factory(
-    "Container",
+    "MusicStorage",
     [
       'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
       function(LoopBackResource, LoopBackAuth, $injector, $q) {
         var R = LoopBackResource(
-        urlBase + "/containers/:id",
+        urlBase + "/musicStorages/:id",
           { 'id': '@id' },
           {
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#getContainers
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#getContainers
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -13788,19 +14196,19 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * <em>
              * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
+             * This usually means the response is a `MusicStorage` object.)
              * </em>
              */
             "getContainers": {
               isArray: true,
-              url: urlBase + "/containers",
+              url: urlBase + "/musicStorages",
               method: "GET",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#createContainer
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#createContainer
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -13829,18 +14237,18 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * <em>
              * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
+             * This usually means the response is a `MusicStorage` object.)
              * </em>
              */
             "createContainer": {
-              url: urlBase + "/containers",
+              url: urlBase + "/musicStorages",
               method: "POST",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#destroyContainer
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#destroyContainer
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -13867,14 +14275,14 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *  - `` – `{undefined=}` -
              */
             "destroyContainer": {
-              url: urlBase + "/containers/:container",
+              url: urlBase + "/musicStorages/:container",
               method: "DELETE",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#getContainer
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#getContainer
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -13898,18 +14306,18 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * <em>
              * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
+             * This usually means the response is a `MusicStorage` object.)
              * </em>
              */
             "getContainer": {
-              url: urlBase + "/containers/:container",
+              url: urlBase + "/musicStorages/:container",
               method: "GET",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#getFiles
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#getFiles
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -13933,19 +14341,19 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * <em>
              * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
+             * This usually means the response is a `MusicStorage` object.)
              * </em>
              */
             "getFiles": {
               isArray: true,
-              url: urlBase + "/containers/:container/files",
+              url: urlBase + "/musicStorages/:container/files",
               method: "GET",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#getFile
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#getFile
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -13971,18 +14379,18 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * <em>
              * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
+             * This usually means the response is a `MusicStorage` object.)
              * </em>
              */
             "getFile": {
-              url: urlBase + "/containers/:container/files/:file",
+              url: urlBase + "/musicStorages/:container/files/:file",
               method: "GET",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#removeFile
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#removeFile
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -14011,14 +14419,14 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *  - `` – `{undefined=}` -
              */
             "removeFile": {
-              url: urlBase + "/containers/:container/files/:file",
+              url: urlBase + "/musicStorages/:container/files/:file",
               method: "DELETE",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#upload
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#upload
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -14052,14 +14460,14 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *  - `result` – `{object=}` -
              */
             "upload": {
-              url: urlBase + "/containers/:container/upload",
+              url: urlBase + "/musicStorages/:container/upload",
               method: "POST",
             },
 
             /**
              * @ngdoc method
-             * @name lbServices.Container#download
-             * @methodOf lbServices.Container
+             * @name lbServices.MusicStorage#download
+             * @methodOf lbServices.MusicStorage
              *
              * @description
              *
@@ -14090,572 +14498,24 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              * This method returns no data.
              */
             "download": {
-              url: urlBase + "/containers/:container/download/:file",
+              url: urlBase + "/musicStorages/:container/download/:file",
               method: "GET",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#create
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Create a new instance of the model and persist it into the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *   This method does not accept any parameters.
-             *   Supply an empty object or omit this argument altogether.
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "create": {
-              url: urlBase + "/containers",
-              method: "POST",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#createMany
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Create a new instance of the model and persist it into the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *   This method does not accept any parameters.
-             *   Supply an empty object or omit this argument altogether.
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Array.<Object>,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Array.<Object>} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "createMany": {
-              isArray: true,
-              url: urlBase + "/containers",
-              method: "POST",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#upsert
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Update an existing model instance or insert a new one into the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *   This method does not accept any parameters.
-             *   Supply an empty object or omit this argument altogether.
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "upsert": {
-              url: urlBase + "/containers",
-              method: "PUT",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#exists
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Check whether a model instance exists in the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - Model id
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * Data properties:
-             *
-             *  - `exists` – `{boolean=}` -
-             */
-            "exists": {
-              url: urlBase + "/containers/:id/exists",
-              method: "GET",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#findById
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Find a model instance by id from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - Model id
-             *
-             *  - `filter` – `{object=}` - Filter defining fields and include
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "findById": {
-              url: urlBase + "/containers/:id",
-              method: "GET",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#find
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Find all instances of the model matched by filter from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-             *
-             * @param {function(Array.<Object>,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Array.<Object>} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "find": {
-              isArray: true,
-              url: urlBase + "/containers",
-              method: "GET",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#findOne
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Find first instance of the model matched by filter from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "findOne": {
-              url: urlBase + "/containers/findOne",
-              method: "GET",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#updateAll
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Update instances of the model matched by where from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `where` – `{object=}` - Criteria to match model instances
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * The number of instances updated
-             */
-            "updateAll": {
-              url: urlBase + "/containers/update",
-              method: "POST",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#deleteById
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Delete a model instance by id from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - Model id
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "deleteById": {
-              url: urlBase + "/containers/:id",
-              method: "DELETE",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#count
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Count instances of the model matched by where from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `where` – `{object=}` - Criteria to match model instances
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * Data properties:
-             *
-             *  - `count` – `{number=}` -
-             */
-            "count": {
-              url: urlBase + "/containers/count",
-              method: "GET",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#prototype$updateAttributes
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Update attributes for a model instance and persist it into the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-            "prototype$updateAttributes": {
-              url: urlBase + "/containers/:id",
-              method: "PUT",
-            },
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#createChangeStream
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Create a change stream.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *   This method does not accept any parameters.
-             *   Supply an empty object or omit this argument altogether.
-             *
-             * @param {Object} postData Request data.
-             *
-             *  - `options` – `{object=}` -
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * Data properties:
-             *
-             *  - `changes` – `{ReadableStream=}` -
-             */
-            "createChangeStream": {
-              url: urlBase + "/containers/change-stream",
-              method: "POST",
             },
           }
         );
 
 
 
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#updateOrCreate
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Update an existing model instance or insert a new one into the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *   This method does not accept any parameters.
-             *   Supply an empty object or omit this argument altogether.
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-        R["updateOrCreate"] = R["upsert"];
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#update
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Update instances of the model matched by where from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `where` – `{object=}` - Criteria to match model instances
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * The number of instances updated
-             */
-        R["update"] = R["updateAll"];
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#destroyById
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Delete a model instance by id from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - Model id
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-        R["destroyById"] = R["deleteById"];
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Container#removeById
-             * @methodOf lbServices.Container
-             *
-             * @description
-             *
-             * Delete a model instance by id from the data source.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - Model id
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Container` object.)
-             * </em>
-             */
-        R["removeById"] = R["deleteById"];
-
 
         /**
         * @ngdoc property
-        * @name lbServices.Container#modelName
-        * @propertyOf lbServices.Container
+        * @name lbServices.MusicStorage#modelName
+        * @propertyOf lbServices.MusicStorage
         * @description
         * The name of the model represented by this $resource,
-        * i.e. `Container`.
+        * i.e. `MusicStorage`.
         */
-        R.modelName = "Container";
+        R.modelName = "MusicStorage";
 
 
 

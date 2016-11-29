@@ -17,11 +17,14 @@ app.config(($stateProvider) => $stateProvider
     url: '',
     templateUrl: templateUrlList,
     controllerAs: 'ctrl',
-    controller: function listCtrl (files) {
+    controller: function listCtrl (files, tracks) {
       this.files = files.data
+      console.log('tracks', tracks)
+      this.tracks = tracks
     },
     resolve: {
       files: (FileService) => FileService.find(),
+      tracks: (TracksService) => TracksService.getTracks()
     },
   })
   .state('app.files.upload', {

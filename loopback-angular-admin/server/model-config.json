@@ -97,5 +97,9 @@
   "Playlist": {
     "dataSource": "db",
     "public": true
+  },
+  "musicStorage": {
+    "dataSource": "storage",
+    "public": true
   }
 }
