@@ -12866,19 +12866,23 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * This method does not accept any data. Supply an empty object.
              *
-             * @param {function(Object,Object)=} successCb
+             * @param {function(Array.<Object>,Object)=} successCb
              *   Success callback with two arguments: `value`, `responseHeaders`.
              *
              * @param {function(Object)=} errorCb Error callback with one argument:
              *   `httpResponse`.
              *
-             * @returns {Object} An empty reference that will be
+             * @returns {Array.<Object>} An empty reference that will be
              *   populated with the actual data once the response is returned
              *   from the server.
              *
-             * This method returns no data.
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Track` object.)
+             * </em>
              */
             "scanDir": {
+              isArray: true,
               url: urlBase + "/tracks/scanDir",
               method: "POST",
             },

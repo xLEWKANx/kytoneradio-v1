@@ -17,13 +17,11 @@ app.config(($stateProvider) => $stateProvider
     url: '',
     templateUrl: templateUrlList,
     controllerAs: 'ctrl',
-    controller: function listCtrl (files, tracks) {
-      this.files = files.data
+    controller: function listCtrl (tracks) {
       console.log('tracks', tracks)
       this.tracks = tracks
     },
     resolve: {
-      files: (FileService) => FileService.find(),
       tracks: (TracksService) => TracksService.getTracks()
     },
   })
@@ -31,13 +29,13 @@ app.config(($stateProvider) => $stateProvider
     url: '/upload',
     templateUrl: templateUrlUpload,
     controllerAs: 'ctrl',
-    controller: function uploadCtrl (FileUploader, CoreService) {
-      this.uploader = new FileUploader({
-        url: `${CoreService.env.apiUrl}/containers/files/upload`,
-        formData: [ {
-          key: 'value',
-        } ],
-      })
+    controller: function uploadCtrl (CoreService) {
+      // this.uploader = new FileUploader({
+      //   url: `${CoreService.env.apiUrl}/containers/files/upload`,
+      //   formData: [ {
+      //     key: 'value',
+      //   } ],
+      // })
     },
   })
   .state('app.files.delete', {

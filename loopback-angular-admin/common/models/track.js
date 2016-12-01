@@ -66,6 +66,7 @@ module.exports = function(Track) {
         if (stored && stored.processed) return false
         else return true
       })
+      .then(files => { console.log('filtered', files.length); return files })
       .map(file => {
         let trackPath = `${app.get('STORAGE_PATH')}/music/${file.name}`
 
@@ -78,18 +79,12 @@ module.exports = function(Track) {
           processed: false
         })
       })
-      .then(res => {
-        console.log(`Added ${res.length} new tracks`)
-        return res
-      })
       .mapSeries(track => {
         let getMetaPromised = Promise.promisify(track.getMeta, { context: track })
         return getMetaPromised()
       })
       .then(res => cb(null, res))
-      .catch(err => {
-        throw err
-      })
+      .catch(cb)
   }
 
   Track.remoteMethod('getMeta', {

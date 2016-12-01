@@ -16,8 +16,8 @@ const app = angular.module(NAME, MODULES)
 app.run(($rootScope, $http, CoreService, gettextCatalog) => {
   $rootScope.addMenu(gettextCatalog.getString('Files'), 'app.files.list', 'fa-file')
 
-  $http.get(`${CoreService.env.apiUrl}/containers/files/files`)
-    .success((data) => $rootScope
-      .addDashboardBox(gettextCatalog.getString('Files'), 'bg-blue', 'ion-paperclip', data.length, 'app.files.list'))
+  // $http.get(`${CoreService.env.apiUrl}/containers/files/files`)
+  //   .success((data) => $rootScope
+  //     .addDashboardBox(gettextCatalog.getString('Files'), 'bg-blue', 'ion-paperclip', data.length, 'app.files.list'))
 
 })
