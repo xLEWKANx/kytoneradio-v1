@@ -3,6 +3,7 @@ import angular from 'angular'
 
 import './routes'
 import './services'
+import './style.css'
 
 const NAME = 'com.module.files'
 const MODULES = [

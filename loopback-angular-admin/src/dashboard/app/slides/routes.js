@@ -29,9 +29,9 @@ angular
             }
             return prev
           }, {})
-
+          console.log('slides', this.slides)
         function changePosiion(e) {
-          console.log('scope', e)
+
           let dest = e.dest
           let src = e.source
 
