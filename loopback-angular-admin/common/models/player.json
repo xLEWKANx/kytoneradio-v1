@@ -1,6 +1,6 @@
 {
-  "name": "Playlist",
-  "plural": "playlist",
+  "name": "Player",
+  "plural": "player",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

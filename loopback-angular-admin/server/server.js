@@ -21,7 +21,7 @@ boot(app, __dirname, (err) => {
   if (err) {
     throw err
   }
-
+  app.emit('inititated')
   // start the server if `$ node server.js`
   if (require.main === module) {
     app.start()

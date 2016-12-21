@@ -1,5 +1,16 @@
 {
-  "extends": "standard",
+  "plugins": [
+    "jasmine"
+  ],
+  "extends": [
+    "plugin:jasmine/recommended"
+  ],
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true,
+    "jasmine": true
+  },
   "rules": {
     "space-before-function-paren": 0,
     "comma-dangle": [
@@ -15,5 +26,8 @@
       }
     ],
     "prefer-template": 1
+  },
+  "parserOptions": {
+      "sourceType": "module"
   }
 }

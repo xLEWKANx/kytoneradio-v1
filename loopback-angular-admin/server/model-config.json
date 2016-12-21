@@ -98,6 +98,10 @@
     "dataSource": "db",
     "public": true
   },
+  "Player": {
+    "dataSource": "db",
+    "public": true
+  },
   "musicStorage": {
     "dataSource": "storage",
     "public": true

@@ -5,6 +5,7 @@ import templateUrlMain from './views/main.html'
 import templateUrlList from './views/list.html'
 import templateUrlUpload from './views/upload.html'
 import moment from 'moment'
+import undeerscore from 'underscore'
 
 const app = angular.module('com.module.files.routes', [])
 
@@ -19,7 +20,7 @@ app.config(($stateProvider) => $stateProvider
     templateUrl: templateUrlList,
     controllerAs: 'ctrl',
     controller: function listCtrl (tracks) {
-      console.log('tracks', tracks)
+
       tracks.forEach((track) => {
         track.expanded = false
         track.style = {
@@ -29,15 +30,11 @@ app.config(($stateProvider) => $stateProvider
         }
       })
 
-      this.itemClick = function(item) {
-        console.log('privet', item)
-        item.style = item.style.expanded ? { height: (2400 / 86400) * item.duration + 'px' } : { height: '100px' }
-
-      }
-
       let playlist = []
+
       this.storage = { tracks, playlist }
       this.moment = moment
+
       function changePosiion(object) {
         console.log('change', object)
       }
@@ -59,7 +56,7 @@ app.config(($stateProvider) => $stateProvider
 
       this.today()
       this.clear = () => {
-        this.dt = null
+        this.today()
       }
       this.disabled = (date, mode) => {
         return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6))
