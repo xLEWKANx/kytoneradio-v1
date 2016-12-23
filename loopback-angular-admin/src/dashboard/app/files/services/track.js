@@ -11,11 +11,10 @@ function TracksService (CoreService, Track, Player, gettextCatalog, $q) {
 
   this.getTrack = (id) => Track.findById({ id }).$promise
 
-  this.addTracks = (tracks) => {
-    let trackNames = tracks.map((track) => track.name)
-    return $q.all(Player.addTracks({ tracks: trackNames }))
+  this.rebuildPlaylist = (tracks) => {
+    return $q.all(Player.rebuildPlaylist({ tracks }))
       .then(() => CoreService.toastSuccess(
-        gettextCatalog.getString(`${trackNames.length} added to playlist`)
+        gettextCatalog.getString(`${tracks.length} added to playlist`)
         )
       )
       .catch((err) => CoreService.toastError(

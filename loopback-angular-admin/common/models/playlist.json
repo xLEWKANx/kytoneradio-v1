@@ -7,7 +7,15 @@
     "validateUpsert": true
   },
   "properties": {
-
+    "index": {
+      "type": "number",
+      "required": true,
+      "id": true,
+      "index": { "unique": true }
+    },
+    "name": {
+      "type": "string"
+    },
     "startTime": {
       "type": "date",
       "required": true

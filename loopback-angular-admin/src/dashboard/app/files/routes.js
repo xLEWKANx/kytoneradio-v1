@@ -9,10 +9,10 @@ import undeerscore from 'underscore'
 
 const app = angular.module('com.module.files.routes', [])
 
-const SECONDS_TO_PIXEL = (2400 / (24 * 60 * 60))
+const SECONDS_TO_PIXEL = (1200 / (24 * 60 * 60))
 const TIME_NOW = Date.now()
 const TINE_END = function(time) {
-  return moment(time).toDate()
+  return +moment(time)
 }
 
 app.config(($stateProvider) => $stateProvider
@@ -47,10 +47,9 @@ app.config(($stateProvider) => $stateProvider
           display: 'none'
         }
       }]
-      console.log('endTime', timeToPx(2 * 60 * 60))
 
       if (_.last(playlist).endTime < Date.now()) {
-        let lastPlayedSeconds = (Date.now() - _.last(playlist).endTime) / 1000;
+        let lastPlayedSeconds = (TIME_NOW - TINE_END(_.last(playlist).endTime)) / 1000;
 
         playlist.push({
           isMock: true,
@@ -85,7 +84,7 @@ app.config(($stateProvider) => $stateProvider
         let realTracks = playlist.filter((track) => !track.isMock)
         console.log('playlist', realTracks)
 
-        TracksService.addTracks(realTracks)
+        TracksService.rebuildPlaylist(realTracks)
       }
 
       this.storage = { tracks, playlist }

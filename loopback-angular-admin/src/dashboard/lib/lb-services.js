@@ -15310,7 +15310,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
-             * @name lbServices.Player#addTracks
+             * @name lbServices.Player#rebuildPlaylist
              * @methodOf lbServices.Player
              *
              * @description
@@ -15340,8 +15340,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * This method returns no data.
              */
-            "addTracks": {
-              url: urlBase + "/player/addTracks",
+            "rebuildPlaylist": {
+              url: urlBase + "/player/rebuildPlaylist",
               method: "POST",
             },
           }

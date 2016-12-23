@@ -4,10 +4,14 @@ import { default as debug } from 'debug'
 import Promise from 'bluebird'
 
 const log = debug('player')
+global.Promise = Promise
 
 module.exports = function(Player) {
 
   let client = {};
+  let status = {
+    isPlaying: false
+  }
 
   Player.bootstrap = function(cb) {
     client = mpd.connect({
@@ -37,7 +41,8 @@ module.exports = function(Player) {
     client.sendCommand(mpd.cmd('play', []), (err, msg) => {
       if (err) return cb(err)
       Player.emit('play')
-      cb(null, msg)
+      status.isPlaying = true
+      return cb(null, msg)
     })
   }
 
@@ -52,6 +57,7 @@ module.exports = function(Player) {
     client.sendCommand(mpd.cmd('stop', []), (err, msg) => {
       if (err) return cb(err)
       Player.emit('stop')
+      status.isPlaying = false
       return cb(null, msg)
     })
   }
@@ -63,22 +69,30 @@ module.exports = function(Player) {
     }
   })
 
-  Player.addTrack = function(track, cb) {
-    console.log('tracks', track)
-    client.sendCommand(mpd.cmd('add', [track]), (err, msg) => {
+  Player.addTrack = function(name, cb) {
+    debug(`Added ${name} to MPD playlist`)
+    client.sendCommand(mpd.cmd('add', [name]), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
     })
   }
 
-  Player.addTracks = function(tracks, cb) {
-    console.log('tracks', tracks)
-    return Promise.all(tracks)
-      .map(track => Player.addTrackPromised(track))
+  Player.rebuildPlaylist = function(tracks, cb) {
+    let index = 0;
+    let Playlist = Player.app.models['Playlist']
+    let clear = (isPlaying) => {
+      return (isPlaying) ? Player.cropPromised() : Player.clearPromised()
+    }
+    return clear(true)
+      .then(() => Playlist.destroyAllPromised({ index: { gt: 0 } }))
+      .then(() => Promise.all(tracks))
+      .map(track => Player.addTrackPromised(track.name).then(() => track))
+      .map(track => Playlist.addToQueuePromised(track))
+      .then(() => Player.playPromised())
       .catch(err => cb(err))
   }
 
-  Player.remoteMethod('addTracks', {
+  Player.remoteMethod('rebuildPlaylist', {
     accepts: {
       arg: 'tracks',
       type: 'array'
@@ -87,7 +101,14 @@ module.exports = function(Player) {
 
 
   Player.crop = function(cb) {
-    client.sendCommand(mpd.cmd('crop', []), (err, msg) => {
+    client.sendCommand(mpd.cmd('delete', ['1:4']), (err, msg) => {
+      if (err) return cb(err)
+      return cb(null, msg)
+    })
+  }
+
+  Player.clear = function(cb) {
+    client.sendCommand(mpd.cmd('clear', []), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
     })
