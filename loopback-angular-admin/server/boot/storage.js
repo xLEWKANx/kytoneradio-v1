@@ -1,5 +1,9 @@
 'use strict'
 import path from 'path'
+import { default as debug } from 'debug'
+
+const log = debug('boot:player')
+
 
 const STORAGE_PATH = process.env.STORAGE_PATH || path.resolve('../storage')
 
@@ -15,7 +19,7 @@ module.exports = function (app) {
   app.set('STORAGE_PATH', STORAGE_PATH)
   app.models.Track.scanDir((err, result) => {
     if (err) throw err
-    console.log('scanned', result.length)
+    log('scanned at boot ', result.length)
   })
   // app.model(container)
 

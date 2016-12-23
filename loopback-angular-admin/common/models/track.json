@@ -24,14 +24,16 @@
     },
     "processed": {
       "type": "boolean"
+    },
+    "playlistId": {
+      "type": "string"
     }
   },
   "validations": [],
   "relations": {
     "playlist": {
-      "type": "belongsTo",
-      "model": "Playlist",
-      "foreignKey": ""
+      "type": "hasMany",
+      "model": "Playlist"
     }
   },
   "acls": [],

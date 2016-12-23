@@ -10,29 +10,29 @@ describe('Player test', () => {
     })
   })
 
-  it('Player bootstrap', (done) => {
-    Player.bootstrap((err, client) => {
-      player = client
-      expect(err).toBe(null)
-      done()
-    })
-  })
-
-  it('Start of playlist', (done) => {
-    Player.play((err, msg) => {
-      expect(err).toBe(null)
-      console.log('msg', msg)
-      done()
-    })
-  })
-
-  // it('Add tracks to playlist', (done) => {
-  //   Player.addTracks(['04. Empty Tombs.mp3'], (err, msg) => {
+  // it('Player bootstrap', (done) => {
+  //   Player.bootstrap((err, client) => {
+  //     player = client
+  //     expect(err).toBe(null)
+  //     done()
+  //   })
+  // })
+  //
+  // it('Start of playlist', (done) => {
+  //   Player.play((err, msg) => {
   //     expect(err).toBe(null)
   //     console.log('msg', msg)
   //     done()
   //   })
   // })
+
+  it('Add tracks to playlist', (done) => {
+    Player.addTracks(['04. Empty Tombs.mp3', 'Trying Science - Vacation for Snakes - 05 0FPS.mp3'], (err, msg) => {
+      expect(err).toBe(null)
+      console.log('msg', msg)
+      done()
+    })
+  })
   //
   // it('Remove tracks from playlist', (done) => {
   //   Player.removeTrack([1], (err, msg) => {
@@ -41,10 +41,17 @@ describe('Player test', () => {
   //     done()
   //   })
   // })
-  it('move track {from} position {to} position', (done) => {
-    Player.moveTrack(1, 2, (err, msg) => {
+  // it('move track {from} position {to} position', (done) => {
+  //   Player.moveTrack(1, 2, (err, msg) => {
+  //     expect(err).toBe(null)
+  //     console.log('msg', msg)
+  //     done()
+  //   })
+  // })
+  it('return status', (done) => {
+    Player.getStatus((err, msg) => {
       expect(err).toBe(null)
-      console.log('msg', msg)
+      console.log('status', msg)
       done()
     })
   })

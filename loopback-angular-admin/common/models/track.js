@@ -3,6 +3,9 @@ import Promise from 'bluebird'
 import _ from 'underscore'
 import mm from 'musicmetadata'
 import fs from 'fs'
+import { default as debug } from 'debug'
+
+const log = debug('boot:player')
 
 let parser = Promise.promisify(mm)
 
@@ -20,7 +23,7 @@ module.exports = function(Track) {
 
   Track.prototype.getMeta = function(cb) {
     let readStream = fs.createReadStream(this.path)
-    console.log('getting meta for', this.name)
+    log('getting meta for', this.name)
     parser(readStream, { duration: true })
       .then(meta => {
 
@@ -31,7 +34,7 @@ module.exports = function(Track) {
       })
       .then(meta => {
         readStream.close()
-        console.log(`Track | Added meta to ${this.name}`)
+        log(`Track | Added meta to ${this.name}`)
         return cb(null, meta)
       })
       .catch(err => cb(err))
@@ -66,7 +69,7 @@ module.exports = function(Track) {
         if (stored && stored.processed) return false
         else return true
       })
-      .then(files => { console.log('filtered', files.length); return files })
+      .then(files => { log('filtered', files.length); return files })
       .map(file => {
         let trackPath = `${app.get('STORAGE_PATH')}/music/${file.name}`
 

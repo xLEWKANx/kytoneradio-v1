@@ -12376,9 +12376,55 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
           { 'id': '@id' },
           {
 
+            // INTERNAL. Use Track.playlist.findById() instead.
+            "prototype$__findById__playlist": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/tracks/:id/playlist/:fk",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Track.playlist.destroyById() instead.
+            "prototype$__destroyById__playlist": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/tracks/:id/playlist/:fk",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Track.playlist.updateById() instead.
+            "prototype$__updateById__playlist": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/tracks/:id/playlist/:fk",
+              method: "PUT",
+            },
+
             // INTERNAL. Use Track.playlist() instead.
             "prototype$__get__playlist": {
+              isArray: true,
               url: urlBase + "/tracks/:id/playlist",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Track.playlist.create() instead.
+            "prototype$__create__playlist": {
+              url: urlBase + "/tracks/:id/playlist",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Track.playlist.destroyAll() instead.
+            "prototype$__delete__playlist": {
+              url: urlBase + "/tracks/:id/playlist",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Track.playlist.count() instead.
+            "prototype$__count__playlist": {
+              url: urlBase + "/tracks/:id/playlist/count",
               method: "GET",
             },
 
@@ -12918,8 +12964,36 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
+            // INTERNAL. Use Playlist.track.findById() instead.
+            "::findById::Playlist::track": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/playlist/:id/track/:fk",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Playlist.track.destroyById() instead.
+            "::destroyById::Playlist::track": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/playlist/:id/track/:fk",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Playlist.track.updateById() instead.
+            "::updateById::Playlist::track": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/playlist/:id/track/:fk",
+              method: "PUT",
+            },
+
             // INTERNAL. Use Playlist.track() instead.
             "::get::Playlist::track": {
+              isArray: true,
               url: urlBase + "/playlist/:id/track",
               method: "GET",
             },
@@ -12937,16 +13011,16 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
-            // INTERNAL. Use Playlist.track.update() instead.
-            "::update::Playlist::track": {
-              url: urlBase + "/playlist/:id/track",
-              method: "PUT",
-            },
-
-            // INTERNAL. Use Playlist.track.destroy() instead.
-            "::destroy::Playlist::track": {
+            // INTERNAL. Use Playlist.track.destroyAll() instead.
+            "::delete::Playlist::track": {
               url: urlBase + "/playlist/:id/track",
               method: "DELETE",
+            },
+
+            // INTERNAL. Use Playlist.track.count() instead.
+            "::count::Playlist::track": {
+              url: urlBase + "/playlist/:id/track/count",
+              method: "GET",
             },
 
             // INTERNAL. Use Player.track() instead.
@@ -13121,6 +13195,20 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         */
         R.modelName = "Track";
 
+    /**
+     * @ngdoc object
+     * @name lbServices.Track.playlist
+     * @header lbServices.Track.playlist
+     * @object
+     * @description
+     *
+     * The object `Track.playlist` groups methods
+     * manipulating `Playlist` instances related to `Track`.
+     *
+     * Call {@link lbServices.Track#playlist Track.playlist()}
+     * to query all related instances.
+     */
+
 
             /**
              * @ngdoc method
@@ -13129,13 +13217,86 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * @description
              *
-             * Fetches belongsTo relation playlist.
+             * Queries playlist of Track.
              *
              * @param {Object=} parameters Request parameters.
              *
              *  - `id` – `{*}` - PersistedModel id
              *
-             *  - `refresh` – `{boolean=}` -
+             *  - `filter` – `{object=}` -
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Playlist` object.)
+             * </em>
+             */
+        R.playlist = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::get::Track::playlist"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track.playlist#count
+             * @methodOf lbServices.Track.playlist
+             *
+             * @description
+             *
+             * Counts playlist of Track.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `where` – `{object=}` - Criteria to match model instances
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `count` – `{number=}` -
+             */
+        R.playlist.count = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::count::Track::playlist"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track.playlist#create
+             * @methodOf lbServices.Track.playlist
+             *
+             * @description
+             *
+             * Creates a new instance in playlist of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
              *
              * @param {function(Object,Object)=} successCb
              *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -13152,9 +13313,187 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              * This usually means the response is a `Playlist` object.)
              * </em>
              */
-        R.playlist = function() {
+        R.playlist.create = function() {
           var TargetResource = $injector.get("Playlist");
-          var action = TargetResource["::get::Track::playlist"];
+          var action = TargetResource["::create::Track::playlist"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track.playlist#createMany
+             * @methodOf lbServices.Track.playlist
+             *
+             * @description
+             *
+             * Creates a new instance in playlist of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Playlist` object.)
+             * </em>
+             */
+        R.playlist.createMany = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::createMany::Track::playlist"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track.playlist#destroyAll
+             * @methodOf lbServices.Track.playlist
+             *
+             * @description
+             *
+             * Deletes all playlist of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+        R.playlist.destroyAll = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::delete::Track::playlist"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track.playlist#destroyById
+             * @methodOf lbServices.Track.playlist
+             *
+             * @description
+             *
+             * Delete a related item by id for playlist.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `fk` – `{*}` - Foreign key for playlist
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+        R.playlist.destroyById = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::destroyById::Track::playlist"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track.playlist#findById
+             * @methodOf lbServices.Track.playlist
+             *
+             * @description
+             *
+             * Find a related item by id for playlist.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `fk` – `{*}` - Foreign key for playlist
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Playlist` object.)
+             * </em>
+             */
+        R.playlist.findById = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::findById::Track::playlist"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Track.playlist#updateById
+             * @methodOf lbServices.Track.playlist
+             *
+             * @description
+             *
+             * Update a related item by id for playlist.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `fk` – `{*}` - Foreign key for playlist
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Playlist` object.)
+             * </em>
+             */
+        R.playlist.updateById = function() {
+          var TargetResource = $injector.get("Playlist");
+          var action = TargetResource["::updateById::Track::playlist"];
           return action.apply(R, arguments);
         };
 
@@ -13189,28 +13528,31 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
           { 'id': '@id' },
           {
 
-            // INTERNAL. Use Playlist.track() instead.
-            "prototype$__get__track": {
-              url: urlBase + "/playlist/:id/track",
+            // INTERNAL. Use Playlist.track.findById() instead.
+            "prototype$__findById__track": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/playlist/:id/track/:fk",
               method: "GET",
             },
 
-            // INTERNAL. Use Playlist.track.create() instead.
-            "prototype$__create__track": {
-              url: urlBase + "/playlist/:id/track",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Playlist.track.update() instead.
-            "prototype$__update__track": {
-              url: urlBase + "/playlist/:id/track",
-              method: "PUT",
-            },
-
-            // INTERNAL. Use Playlist.track.destroy() instead.
-            "prototype$__destroy__track": {
-              url: urlBase + "/playlist/:id/track",
+            // INTERNAL. Use Playlist.track.destroyById() instead.
+            "prototype$__destroyById__track": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/playlist/:id/track/:fk",
               method: "DELETE",
+            },
+
+            // INTERNAL. Use Playlist.track.updateById() instead.
+            "prototype$__updateById__track": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/playlist/:id/track/:fk",
+              method: "PUT",
             },
 
             // INTERNAL. Use Playlist.event() instead.
@@ -13235,6 +13577,31 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
             "prototype$__destroy__event": {
               url: urlBase + "/playlist/:id/event",
               method: "DELETE",
+            },
+
+            // INTERNAL. Use Playlist.track() instead.
+            "prototype$__get__track": {
+              isArray: true,
+              url: urlBase + "/playlist/:id/track",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Playlist.track.create() instead.
+            "prototype$__create__track": {
+              url: urlBase + "/playlist/:id/track",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Playlist.track.destroyAll() instead.
+            "prototype$__delete__track": {
+              url: urlBase + "/playlist/:id/track",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Playlist.track.count() instead.
+            "prototype$__count__track": {
+              url: urlBase + "/playlist/:id/track/count",
+              method: "GET",
             },
 
             /**
@@ -13665,9 +14032,62 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "GET",
             },
 
+            // INTERNAL. Use Track.playlist.findById() instead.
+            "::findById::Track::playlist": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/tracks/:id/playlist/:fk",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Track.playlist.destroyById() instead.
+            "::destroyById::Track::playlist": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/tracks/:id/playlist/:fk",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Track.playlist.updateById() instead.
+            "::updateById::Track::playlist": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/tracks/:id/playlist/:fk",
+              method: "PUT",
+            },
+
             // INTERNAL. Use Track.playlist() instead.
             "::get::Track::playlist": {
+              isArray: true,
               url: urlBase + "/tracks/:id/playlist",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Track.playlist.create() instead.
+            "::create::Track::playlist": {
+              url: urlBase + "/tracks/:id/playlist",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Track.playlist.createMany() instead.
+            "::createMany::Track::playlist": {
+              isArray: true,
+              url: urlBase + "/tracks/:id/playlist",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Track.playlist.destroyAll() instead.
+            "::delete::Track::playlist": {
+              url: urlBase + "/tracks/:id/playlist",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Track.playlist.count() instead.
+            "::count::Track::playlist": {
+              url: urlBase + "/tracks/:id/playlist/count",
               method: "GET",
             },
           }
@@ -13834,21 +14254,21 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * @description
              *
-             * Fetches hasOne relation track.
+             * Queries track of Playlist.
              *
              * @param {Object=} parameters Request parameters.
              *
              *  - `id` – `{*}` - PersistedModel id
              *
-             *  - `refresh` – `{boolean=}` -
+             *  - `filter` – `{object=}` -
              *
-             * @param {function(Object,Object)=} successCb
+             * @param {function(Array.<Object>,Object)=} successCb
              *   Success callback with two arguments: `value`, `responseHeaders`.
              *
              * @param {function(Object)=} errorCb Error callback with one argument:
              *   `httpResponse`.
              *
-             * @returns {Object} An empty reference that will be
+             * @returns {Array.<Object>} An empty reference that will be
              *   populated with the actual data once the response is returned
              *   from the server.
              *
@@ -13860,6 +14280,41 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         R.track = function() {
           var TargetResource = $injector.get("Track");
           var action = TargetResource["::get::Playlist::track"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist.track#count
+             * @methodOf lbServices.Playlist.track
+             *
+             * @description
+             *
+             * Counts track of Playlist.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `where` – `{object=}` - Criteria to match model instances
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `count` – `{number=}` -
+             */
+        R.track.count = function() {
+          var TargetResource = $injector.get("Track");
+          var action = TargetResource["::count::Playlist::track"];
           return action.apply(R, arguments);
         };
 
@@ -13941,12 +14396,12 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
-             * @name lbServices.Playlist.track#destroy
+             * @name lbServices.Playlist.track#destroyAll
              * @methodOf lbServices.Playlist.track
              *
              * @description
              *
-             * Deletes track of this model.
+             * Deletes all track of this model.
              *
              * @param {Object=} parameters Request parameters.
              *
@@ -13964,24 +14419,95 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * This method returns no data.
              */
-        R.track.destroy = function() {
+        R.track.destroyAll = function() {
           var TargetResource = $injector.get("Track");
-          var action = TargetResource["::destroy::Playlist::track"];
+          var action = TargetResource["::delete::Playlist::track"];
           return action.apply(R, arguments);
         };
 
             /**
              * @ngdoc method
-             * @name lbServices.Playlist.track#update
+             * @name lbServices.Playlist.track#destroyById
              * @methodOf lbServices.Playlist.track
              *
              * @description
              *
-             * Update track of this model.
+             * Delete a related item by id for track.
              *
              * @param {Object=} parameters Request parameters.
              *
              *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `fk` – `{*}` - Foreign key for track
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+        R.track.destroyById = function() {
+          var TargetResource = $injector.get("Track");
+          var action = TargetResource["::destroyById::Playlist::track"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist.track#findById
+             * @methodOf lbServices.Playlist.track
+             *
+             * @description
+             *
+             * Find a related item by id for track.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `fk` – `{*}` - Foreign key for track
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Track` object.)
+             * </em>
+             */
+        R.track.findById = function() {
+          var TargetResource = $injector.get("Track");
+          var action = TargetResource["::findById::Playlist::track"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist.track#updateById
+             * @methodOf lbServices.Playlist.track
+             *
+             * @description
+             *
+             * Update a related item by id for track.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             *  - `fk` – `{*}` - Foreign key for track
              *
              * @param {Object} postData Request data.
              *
@@ -14002,9 +14528,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              * This usually means the response is a `Track` object.)
              * </em>
              */
-        R.track.update = function() {
+        R.track.updateById = function() {
           var TargetResource = $injector.get("Track");
-          var action = TargetResource["::update::Playlist::track"];
+          var action = TargetResource["::updateById::Playlist::track"];
           return action.apply(R, arguments);
         };
     /**
@@ -14701,6 +15227,121 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              */
             "createChangeStream": {
               url: urlBase + "/player/change-stream",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Player#play
+             * @methodOf lbServices.Player
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `message` – `{string=}` -
+             */
+            "play": {
+              url: urlBase + "/player/play",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Player#stop
+             * @methodOf lbServices.Player
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `message` – `{string=}` -
+             */
+            "stop": {
+              url: urlBase + "/player/stop",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Player#addTracks
+             * @methodOf lbServices.Player
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             *  - `tracks` – `{*=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+            "addTracks": {
+              url: urlBase + "/player/addTracks",
               method: "POST",
             },
           }

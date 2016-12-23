@@ -9,6 +9,12 @@ import undeerscore from 'underscore'
 
 const app = angular.module('com.module.files.routes', [])
 
+const SECONDS_TO_PIXEL = (2400 / (24 * 60 * 60))
+const TIME_NOW = Date.now()
+const TINE_END = function(time) {
+  return moment(time).toDate()
+}
+
 app.config(($stateProvider) => $stateProvider
   .state('app.files', {
     abstract: true,
@@ -19,24 +25,41 @@ app.config(($stateProvider) => $stateProvider
     url: '',
     templateUrl: templateUrlList,
     controllerAs: 'ctrl',
-    controller: function listCtrl (tracks) {
+    controller: function listCtrl (tracks, TracksService, Player, Playlist, $q) {
 
       tracks.forEach((track) => {
+        console.log("track", track)
         track.expanded = false
         track.style = {
-          height: (2400 / 86400) * track.duration + 'px',
+          height: timeToPx(track.duration),
           color: 'red',
           overflow: 'hidden'
         }
       })
 
-      let playlist = []
+      let playlist = [{
+        endTime: moment().startOf('day').toDate(),
+        isMock: true,
+        style: {
+          height: 0,
+          color: "yellow",
+          border: 'none',
+          display: 'none'
+        }
+      }]
+      console.log('endTime', timeToPx(2 * 60 * 60))
 
-      this.storage = { tracks, playlist }
-      this.moment = moment
+      if (_.last(playlist).endTime < Date.now()) {
+        let lastPlayedSeconds = (Date.now() - _.last(playlist).endTime) / 1000;
 
-      function changePosiion(object) {
-        console.log('change', object)
+        playlist.push({
+          isMock: true,
+          endTime: moment().toDate(),
+          style: {
+            height: timeToPx(lastPlayedSeconds),
+            color: "yellow",
+          }
+        })
       }
 
       this.tracklistSortable = {
@@ -48,6 +71,28 @@ app.config(($stateProvider) => $stateProvider
       this.playlistSortable = {
         allowDuplicates: true,
         containment: '#grid-container'
+      }
+
+
+      this.play = function() {
+        Player.play();
+      }
+      this.stop = function() {
+        Player.stop();
+      }
+
+      this.savePlaylist = function(playlist) {
+        let realTracks = playlist.filter((track) => !track.isMock)
+        console.log('playlist', realTracks)
+
+        TracksService.addTracks(realTracks)
+      }
+
+      this.storage = { tracks, playlist }
+      this.moment = moment
+
+      function changePosiion(object) {
+        console.log('change', object)
       }
 
       this.today = () => {
@@ -76,9 +121,14 @@ app.config(($stateProvider) => $stateProvider
       ]
       this.format = this.formats[ 0 ]
 
+      function timeToPx(time) {
+        return `${SECONDS_TO_PIXEL * time}px`;
+      }
+
     },
     resolve: {
-      tracks: (TracksService) => TracksService.getTracks()
+      tracks: (TracksService) => TracksService.getTracks(),
+      Player: (PlayerService) => PlayerService.getPlayer()
     },
   })
   .state('app.files.upload', {

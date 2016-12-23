@@ -1,3 +1,5 @@
+<button ng-click='ctrl.play()'>Play</button>
+<button ng-click='ctrl.stop()'>Stop</button>
 <div id="grid-container">
   <div class="col-md-5">
     <div class="panel panel-default" >
@@ -54,38 +56,43 @@
             datepicker-options="ctrl.dateOptions"
             ng-required="true" close-text="Close"/>
             <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="ctrl.open($event)"><i
-                class="glyphicon glyphicon-calendar"></i></button>
-                <a href="" class="btn btn-success" ui-sref="^.save()">
-                  <i class="glyphicon glyphicon-saved"></i>
-                </a>
-              </span>
-
-
+              <button type="button" class="btn btn-default" ng-click="ctrl.open($event)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+              <button ng-click="ctrl.savePlaylist(ctrl.storage.playlist)" class="btn btn-success" >
+                <i class="glyphicon glyphicon-saved"></i>
+              </button>
+            </span>
             </p>
           </div>
       </div>
         <div class='list-group playlist-container' ng-model="ctrl.storage.playlist" as-sortable="ctrl.playlistSortable">
+
           <div
+
             ng-repeat="item in ctrl.storage.playlist"
             class="playlist-item"
             as-sortable-item
+            is-disabled="{{true}}"
             ng-click="ctrl.itemClick(item)"
             >
-            <div as-sortable-item-handle ng-style="{{ item.style }}" >
-              <span class="pull-right btn-group">
-                <a href="" class="btn btn-xs btn-default" ui-sref="^.delete({fileName: item.name})">
-                  <i class="fa fa-trash-o"></i>
-                </a>
-              </span>
-              <h4 class="list-group-item-heading">
-                <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
+              <div ng-if="!item.isMock">
+                <div as-sortable-item-handle  ng-style="{{ item.style }}" >
+                  <span class="pull-right btn-group">
+                    <a href="" class="btn btn-xs btn-default" ui-sref="^.delete({fileName: item.name})">
+                      <i class="fa fa-trash-o"></i>
+                    </a>
+                  </span>
+                  <h4 class="list-group-item-heading">
+                    <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
 
 
-                <a href="{{apiUrl}}/containers/files/download/{{item.name}}" target="_blank"><strong>{{item.name}}</strong></a>
-              </h4>
+                    <a href="{{apiUrl}}/containers/files/download/{{item.name}}" target="_blank"><strong>{{item.name}}</strong></a>
+                  </h4>
+                </div>
+              </div>
+              <div ng-if="item.isMock" ng-style="{{ item.style }}" ></div>
             </div>
-
           </div>
         </div>
     </div>

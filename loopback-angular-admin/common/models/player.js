@@ -1,9 +1,13 @@
 'use strict'
 import mpd from 'mpd'
+import { default as debug } from 'debug'
+import Promise from 'bluebird'
+
+const log = debug('player')
 
 module.exports = function(Player) {
 
-  let client;
+  let client = {};
 
   Player.bootstrap = function(cb) {
     client = mpd.connect({
@@ -37,6 +41,13 @@ module.exports = function(Player) {
     })
   }
 
+  Player.remoteMethod('play', {
+    returns: {
+      arg: 'message',
+      type: 'string',
+    }
+  })
+
   Player.stop = function(cb) {
     client.sendCommand(mpd.cmd('stop', []), (err, msg) => {
       if (err) return cb(err)
@@ -45,12 +56,35 @@ module.exports = function(Player) {
     })
   }
 
-  Player.addTracks = function(tracks, cb) {
-    client.sendCommand(mpd.cmd('add', tracks), (err, msg) => {
+  Player.remoteMethod('stop', {
+    returns: {
+      arg: 'message',
+      type: 'string',
+    }
+  })
+
+  Player.addTrack = function(track, cb) {
+    console.log('tracks', track)
+    client.sendCommand(mpd.cmd('add', [track]), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
     })
   }
+
+  Player.addTracks = function(tracks, cb) {
+    console.log('tracks', tracks)
+    return Promise.all(tracks)
+      .map(track => Player.addTrackPromised(track))
+      .catch(err => cb(err))
+  }
+
+  Player.remoteMethod('addTracks', {
+    accepts: {
+      arg: 'tracks',
+      type: 'array'
+    }
+  })
+
 
   Player.crop = function(cb) {
     client.sendCommand(mpd.cmd('crop', []), (err, msg) => {
@@ -72,4 +106,13 @@ module.exports = function(Player) {
       return cb(null, msg)
     })
   }
+
+  Player.getStatus = function(cb) {
+    client.sendCommand(mpd.cmd('status', []), (err, msg) => {
+      if (err) return cb(err)
+      return cb(null, msg)
+    })
+  }
+
+  Promise.promisifyAll(Player, { suffix: 'Promised' })
 }

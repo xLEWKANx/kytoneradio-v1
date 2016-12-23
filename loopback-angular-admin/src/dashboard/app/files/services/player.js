@@ -1,45 +1,47 @@
 'use strict'
 import angular from 'angular'
 
-function TracksService (CoreService, Track, Player, gettextCatalog, $q) {
+function PlayerService (CoreService, Player, gettextCatalog) {
 
-  this.getTracks = () => Track.find({
-    filter: {
-      order: 'created DESC',
-    },
-  }).$promise
+  this.getPlayer = () => Player
 
-  this.getTrack = (id) => Track.findById({ id }).$promise
-
-  this.addTracks = (tracks) => {
-    let trackNames = tracks.map((track) => track.name)
-    return $q.all(Player.addTracks({ tracks: trackNames }))
-      .then(() => CoreService.toastSuccess(
-        gettextCatalog.getString(`${trackNames.length} added to playlist`)
-        )
+  this.play = (Player) => Player.play().$promise
+    .then(() => CoreService.toastInfo(
+      gettextCatalog.getString('Broadcast started')
       )
-      .catch((err) => CoreService.toastError(
-        gettextCatalog.getString(`Error add tracks to playlist`),
-        gettextCatalog.getString(`This track could no be saved: ${err}`)
-        )
+    )
+    .catch((err) => CoreService.toastSuccess(
+      gettextCatalog.getString('Error playing broadcast'),
+      gettextCatalog.getString(err)
       )
-    }
+    )
 
-  this.deleteTrack = (id, successCb, cancelCb) => {
+  this.stop = (Player) => Player.stop().$promise
+    .then(() => CoreService.toastWarning(
+      gettextCatalog.getString('Broadcast stoped')
+      )
+    )
+    .catch((err) => CoreService.toastError(
+      gettextCatalog.getString('Error playing broadcast'),
+      gettextCatalog.getString(err)
+      )
+    )
+
+  this.deletePlayer = (id, successCb, cancelCb) => {
     CoreService.confirm(
       gettextCatalog.getString('Are you sure?'),
       gettextCatalog.getString('Deleting this cannot be undone'),
       () => {
-        Track.deleteById({ id: id },
+        Player.deleteById({ id: id },
           () => {
             CoreService.toastSuccess(
-              gettextCatalog.getString('Track deleted'),
-              gettextCatalog.getString('Your track is deleted!'))
+              gettextCatalog.getString('Player deleted'),
+              gettextCatalog.getString('Your Player is deleted!'))
             successCb()
           }, (err) => {
             CoreService.toastError(
-              gettextCatalog.getString('Error deleting track'),
-              gettextCatalog.getString(`Your track is not deleted! ${err}`))
+              gettextCatalog.getString('Error deleting Player'),
+              gettextCatalog.getString(`Your Player is not deleted! ${err}`))
             cancelCb()
           })
       },
@@ -92,5 +94,5 @@ function TracksService (CoreService, Track, Player, gettextCatalog, $q) {
 }
 
 angular
-  .module('com.module.files.services.track', [])
-  .service('TracksService', TracksService)
+  .module('com.module.files.services.player', [])
+  .service('PlayerService', PlayerService)

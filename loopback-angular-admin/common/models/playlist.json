@@ -15,14 +15,17 @@
     "endTime": {
       "type": "date",
       "required": true
+    },
+    "trackId": {
+      "type": "string"
     }
   },
   "validations": [],
   "relations": {
     "track": {
-      "type": "hasOne",
+      "type": "hasMany",
       "model": "Track",
-      "foreignKey": "playlistId"
+      "foreignKey": "trackId"
     },
     "event": {
       "type": "hasOne",
