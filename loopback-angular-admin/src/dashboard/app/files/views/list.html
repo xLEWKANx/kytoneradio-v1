@@ -66,10 +66,12 @@
             </p>
           </div>
       </div>
-        <div class='list-group playlist-container' ng-model="ctrl.storage.playlist" as-sortable="ctrl.playlistSortable">
-
+        <div class='list-group playlist-container'
+          ng-model="ctrl.storage.playlist"
+          as-sortable="ctrl.playlistSortable"
+          ng-style="ctrl.containerStyle"
+        >
           <div
-
             ng-repeat="item in ctrl.storage.playlist"
             class="playlist-item"
             as-sortable-item
@@ -77,17 +79,15 @@
             ng-click="ctrl.itemClick(item)"
             >
               <div ng-if="!item.isMock">
-                <div as-sortable-item-handle  ng-style="{{ item.style }}" >
+                <div as-sortable-item-handle ng-style="{{ item.style }}" >
                   <span class="pull-right btn-group">
-                    <a href="" class="btn btn-xs btn-default" ui-sref="^.delete({fileName: item.name})">
+                    <button href="" class="btn btn-xs btn-default" ng-click="ctrl.delete($index)">
                       <i class="fa fa-trash-o"></i>
-                    </a>
+                    </button>
                   </span>
                   <h4 class="list-group-item-heading">
                     <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
-
-
-                    <a href="{{apiUrl}}/containers/files/download/{{item.name}}" target="_blank"><strong>{{item.name}}</strong></a>
+                  <strong>{{item.name}}</strong>
                   </h4>
                 </div>
               </div>

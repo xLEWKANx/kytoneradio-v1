@@ -2,11 +2,11 @@
 import angular from 'angular'
 
 function MainCtrl ($scope, $rootScope, $state, AppAuth, CoreService, User, gettextCatalog) {
-  AppAuth.ensureHasCurrentUser(() => {
-    // This call also serves to redirect a user to the login screen
-    // via the interceptor in users.auth.js, if they are not authenticated.
-    $scope.currentUser = User.getCurrent()
-  })
+  // AppAuth.ensureHasCurrentUser(() => {
+  //   // This call also serves to redirect a user to the login screen
+  //   // via the interceptor in users.auth.js, if they are not authenticated.
+  //   $scope.currentUser = User.getCurrent()
+  // })
 
   $scope.menuoptions = $rootScope.menu
 

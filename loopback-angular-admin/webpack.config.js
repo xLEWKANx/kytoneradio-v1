@@ -211,7 +211,6 @@ module.exports = function makeWebpackConfig () {
   config.devServer = {
     contentBase: `${clientApp}/public`,
     inline: true,
-    open: true,
     port: clientAppPort,
     stats: {
       colors: true,
