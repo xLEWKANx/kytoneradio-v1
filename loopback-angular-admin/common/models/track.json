@@ -19,8 +19,8 @@
       "type": "string",
       "required": true
     },
-    "storage": {
-      "type": "object"
+    "container": {
+      "type": "string"
     },
     "processed": {
       "type": "boolean"

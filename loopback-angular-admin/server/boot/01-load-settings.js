@@ -83,7 +83,7 @@ module.exports = function (app) {
       console.error(err)
     }
     if (result < 1) {
-      loadDefaultSettings()
+      // loadDefaultSettings()
     } else {
       loadExistingSettings()
     }

@@ -50,11 +50,12 @@
         <div class="col-md-6 pull-right calendar">
           <p class="input-group">
             <input type="text" class="form-control" datepicker-popup="{{ctrl.format}}" ng-model="ctrl.dt"
-            disabled="true"
-            is-open="ctrl.opened"
-            show-button-bar="false"
-            datepicker-options="ctrl.dateOptions"
-            ng-required="true" close-text="Close"/>
+              disabled="true"
+              is-open="ctrl.opened"
+              show-button-bar="false"
+              datepicker-options="ctrl.dateOptions"
+              ng-required="true" close-text="Close"
+            />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="ctrl.open($event)">
                 <i class="glyphicon glyphicon-calendar"></i>

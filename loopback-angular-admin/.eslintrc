@@ -1,6 +1,6 @@
 {
   "plugins": [
-    "jasmine"
+    "eslint-plugin-jasmine"
   ],
   "extends": [
     "plugin:jasmine/recommended"

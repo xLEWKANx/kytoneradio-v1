@@ -16,6 +16,7 @@ module.exports = function(Player) {
   Player.bootstrap = function(cb) {
     client = mpd.connect({
       port: 6600,
+      
       host: 'localhost',
     })
     client.on('error', (err) => {

@@ -1,10 +1,11 @@
 /* eslint-env jasmine, node */
-let app = require('../../server/server')
-let Player = app.models['Player']
 
 describe('Player test', () => {
-  let player
+  console.log('Player test')
+  let app, Player, player
   beforeAll((done) => {
+    app = require('../../server/server')
+    Player = app.models['Player']
     app.on('inititated', () => {
       done()
     })
@@ -26,13 +27,13 @@ describe('Player test', () => {
   //   })
   // })
 
-  it('Add tracks to playlist', (done) => {
-    Player.addTracks(['04. Empty Tombs.mp3', 'Trying Science - Vacation for Snakes - 05 0FPS.mp3'], (err, msg) => {
-      expect(err).toBe(null)
-      console.log('msg', msg)
-      done()
-    })
-  })
+  // it('Add tracks to playlist', (done) => {
+  //   Player.addTracks(['04. Empty Tombs.mp3', 'Trying Science - Vacation for Snakes - 05 0FPS.mp3'], (err, msg) => {
+  //     expect(err).toBe(null)
+  //     console.log('msg', msg)
+  //     done()
+  //   })
+  // })
   //
   // it('Remove tracks from playlist', (done) => {
   //   Player.removeTrack([1], (err, msg) => {

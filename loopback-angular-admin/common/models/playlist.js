@@ -1,6 +1,8 @@
 'use strict'
 import { default as debug } from 'debug'
 import Promise from 'bluebird'
+import moment from 'moment'
+import _ from 'lodash'
 
 const log = debug('player:playlist')
 global.Promise = Promise
@@ -9,29 +11,72 @@ module.exports = function(Playlist) {
 
   Playlist.addToQueue = function(track, cb) {
     Playlist.findOnePromised({
-      where: {
-        index: { gt: 0 }
-      },
-      order: 'index DESC'
+      order: 'index DESC',
+      limit: 1
     })
     .then((lastTrack) => {
       if (!lastTrack) lastTrack = {
-        index: -1,
-        endTime: Date.now()
+        index: 0,
+        endTime: new Date()
       }
-      return Playlist.upsert({
+      log('lastTrack', lastTrack)
+      let playlistToCreate = {
         index: lastTrack.index + 1,
         startTime: lastTrack.endTime,
-        endTime: lastTrack.endTime + track.duration,
+        endTime: addSecound(lastTrack.endTime, track.duration),
         name: track.name,
         trackId: track.id
-      })
+      }
+      log('creating', playlistToCreate)
+      return Playlist.create(playlistToCreate)
     })
-    .then(() => {
-      return cb(null, null)
+    .then((upserted) => {
+      return cb(null, upserted)
     })
     .catch(cb)
+
+    function addSecound(date, duration) {
+      return moment(date).add(duration, 'seconds').toDate()
+    }
   }
+
+  Playlist.getTrack = (index, cb) => {
+    return Playlist.findOne({
+      where: {
+        index: index + 1
+      },
+      include: ['track']
+    }, cb)
+  }
+
+  Playlist.observe('before save', (ctx, next) => {
+    log('before save | ctx', _.keys(ctx))
+    log('before save | instance', Object.getOwnPropertyNames(ctx.instance), ctx.instance instanceof Playlist, _.omit(ctx, 'Model'))
+
+    // nextTrack = Promise.promisify(ctx.instance.nextTrack, { context: ctx })
+
+    if (ctx.instance) {
+
+      Playlist.getTrackPromised(ctx.instance.id)
+        .then((nextTrack) => {
+          if (nextTrack) {
+            if (ctx.instance.endTime !== nextTrack.startTime) {
+              log('nextTrack !== current', ctx.instance.endTime !== nextTrack.startTime)
+              nextTrack.startTime = ctx.instance.endTime
+              nextTrack.endTime = ctx.instance.endTime + nextTrack.track().duration
+            }
+          }
+          next()
+          // return nextTrack.save();
+        })
+        .catch((err) => {
+          debug('error', err)
+          next(err)
+        })
+    } else {
+      next()
+    }
+  })
 
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })
 
