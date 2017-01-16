@@ -17,7 +17,7 @@ const debugEnabled = process.env.DEBUG_API
 const apiUrl = process.env.API_URL || 'http://0.0.0.0:3027/api'
 const babelNode = './node_modules/.bin/babel-node'
 const exec = debugEnabled ? `${babelNode} --debug` : `${babelNode}`
-
+console.log('debugEnabled', debugEnabled)
 // ESLint configuration
 gulp.task('lint', () => gulp
   .src([
@@ -70,8 +70,7 @@ gulp.task('serve', () => nodemon({
 // The default taks
 gulp.task('default', [
   'lint',
-  'serve',
-  'loopback',
+  'serve'
 ])
 
 // client side TODO webpack
@@ -133,7 +132,7 @@ gulp.task('img',() => gulp
   ))
 )
 
-gulp.task('watch:client', function(){
+gulp.task('watch:client', () => {
 
   // server.run(['www']);
   /*require('./www');*/

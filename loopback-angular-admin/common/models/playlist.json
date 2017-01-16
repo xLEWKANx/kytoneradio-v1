@@ -26,6 +26,9 @@
     },
     "trackId": {
       "type": "string"
+    },
+    "error": {
+      "type": "string"
     }
   },
   "validations": [],

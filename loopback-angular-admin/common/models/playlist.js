@@ -9,6 +9,16 @@ global.Promise = Promise
 
 module.exports = function(Playlist) {
 
+  Playlist.createFakePlaylist = function (faker) {
+    return Event.create({
+      name: faker.lorem.sentence(),
+      description: faker.lorem.paragraph(),
+      startDate: faker.date.future(),
+      endDate: faker.date.future(),
+      image: `${faker.image.imageUrl()}/nightlife/${(Math.random() * 9 | 0)}`,
+    })
+  }
+
   Playlist.addToQueue = function(track, cb) {
     Playlist.findOnePromised({
       order: 'index DESC',
@@ -42,9 +52,7 @@ module.exports = function(Playlist) {
 
   Playlist.getTrack = (index, cb) => {
     return Playlist.findOne({
-      where: {
-        index: index + 1
-      },
+      where: { index },
       include: ['track']
     }, cb)
   }
@@ -57,7 +65,7 @@ module.exports = function(Playlist) {
 
     if (ctx.instance) {
 
-      Playlist.getTrackPromised(ctx.instance.id)
+      Playlist.getTrackPromised(ctx.instance.id + 1)
         .then((nextTrack) => {
           if (nextTrack) {
             if (ctx.instance.endTime !== nextTrack.startTime) {

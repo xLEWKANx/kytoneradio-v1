@@ -6,8 +6,8 @@ import fs from 'fs'
 import { default as debug } from 'debug'
 
 const log = debug('boot:player')
-
 let parser = Promise.promisify(mm)
+const MUSIC_EXTENTION_REGEXP = /.mp3$/
 
 module.exports = function(Track) {
   Promise.promisifyAll(Track, { suffix: 'Promised' })
@@ -33,11 +33,20 @@ module.exports = function(Track) {
         })
       })
       .then(meta => {
-        readStream.close()
         log(`Track | Added meta to ${this.name}`)
         return cb(null, meta)
       })
-      .catch(err => cb(err))
+      .catch(err => {
+        console.log(err)
+        return this.updateAttributesPromised({
+          processed: false,
+          error: err.toString()
+        })
+        .then(() => cb(err))
+      })
+      .finally(() => {
+        readStream.close()
+      })
   }
 
   // Track.getAllMeta = function(cb) {
@@ -63,12 +72,7 @@ module.exports = function(Track) {
         trackStorage = tracks
         return getFiles('music')
       })
-      .filter(file => {
-        if (!/.mp3$/.test(file.name)) return false
-        let stored = _.findWhere(trackStorage, { name: file.name })
-        if (stored && stored.processed) return false
-        else return true
-      })
+      .filter(filterUnstoredMusic)
       .then(files => { log('filtered', files.length); return files })
       .map(file => {
         let trackPath = `${app.get('STORAGE_PATH')}/music/${file.name}`
@@ -87,7 +91,14 @@ module.exports = function(Track) {
         return getMetaPromised()
       })
       .then(res => cb(null, res))
-      .catch(cb)
+      .catch(err => cb(err))
+
+      function filterUnstoredMusic(file) {
+        if (!MUSIC_EXTENTION_REGEXP.test(file.name)) return false
+        let stored = _.findWhere(trackStorage, { name: file.name })
+        if (stored && stored.processed) return false
+        else return true
+      }
   }
 
   Track.remoteMethod('getMeta', {
@@ -100,5 +111,6 @@ module.exports = function(Track) {
     isStatic: true,
     returns: { arg: 'body', type: 'array', root: true }
   })
+
 
 }

@@ -18,7 +18,7 @@ module.exports = function (app) {
 
   app.set('STORAGE_PATH', STORAGE_PATH)
   app.models.Track.scanDir((err, result) => {
-    if (err) throw err
+    if (err) return console.log(err)
     log('scanned at boot ', result.length)
   })
   // app.model(container)
