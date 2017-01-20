@@ -29,9 +29,13 @@ module.exports = function(Track) {
         duration: meta.duration,
         processed: true
       }
+      Object.assign(this, info)
       log(`Track | Added meta to ${this.name}`)
       readStream.close()
-      return cb(err, meta)
+      return Track.destroyAll({ name: this.name })
+        .then(() => cb(null, info))
+        .catch(cb)
+
     })
   }
 
@@ -39,8 +43,17 @@ module.exports = function(Track) {
     isStatic: false
   })
 
-  Track.scanDir = function(cb) {
+  Track.observe('before save', (ctx, next) => {
+    log('before save | ctx', _.keys(ctx))
+    if (ctx.instance && !ctx.instance.processed) {
+      ctx.instance.getMeta(next)
+    } else {
+      next()
+    }
+  })
 
+  Track.scanDir = function(cb) {
+    let db = Track.app.dataSources.db;
     let app = Track.app
     let musicStorage = app.models.musicStorage
 
@@ -61,9 +74,9 @@ module.exports = function(Track) {
           return filtered
         })
       })
-      .then(files => {
-        let tracks = files.map(fileToTrack)
-        return Track.createPromised(tracks)
+      .map(file => {
+        let track = fileToTrack(file)
+        return Track.createPromised(track)
       })
       .then(res => cb(null, res))
       .catch(err => cb(err))
@@ -98,12 +111,20 @@ module.exports = function(Track) {
     returns: { arg: 'body', type: 'array', root: true }
   })
 
-  Track.observe('before save', (ctx, next) => {
-    if (ctx.instance && !ctx.instance.processed) {
-      ctx.instance.getMeta(next)
-    } else {
-      next()
+  Track.prototype.addToPlaylist = function(position, cb) {
+    if (typeof position === 'function') { 
+      cb = position;
+      position = null;
     }
+    this.playlist.create({
+      index: position,
+      name: this.name
+    }, cb)
+  }
+
+  Track.remoteMethod('addToPlaylist', {
+    isStatic: false,
+    returns: { arg: 'playlist', type: 'object', root: true }
   })
 
   Promise.promisifyAll(Track, { suffix: 'Promised' }) 

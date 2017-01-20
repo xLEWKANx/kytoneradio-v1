@@ -9,12 +9,13 @@
   "properties": {
     "id": {
       "type": "string",
-      "required": true
+      "required": true,
+      "generated": true
     },
     "name": {
       "type": "string",
       "required": true,
-      "index": {"unique": true}
+      "index": { "unique": true }
     },
     "duration": {
       "type": "number"
