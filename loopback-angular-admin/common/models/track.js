@@ -6,12 +6,9 @@ import fs from 'fs'
 import { default as debug } from 'debug'
 
 const log = debug('boot:player')
-let parser = Promise.promisify(mm)
 const MUSIC_EXTENTION_REGEXP = /.mp3$/
 
 module.exports = function(Track) {
-  Promise.promisifyAll(Track, { suffix: 'Promised' })
-
   Track.createFakeData = function (faker, count) {
     let name = `track # - ${count}.mp3`
     return Track.create({
@@ -23,94 +20,92 @@ module.exports = function(Track) {
 
   Track.prototype.getMeta = function(cb) {
     let readStream = fs.createReadStream(this.path)
-    log('getting meta for', this.name)
-    parser(readStream, { duration: true })
-      .then(meta => {
-
-        return this.updateAttributesPromised({
-          processed: true,
-          duration: meta.duration
-        })
-      })
-      .then(meta => {
-        log(`Track | Added meta to ${this.name}`)
-        return cb(null, meta)
-      })
-      .catch(err => {
-        console.log(err)
-        return this.updateAttributesPromised({
-          processed: false,
-          error: err.toString()
-        })
-        .then(() => cb(err))
-      })
-      .finally(() => {
-        readStream.close()
-      })
+    log('getting meta for', this)
+    mm(readStream, { duration: true }, (err, meta) => {
+      let info = (err) ? {
+        err: err.toString(),
+        processed: false
+      } : {
+        duration: meta.duration,
+        processed: true
+      }
+      log(`Track | Added meta to ${this.name}`)
+      readStream.close()
+      return cb(err, meta)
+    })
   }
 
-  // Track.getAllMeta = function(cb) {
-  //   Track.findPromised({ where: { processed: false } })
-  //     .mapSeries(track => {
-  //       let getMetaPromised = Promise.promisify(track.getMeta, { context: track })
-  //       return getMetaPromised()
-  //     })
-  //     .then(res => cb(null, res))
-  //     .catch(err => cb(err))
-  // }
+  Track.remoteMethod('getMeta', {
+    isStatic: false
+  })
 
   Track.scanDir = function(cb) {
 
     let app = Track.app
     let musicStorage = app.models.musicStorage
 
-    let getFiles = Promise.promisify(musicStorage.getFiles, { context: app.musicStorage })
-    let trackStorage
+    musicStorage.getFilesPromised('music')
+      .filter(filterOnlyMusic)
+      .then(files => {
+        let filenames = files.map(file => file.name) 
 
-    Track.findPromised({})
-      .then(tracks => {
-        trackStorage = tracks
-        return getFiles('music')
-      })
-      .filter(filterUnstoredMusic)
-      .then(files => { log('filtered', files.length); return files })
-      .map(file => {
-        let trackPath = `${app.get('STORAGE_PATH')}/music/${file.name}`
-
-        return Track.findOrCreatePromised({
-          where: { name: file.name }
-        }, {
-          name: file.name,
-          path: trackPath,
-          container: file.container,
-          processed: false
+        return Track.find({
+          where: {
+            name: {
+              inq: filenames
+            },
+            processed: true
+          }
+        }).then(processed => {
+          let filtered = filterProcessed(processed, files)
+          return filtered
         })
       })
-      .mapSeries(track => {
-        let getMetaPromised = Promise.promisify(track.getMeta, { context: track })
-        return getMetaPromised()
+      .then(files => {
+        let tracks = files.map(fileToTrack)
+        return Track.createPromised(tracks)
       })
       .then(res => cb(null, res))
       .catch(err => cb(err))
 
-      function filterUnstoredMusic(file) {
+      function fileToTrack(file){
+        let trackPath = `${app.get('STORAGE_PATH')}/music/${file.name}`
+
+        return {
+          name: file.name,
+          path: trackPath,
+          container: file.container,
+          processed: false
+        }
+      }
+
+      function filterOnlyMusic(file, tracks) {
         if (!MUSIC_EXTENTION_REGEXP.test(file.name)) return false
-        let stored = _.findWhere(trackStorage, { name: file.name })
-        if (stored && stored.processed) return false
         else return true
+      }
+
+      function filterProcessed(processed, files) {
+        return files.filter(file => {
+          return !processed.some(pFile =>  {
+            return pFile.name === file.name
+          })
+        })
       }
   }
 
-  Track.remoteMethod('getMeta', {
-    isStatic: false
-  })
-  Track.remoteMethod('getMeta', {
-    isStatic: true
-  })
   Track.remoteMethod('scanDir', {
     isStatic: true,
     returns: { arg: 'body', type: 'array', root: true }
   })
 
+  Track.observe('before save', (ctx, next) => {
+    if (ctx.instance && !ctx.instance.processed) {
+      ctx.instance.getMeta(next)
+    } else {
+      next()
+    }
+  })
 
+  Promise.promisifyAll(Track, { suffix: 'Promised' }) 
+  Promise.promisifyAll(Track.prototype, { suffix: 'Promised' }) 
 }

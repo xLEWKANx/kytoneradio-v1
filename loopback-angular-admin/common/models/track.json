@@ -7,6 +7,10 @@
     "validateUpsert": true
   },
   "properties": {
+    "id": {
+      "type": "string",
+      "required": true
+    },
     "name": {
       "type": "string",
       "required": true,
@@ -33,7 +37,8 @@
   "relations": {
     "playlist": {
       "type": "hasMany",
-      "model": "Playlist"
+      "model": "Playlist",
+      "foreignKey": "playlistId"
     }
   },
   "acls": [],

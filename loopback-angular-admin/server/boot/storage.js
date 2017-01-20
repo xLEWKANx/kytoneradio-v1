@@ -1,5 +1,6 @@
 'use strict'
 import path from 'path'
+import Promise from 'bluebird'
 import { default as debug } from 'debug'
 
 const log = debug('boot:player')
@@ -17,6 +18,9 @@ module.exports = function (app) {
   // const container = ds.createModel('container')
 
   app.set('STORAGE_PATH', STORAGE_PATH)
+
+  Promise.promisifyAll(app.models.musicStorage, { suffix: 'Promised' });
+
   app.models.Track.scanDir((err, result) => {
     if (err) return console.log(err)
     log('scanned at boot ', result.length)
