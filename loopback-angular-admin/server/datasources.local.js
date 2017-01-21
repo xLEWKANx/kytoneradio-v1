@@ -6,6 +6,7 @@ module.exports = {
     name: 'db',
     connector: 'loopback-connector-mongodb',
     url: MONGODB_URL,
+    allowExtendedOperators: true
   },
   'storage': {
     'name': 'trackStorage',

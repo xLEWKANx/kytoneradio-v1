@@ -17,11 +17,4 @@ import { unlink } from 'fs'
     });
   });
 
-  beforeAll((done) => {
-    console.log('HELPER AS !!!!')
-    unlink('./memory.json', (err, result) => {
-      console.log('unlink', err, result)
-      done()
-    })
-  })
 // })

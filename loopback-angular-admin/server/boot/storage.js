@@ -21,10 +21,10 @@ module.exports = function (app) {
 
   Promise.promisifyAll(app.models.musicStorage, { suffix: 'Promised' });
 
-  app.models.Track.scanDir((err, result) => {
-    if (err) return console.log(err)
-    log('scanned at boot ', result.length)
-  })
+  // app.models.Track.scanDir((err, result) => {
+  //   if (err) return console.log(err)
+  //   log('scanned at boot ', result.length)
+  // })
   // app.model(container)
 
 }

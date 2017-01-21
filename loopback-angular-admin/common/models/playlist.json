@@ -7,10 +7,13 @@
     "validateUpsert": true
   },
   "properties": {
+    "id": {
+      "type": "string",
+      "required": true
+    },
     "index": {
       "type": "number",
       "required": true,
-      "id": true,
       "index": { "unique": true }
     },
     "name": {
@@ -26,15 +29,12 @@
     },
     "trackId": {
       "type": "string"
-    },
-    "error": {
-      "type": "string"
     }
   },
   "validations": [],
   "relations": {
     "track": {
-      "type": "hasMany",
+      "type": "belongsTo",
       "model": "Track",
       "foreignKey": "trackId"
     },

@@ -49,13 +49,13 @@ describe('Player test', () => {
   //     done()
   //   })
   // })
-  it('return status', (done) => {
-    Player.getStatus((err, msg) => {
-      expect(err).toBe(null)
-      console.log('status', msg)
-      done()
-    })
-  })
+  // it('return status', (done) => {
+  //   Player.getStatus((err, msg) => {
+  //     expect(err).toBe(null)
+  //     console.log('status', msg)
+  //     done()
+  //   })
+  // })
 
   // it('Stop playing', (done) => {
   //   Player.stop((err, msg) => {

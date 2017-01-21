@@ -30,9 +30,6 @@ module.exports = function (app) {
     },
     Slide: {
       count: 30
-    },
-    Track: {
-      count: 30
     }
   }
 

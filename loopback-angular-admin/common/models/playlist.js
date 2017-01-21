@@ -9,47 +9,6 @@ global.Promise = Promise
 
 module.exports = function(Playlist) {
 
-  Playlist.createFakePlaylist = function (faker) {
-    return Event.create({
-      name: faker.lorem.sentence(),
-      description: faker.lorem.paragraph(),
-      startDate: faker.date.future(),
-      endDate: faker.date.future(),
-      image: `${faker.image.imageUrl()}/nightlife/${(Math.random() * 9 | 0)}`,
-    })
-  }
-
-  Playlist.addToQueue = function(track, cb) {
-    Playlist.findOnePromised({
-      order: 'index DESC',
-      limit: 1
-    })
-    .then((lastTrack) => {
-      if (!lastTrack) lastTrack = {
-        index: 0,
-        endTime: new Date()
-      }
-      log('lastTrack', lastTrack)
-      let playlistToCreate = {
-        index: lastTrack.index + 1,
-        startTime: lastTrack.endTime,
-        endTime: addSecound(lastTrack.endTime, track.duration),
-        name: track.name,
-        trackId: track.id
-      }
-      log('creating', playlistToCreate)
-      return Playlist.create(playlistToCreate)
-    })
-    .then((upserted) => {
-      return cb(null, upserted)
-    })
-    .catch(cb)
-
-    function addSecound(date, duration) {
-      return moment(date).add(duration, 'seconds').toDate()
-    }
-  }
-
   Playlist.getTrack = (index, cb) => {
     return Playlist.findOne({
       where: { index },
@@ -57,35 +16,59 @@ module.exports = function(Playlist) {
     }, cb)
   }
 
+  Playlist.addSecond = (date, duration) => {
+    if (!date) throw new Error('date is', date)
+    return moment(date).add(duration, 'seconds').toDate()
+  }
+
+  Playlist.setQueueInfo = (playlistTrack, cb) => {
+    Playlist.findOnePromised({
+      where: {
+        index: {
+          gte: playlistTrack.index || 0
+        }
+      },
+      sort: {
+        index: -1
+      },
+      include: 'track'
+    }, { skip: true })
+    .then((lastPlaylistTrack) => {
+      if (!lastPlaylistTrack) {
+        playlistTrack = Object.assign(playlistTrack, {
+          index: 0,
+          startTime: new Date,
+          endTime: Playlist.addSecond(new Date, playlistTrack.track().duration)
+        })
+      }
+      else {
+        console.log('playlistTrack.track()', playlistTrack.track, playlistTrack)
+        playlistTrack = Object.assign(playlistTrack, {
+          index: lastPlaylistTrack.index + 1,
+          startTime: lastPlaylistTrack.endTime,
+          endTime: Playlist.addSecond(lastPlaylistTrack.endTime, playlistTrack.track().duration)
+        })
+      }
+      log('setQueueInfo track:', playlistTrack)
+      cb(null, playlistTrack)
+    })
+    .catch((err) => {
+      cb(err)
+    })
+  }
+
   Playlist.observe('before save', (ctx, next) => {
+    if (ctx.options.skip) return next()
+    log('instance', ctx.instance)
     log('before save | ctx', _.keys(ctx))
-    log('before save | instance', Object.getOwnPropertyNames(ctx.instance), ctx.instance instanceof Playlist, _.omit(ctx, 'Model'))
-
-    // nextTrack = Promise.promisify(ctx.instance.nextTrack, { context: ctx })
-
     if (ctx.instance) {
+      //  Playlist.setQueueInfo(ctx.instance
+      return next()
 
-      Playlist.getTrackPromised(ctx.instance.id + 1)
-        .then((nextTrack) => {
-          if (nextTrack) {
-            if (ctx.instance.endTime !== nextTrack.startTime) {
-              log('nextTrack !== current', ctx.instance.endTime !== nextTrack.startTime)
-              nextTrack.startTime = ctx.instance.endTime
-              nextTrack.endTime = ctx.instance.endTime + nextTrack.track().duration
-            }
-          }
-          next()
-          // return nextTrack.save();
-        })
-        .catch((err) => {
-          debug('error', err)
-          next(err)
-        })
     } else {
-      next()
+      return next()
     }
   })
 
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })
-
 }

@@ -5,7 +5,7 @@ import mm from 'musicmetadata'
 import fs from 'fs'
 import { default as debug } from 'debug'
 
-const log = debug('boot:player')
+const log = debug('player:track')
 const MUSIC_EXTENTION_REGEXP = /.mp3$/
 
 module.exports = function(Track) {
@@ -44,7 +44,9 @@ module.exports = function(Track) {
   })
 
   Track.observe('before save', (ctx, next) => {
+    if (ctx.options.skip) return next()
     log('before save | ctx', _.keys(ctx))
+
     if (ctx.instance && !ctx.instance.processed) {
       ctx.instance.getMeta(next)
     } else {
@@ -60,7 +62,7 @@ module.exports = function(Track) {
     musicStorage.getFilesPromised('music')
       .filter(filterOnlyMusic)
       .then(files => {
-        let filenames = files.map(file => file.name) 
+        let filenames = files.map(file => file.name)
 
         return Track.find({
           where: {
@@ -112,7 +114,7 @@ module.exports = function(Track) {
   })
 
   Track.prototype.addToPlaylist = function(position, cb) {
-    if (typeof position === 'function') { 
+    if (typeof position === 'function') {
       cb = position;
       position = null;
     }
@@ -127,6 +129,6 @@ module.exports = function(Track) {
     returns: { arg: 'playlist', type: 'object', root: true }
   })
 
-  Promise.promisifyAll(Track, { suffix: 'Promised' }) 
-  Promise.promisifyAll(Track.prototype, { suffix: 'Promised' }) 
+  Promise.promisifyAll(Track, { suffix: 'Promised' })
+  Promise.promisifyAll(Track.prototype, { suffix: 'Promised' })
 }
