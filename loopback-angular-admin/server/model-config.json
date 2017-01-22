@@ -105,5 +105,9 @@
   "musicStorage": {
     "dataSource": "storage",
     "public": true
+  },
+  "Counter": {
+    "dataSource": "db",
+    "public": true
   }
 }

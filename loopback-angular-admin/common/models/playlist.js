@@ -64,7 +64,12 @@ module.exports = function(Playlist) {
     if (ctx.instance) {
       // next()
       // return ctx.instance.setTime(next)
-      Counter.autoIncId('Player', ctx.instance, next)
+      Counter.autoIncIdPromised('Playlist', ctx.instance)
+        .then((instance) => {
+          console.log('instance', instance)
+          return ctx.instance.setTime(next)
+        })
+        .catch(next)
     } else {
       return next()
     }
