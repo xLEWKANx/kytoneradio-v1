@@ -35,14 +35,12 @@ module.exports = function(Playlist) {
       console.log('lastPlaylistTrack', lastPlaylistTrack)
       if (!lastPlaylistTrack) {
         Object.assign(this, {
-          index: 0,
           startTime: new Date,
           endTime: Playlist.addSecond(new Date, this.duration)
         })
       }
       else {
         Object.assign(this, {
-          index: lastPlaylistTrack.index + 1,
           startTime: lastPlaylistTrack.endTime,
           endTime: Playlist.addSecond(lastPlaylistTrack.endTime, this.duration)
         })
@@ -61,18 +59,23 @@ module.exports = function(Playlist) {
     if (ctx.options.skip) return next()
     log('instance', ctx.instance)
     log('before save | ctx', _.keys(ctx))
-    if (ctx.instance) {
+    if (ctx.instance && ctx.isNewInstance) {
       // next()
       // return ctx.instance.setTime(next)
-      Counter.autoIncIdPromised('Playlist', ctx.instance)
+      Counter.autoIncIdPromised(ctx.instance)
         .then((instance) => {
-          console.log('instance', instance)
           return ctx.instance.setTime(next)
         })
         .catch(next)
     } else {
       return next()
     }
+  })
+
+  Playlist.observe('before delete', (ctx, next) => {
+    let Counter = Playlist.app.models.Counter
+    Counter.autoDecId("Playlist", next)
+
   })
 
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })

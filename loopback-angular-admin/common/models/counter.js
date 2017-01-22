@@ -6,7 +6,7 @@ module.exports = function (Counter) {
   Counter.initAutoInc = function(collection, cb) {
 
     const AutoInc = {
-      "seq" : 0,
+      "seq" : -1,
       "collection" : collection
     }
 
@@ -17,11 +17,11 @@ module.exports = function (Counter) {
     }, AutoInc, cb)
   }
 
-  Counter.autoIncId = function(collection, instance, next) {
+  Counter.autoIncId = function(instance, next) {
+    if (!instance) next(new Error('instance do not specified'))
     let mongoConnector = Counter.app.dataSources.db.connector
-    console.log('collection', collection)
     mongoConnector.collection("Counter").findAndModify(
-      { collection: collection },
+      { collection: instance.constructor.definition.name },
       [ ['_id', 'asc'] ],
       { $inc: { seq: 1 }},
       { new: true },
@@ -31,11 +31,29 @@ module.exports = function (Counter) {
           next (err);
         } else {
           console.log('sequence', sequence)
-          // Do what I need to do with new incremented value sequence.value
-          //Save the tweet id with autoincrement..
           instance.index = sequence.value.seq;
           next(null, instance);
         }
+    });
+  }
+
+  Counter.autoDecId = function(collection, next) {
+    if (!collection) next(new Error('collection do not specified'))
+    let mongoConnector = Counter.app.dataSources.db.connector
+
+    mongoConnector.collection("Counter").findAndModify(
+    { collection: collection},
+    [ ['_id', 'asc'] ],
+    { $inc: { seq: -1 }},
+    { new: true },
+    (err, sequence) => {
+      if(err) {
+        console.log('error', err)
+        next (err);
+      } else {
+        console.log('sequence', sequence)
+        next(null, sequence);
+      }
     });
   }
 
