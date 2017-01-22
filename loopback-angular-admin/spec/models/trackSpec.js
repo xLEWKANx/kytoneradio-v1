@@ -30,6 +30,7 @@ describe('Track test', () => {
     name: 'test playlist track',
     startTime: new Date(),
     endTime: new Date(),
+    duration: TRACK_DURATION,
     trackId: 0
   })
   MOCK_PLAYLIST_TRACK.track(MOCK_TRACK)
@@ -49,7 +50,7 @@ describe('Track test', () => {
   })
   it('should set index, startTime and endTime of track by previous', (done) => {
 
-    Playlist.setQueueInfoPromised(MOCK_PLAYLIST_TRACK)
+    MOCK_PLAYLIST_TRACK.setTimePromised.call(MOCK_PLAYLIST_TRACK)
       .then((playlistTrack) => {
         expect(playlistTrack.index).toBe(0)
         expect(simplifyTime(playlistTrack.startTime)).toBe(simplifyTime(TRACK_START))
@@ -57,7 +58,7 @@ describe('Track test', () => {
         playlistTrack.track(MOCK_TRACK)
         return Playlist.createPromised(playlistTrack, { skip: true })
           .then((playlistTrack) => {
-            return Playlist.setQueueInfoPromised(playlistTrack)
+            return playlistTrack.setTimePromised()
           })
       })
       .then((playlistTrack) => {
@@ -76,12 +77,10 @@ describe('Track test', () => {
   })
 
   it('should add track to the end of the queue', (done) => {
-
-    MOCK_TRACK.addToPlaylistPromised({
-        name: MOCK_TRACK.name
-    })
+    MOCK_TRACK.addToPlaylistPromised()
     .then((playlistTrack) => {
-        expect(playlistTrack.index).toBe(0)
+      console.log('playlistTrack', playlistTrack)
+        expect(playlistTrack.index).toBe(1)
 
     })
     .catch((err) => {

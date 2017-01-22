@@ -29,9 +29,6 @@
     },
     "processed": {
       "type": "boolean"
-    },
-    "playlistId": {
-      "type": "string"
     }
   },
   "validations": [],
@@ -39,7 +36,7 @@
     "playlist": {
       "type": "hasMany",
       "model": "Playlist",
-      "foreignKey": "playlistId"
+      "foreignKey": "trackId"
     }
   },
   "acls": [],

@@ -21,36 +21,34 @@ module.exports = function(Playlist) {
     return moment(date).add(duration, 'seconds').toDate()
   }
 
-  Playlist.setQueueInfo = (playlistTrack, cb) => {
+  Playlist.prototype.setTime = function(cb) {
     Playlist.findOnePromised({
       where: {
         index: {
-          gte: playlistTrack.index || 0
+          gte: 0
         }
       },
-      sort: {
-        index: -1
-      },
+      order: 'index DESC',
       include: 'track'
     }, { skip: true })
-    .then((lastPlaylistTrack) => {
+      .then((lastPlaylistTrack) => {
+      console.log('lastPlaylistTrack', lastPlaylistTrack)
       if (!lastPlaylistTrack) {
-        playlistTrack = Object.assign(playlistTrack, {
+        Object.assign(this, {
           index: 0,
           startTime: new Date,
-          endTime: Playlist.addSecond(new Date, playlistTrack.track().duration)
+          endTime: Playlist.addSecond(new Date, this.duration)
         })
       }
       else {
-        console.log('playlistTrack.track()', playlistTrack.track, playlistTrack)
-        playlistTrack = Object.assign(playlistTrack, {
+        Object.assign(this, {
           index: lastPlaylistTrack.index + 1,
           startTime: lastPlaylistTrack.endTime,
-          endTime: Playlist.addSecond(lastPlaylistTrack.endTime, playlistTrack.track().duration)
+          endTime: Playlist.addSecond(lastPlaylistTrack.endTime, this.duration)
         })
       }
-      log('setQueueInfo track:', playlistTrack)
-      cb(null, playlistTrack)
+      log('setTime track:', this)
+      cb(null, this)
     })
     .catch((err) => {
       cb(err)
@@ -58,17 +56,20 @@ module.exports = function(Playlist) {
   }
 
   Playlist.observe('before save', (ctx, next) => {
+    let Counter = Playlist.app.models.Counter
+
     if (ctx.options.skip) return next()
     log('instance', ctx.instance)
     log('before save | ctx', _.keys(ctx))
     if (ctx.instance) {
-      //  Playlist.setQueueInfo(ctx.instance
-      return next()
-
+      // next()
+      // return ctx.instance.setTime(next)
+      Counter.autoIncId('Player', ctx.instance, next)
     } else {
       return next()
     }
   })
 
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })
+  Promise.promisifyAll(Playlist.prototype, { suffix: 'Promised' })
 }

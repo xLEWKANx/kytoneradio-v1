@@ -120,7 +120,8 @@ module.exports = function(Track) {
     }
     this.playlist.create({
       index: position,
-      name: this.name
+      name: this.name,
+      duration: this.duration
     }, cb)
   }
 
