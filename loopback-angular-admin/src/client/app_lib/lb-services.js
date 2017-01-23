@@ -12888,43 +12888,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
-             * @name lbServices.Track#getMeta
-             * @methodOf lbServices.Track
-             *
-             * @description
-             *
-             * <em>
-             * (The remote method definition does not provide any description.)
-             * </em>
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *   This method does not accept any parameters.
-             *   Supply an empty object or omit this argument altogether.
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method does not accept any data. Supply an empty object.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * This method returns no data.
-             */
-            "getMeta": {
-              url: urlBase + "/tracks/getMeta",
-              method: "POST",
-            },
-
-            /**
-             * @ngdoc method
              * @name lbServices.Track#scanDir
              * @methodOf lbServices.Track
              *
@@ -12964,62 +12927,49 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
-            // INTERNAL. Use Playlist.track.findById() instead.
-            "::findById::Playlist::track": {
-              params: {
-                'fk': '@fk',
-              },
-              url: urlBase + "/playlist/:id/track/:fk",
-              method: "GET",
-            },
-
-            // INTERNAL. Use Playlist.track.destroyById() instead.
-            "::destroyById::Playlist::track": {
-              params: {
-                'fk': '@fk',
-              },
-              url: urlBase + "/playlist/:id/track/:fk",
-              method: "DELETE",
-            },
-
-            // INTERNAL. Use Playlist.track.updateById() instead.
-            "::updateById::Playlist::track": {
-              params: {
-                'fk': '@fk',
-              },
-              url: urlBase + "/playlist/:id/track/:fk",
-              method: "PUT",
+            /**
+             * @ngdoc method
+             * @name lbServices.Track#prototype$addToPlaylist
+             * @methodOf lbServices.Track
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Track` object.)
+             * </em>
+             */
+            "prototype$addToPlaylist": {
+              url: urlBase + "/tracks/:id/addToPlaylist",
+              method: "POST",
             },
 
             // INTERNAL. Use Playlist.track() instead.
             "::get::Playlist::track": {
-              isArray: true,
               url: urlBase + "/playlist/:id/track",
-              method: "GET",
-            },
-
-            // INTERNAL. Use Playlist.track.create() instead.
-            "::create::Playlist::track": {
-              url: urlBase + "/playlist/:id/track",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Playlist.track.createMany() instead.
-            "::createMany::Playlist::track": {
-              isArray: true,
-              url: urlBase + "/playlist/:id/track",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Playlist.track.destroyAll() instead.
-            "::delete::Playlist::track": {
-              url: urlBase + "/playlist/:id/track",
-              method: "DELETE",
-            },
-
-            // INTERNAL. Use Playlist.track.count() instead.
-            "::count::Playlist::track": {
-              url: urlBase + "/playlist/:id/track/count",
               method: "GET",
             },
 
@@ -13528,31 +13478,10 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
           { 'id': '@id' },
           {
 
-            // INTERNAL. Use Playlist.track.findById() instead.
-            "prototype$__findById__track": {
-              params: {
-                'fk': '@fk',
-              },
-              url: urlBase + "/playlist/:id/track/:fk",
+            // INTERNAL. Use Playlist.track() instead.
+            "prototype$__get__track": {
+              url: urlBase + "/playlist/:id/track",
               method: "GET",
-            },
-
-            // INTERNAL. Use Playlist.track.destroyById() instead.
-            "prototype$__destroyById__track": {
-              params: {
-                'fk': '@fk',
-              },
-              url: urlBase + "/playlist/:id/track/:fk",
-              method: "DELETE",
-            },
-
-            // INTERNAL. Use Playlist.track.updateById() instead.
-            "prototype$__updateById__track": {
-              params: {
-                'fk': '@fk',
-              },
-              url: urlBase + "/playlist/:id/track/:fk",
-              method: "PUT",
             },
 
             // INTERNAL. Use Playlist.event() instead.
@@ -13577,31 +13506,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
             "prototype$__destroy__event": {
               url: urlBase + "/playlist/:id/event",
               method: "DELETE",
-            },
-
-            // INTERNAL. Use Playlist.track() instead.
-            "prototype$__get__track": {
-              isArray: true,
-              url: urlBase + "/playlist/:id/track",
-              method: "GET",
-            },
-
-            // INTERNAL. Use Playlist.track.create() instead.
-            "prototype$__create__track": {
-              url: urlBase + "/playlist/:id/track",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Playlist.track.destroyAll() instead.
-            "prototype$__delete__track": {
-              url: urlBase + "/playlist/:id/track",
-              method: "DELETE",
-            },
-
-            // INTERNAL. Use Playlist.track.count() instead.
-            "prototype$__count__track": {
-              url: urlBase + "/playlist/:id/track/count",
-              method: "GET",
             },
 
             /**
@@ -14026,6 +13930,45 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist#clear
+             * @methodOf lbServices.Playlist
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `log` – `{object=}` -
+             */
+            "clear": {
+              url: urlBase + "/playlist/clear",
+              method: "POST",
+            },
+
             // INTERNAL. Use Event.playlist() instead.
             "::get::Event::playlist": {
               url: urlBase + "/events/:id/playlist",
@@ -14232,20 +14175,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         */
         R.modelName = "Playlist";
 
-    /**
-     * @ngdoc object
-     * @name lbServices.Playlist.track
-     * @header lbServices.Playlist.track
-     * @object
-     * @description
-     *
-     * The object `Playlist.track` groups methods
-     * manipulating `Track` instances related to `Playlist`.
-     *
-     * Call {@link lbServices.Playlist#track Playlist.track()}
-     * to query all related instances.
-     */
-
 
             /**
              * @ngdoc method
@@ -14254,21 +14183,21 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * @description
              *
-             * Queries track of Playlist.
+             * Fetches belongsTo relation track.
              *
              * @param {Object=} parameters Request parameters.
              *
              *  - `id` – `{*}` - PersistedModel id
              *
-             *  - `filter` – `{object=}` -
+             *  - `refresh` – `{boolean=}` -
              *
-             * @param {function(Array.<Object>,Object)=} successCb
+             * @param {function(Object,Object)=} successCb
              *   Success callback with two arguments: `value`, `responseHeaders`.
              *
              * @param {function(Object)=} errorCb Error callback with one argument:
              *   `httpResponse`.
              *
-             * @returns {Array.<Object>} An empty reference that will be
+             * @returns {Object} An empty reference that will be
              *   populated with the actual data once the response is returned
              *   from the server.
              *
@@ -14280,257 +14209,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         R.track = function() {
           var TargetResource = $injector.get("Track");
           var action = TargetResource["::get::Playlist::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Playlist.track#count
-             * @methodOf lbServices.Playlist.track
-             *
-             * @description
-             *
-             * Counts track of Playlist.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             *  - `where` – `{object=}` - Criteria to match model instances
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * Data properties:
-             *
-             *  - `count` – `{number=}` -
-             */
-        R.track.count = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::count::Playlist::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Playlist.track#create
-             * @methodOf lbServices.Playlist.track
-             *
-             * @description
-             *
-             * Creates a new instance in track of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track.create = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::create::Playlist::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Playlist.track#createMany
-             * @methodOf lbServices.Playlist.track
-             *
-             * @description
-             *
-             * Creates a new instance in track of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Array.<Object>,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Array.<Object>} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track.createMany = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::createMany::Playlist::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Playlist.track#destroyAll
-             * @methodOf lbServices.Playlist.track
-             *
-             * @description
-             *
-             * Deletes all track of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * This method returns no data.
-             */
-        R.track.destroyAll = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::delete::Playlist::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Playlist.track#destroyById
-             * @methodOf lbServices.Playlist.track
-             *
-             * @description
-             *
-             * Delete a related item by id for track.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             *  - `fk` – `{*}` - Foreign key for track
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * This method returns no data.
-             */
-        R.track.destroyById = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::destroyById::Playlist::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Playlist.track#findById
-             * @methodOf lbServices.Playlist.track
-             *
-             * @description
-             *
-             * Find a related item by id for track.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             *  - `fk` – `{*}` - Foreign key for track
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track.findById = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::findById::Playlist::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Playlist.track#updateById
-             * @methodOf lbServices.Playlist.track
-             *
-             * @description
-             *
-             * Update a related item by id for track.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             *  - `fk` – `{*}` - Foreign key for track
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track.updateById = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::updateById::Playlist::track"];
           return action.apply(R, arguments);
         };
     /**
@@ -15310,7 +14988,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
-             * @name lbServices.Player#rebuildPlaylist
+             * @name lbServices.Player#getCurrentPlaylist
              * @methodOf lbServices.Player
              *
              * @description
@@ -15340,8 +15018,47 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * This method returns no data.
              */
-            "rebuildPlaylist": {
-              url: urlBase + "/player/rebuildPlaylist",
+            "getCurrentPlaylist": {
+              url: urlBase + "/player/getCurrentPlaylist",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Player#clear
+             * @methodOf lbServices.Player
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `message` – `{string=}` -
+             */
+            "clear": {
+              url: urlBase + "/player/clear",
               method: "POST",
             },
           }
@@ -16256,6 +15973,601 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         * i.e. `MusicStorage`.
         */
         R.modelName = "MusicStorage";
+
+
+
+        return R;
+      }]);
+
+/**
+ * @ngdoc object
+ * @name lbServices.Counter
+ * @header lbServices.Counter
+ * @object
+ *
+ * @description
+ *
+ * A $resource object for interacting with the `Counter` model.
+ *
+ * ## Example
+ *
+ * See
+ * {@link http://docs.angularjs.org/api/ngResource.$resource#example $resource}
+ * for an example of using this object.
+ *
+ */
+  module.factory(
+    "Counter",
+    [
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
+        urlBase + "/Counters/:id",
+          { 'id': '@id' },
+          {
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#create
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Create a new instance of the model and persist it into the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "create": {
+              url: urlBase + "/Counters",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#createMany
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Create a new instance of the model and persist it into the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "createMany": {
+              isArray: true,
+              url: urlBase + "/Counters",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#upsert
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Update an existing model instance or insert a new one into the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "upsert": {
+              url: urlBase + "/Counters",
+              method: "PUT",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#exists
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Check whether a model instance exists in the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Model id
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `exists` – `{boolean=}` -
+             */
+            "exists": {
+              url: urlBase + "/Counters/:id/exists",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#findById
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Find a model instance by id from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Model id
+             *
+             *  - `filter` – `{object=}` - Filter defining fields and include
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "findById": {
+              url: urlBase + "/Counters/:id",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#find
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Find all instances of the model matched by filter from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "find": {
+              isArray: true,
+              url: urlBase + "/Counters",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#findOne
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Find first instance of the model matched by filter from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "findOne": {
+              url: urlBase + "/Counters/findOne",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#updateAll
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Update instances of the model matched by where from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `where` – `{object=}` - Criteria to match model instances
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * The number of instances updated
+             */
+            "updateAll": {
+              url: urlBase + "/Counters/update",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#deleteById
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Delete a model instance by id from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Model id
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "deleteById": {
+              url: urlBase + "/Counters/:id",
+              method: "DELETE",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#count
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Count instances of the model matched by where from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `where` – `{object=}` - Criteria to match model instances
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `count` – `{number=}` -
+             */
+            "count": {
+              url: urlBase + "/Counters/count",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#prototype$updateAttributes
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Update attributes for a model instance and persist it into the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - PersistedModel id
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+            "prototype$updateAttributes": {
+              url: urlBase + "/Counters/:id",
+              method: "PUT",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#createChangeStream
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Create a change stream.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `changes` – `{ReadableStream=}` -
+             */
+            "createChangeStream": {
+              url: urlBase + "/Counters/change-stream",
+              method: "POST",
+            },
+          }
+        );
+
+
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#updateOrCreate
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Update an existing model instance or insert a new one into the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+        R["updateOrCreate"] = R["upsert"];
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#update
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Update instances of the model matched by where from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `where` – `{object=}` - Criteria to match model instances
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method expects a subset of model properties as request parameters.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * The number of instances updated
+             */
+        R["update"] = R["updateAll"];
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#destroyById
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Delete a model instance by id from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Model id
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+        R["destroyById"] = R["deleteById"];
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Counter#removeById
+             * @methodOf lbServices.Counter
+             *
+             * @description
+             *
+             * Delete a model instance by id from the data source.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Model id
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Counter` object.)
+             * </em>
+             */
+        R["removeById"] = R["deleteById"];
+
+
+        /**
+        * @ngdoc property
+        * @name lbServices.Counter#modelName
+        * @propertyOf lbServices.Counter
+        * @description
+        * The name of the model represented by this $resource,
+        * i.e. `Counter`.
+        */
+        R.modelName = "Counter";
 
 
 

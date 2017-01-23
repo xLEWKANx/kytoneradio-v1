@@ -1,5 +1,9 @@
 'use strict'
 import Promise from 'bluebird'
+import { default as debug } from 'debug'
+
+const log = debug('player:Counter')
+
 
 module.exports = function (Counter) {
 
@@ -17,8 +21,8 @@ module.exports = function (Counter) {
     }, AutoInc, cb)
   }
 
-  Counter.autoIncId = function(instance, next) {
-    if (!instance) next(new Error('instance do not specified'))
+  Counter.autoIncId = function(instance, cb) {
+    if (!instance) cb(new Error('instance do not specified'))
     let mongoConnector = Counter.app.dataSources.db.connector
     mongoConnector.collection("Counter").findAndModify(
       { collection: instance.constructor.definition.name },
@@ -28,17 +32,17 @@ module.exports = function (Counter) {
       (err, sequence) => {
         if(err) {
           console.log('error', err)
-          next (err);
+          cb (err);
         } else {
           console.log('sequence', sequence)
           instance.index = sequence.value.seq;
-          next(null, instance);
+          cb(null, instance);
         }
     });
   }
 
-  Counter.autoDecId = function(collection, next) {
-    if (!collection) next(new Error('collection do not specified'))
+  Counter.autoDecId = function(collection, cb) {
+    if (!collection) cb(new Error('collection do not specified'))
     let mongoConnector = Counter.app.dataSources.db.connector
 
     mongoConnector.collection("Counter").findAndModify(
@@ -49,12 +53,25 @@ module.exports = function (Counter) {
     (err, sequence) => {
       if(err) {
         console.log('error', err)
-        next (err);
+        cb (err);
       } else {
         console.log('sequence', sequence)
-        next(null, sequence);
+        cb(null, sequence);
       }
     });
+  }
+
+  Counter.reset = function(collection, cb) {
+    if (!collection) cb(new Error('collection do not specified'))
+    Counter.updateAll({
+      collection: collection
+    }, {
+      seq: -1
+    }, (err, result) => {
+      if (err) cb(err)
+      log('Counter reset', result)
+      cb(null, result)
+    })
   }
 
   Promise.promisifyAll(Counter, { suffix: 'Promised' })

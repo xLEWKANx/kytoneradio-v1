@@ -14,47 +14,7 @@ function timeToPx(time) {
 }
 
 function TracksCtrl($scope, tracks, Track, TracksService, Player, Playlist, $q) {
-  this.containerStyle = {
-    paddingTop: timeToPx(SECOND_FROM_START)
-  }
   console.log(timeToPx(SECOND_FROM_START))
-
-  tracks.forEach((track) => {
-    track.expanded = false
-    track.style = {
-      height: timeToPx(track.duration),
-      color: 'red',
-      overflow: 'hidden'
-    }
-  })
-
-  let playlist = []
-
-
-  this.tracklistSortable = {
-    clone: true,
-    itemMoved: changePosiion,
-    orderChanged: changePosiion,
-    containment: '#grid-container',
-    accept: restrictMoving,
-  }
-  this.playlistSortable = {
-    allowDuplicates: true,
-    containment: '#grid-container'
-  }
-
-  function changePosiion(object) {
-    let item = object.source.itemScope.item
-    let playlistItem = new Playlist(item)
-    console.log('change', object)
-    console.log('playlist', playlist, playlist.indexOf(item))
-  }
-
-  function restrictMoving(source, dest) {
-    console.log(source, dest)
-    return dest.index !== 0 && dest.index !== 1
-  }
-
 
   this.play = function() {
     Player.play();
@@ -63,18 +23,7 @@ function TracksCtrl($scope, tracks, Track, TracksService, Player, Playlist, $q) 
     Player.stop();
   }
 
-  this.savePlaylist = function(playlist) {
-    let realTracks = playlist.filter((track) => !track.isMock)
-    console.log('playlist', realTracks)
-
-    TracksService.rebuildPlaylist(realTracks)
-  }
-
-  this.delete = (index) => {
-    playlist.splice(index, 1)
-  }
-
-  this.storage = { tracks, playlist }
+  this.storage = { tracks }
   this.moment = moment
 
   this.today = () => {
@@ -84,9 +33,6 @@ function TracksCtrl($scope, tracks, Track, TracksService, Player, Playlist, $q) 
   this.today()
   this.clear = () => {
     this.today()
-  }
-  this.disabled = (date, mode) => {
-    return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6))
   }
 
   this.open = ($event) => {

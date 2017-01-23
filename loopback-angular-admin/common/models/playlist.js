@@ -53,6 +53,37 @@ module.exports = function(Playlist) {
     })
   }
 
+  Playlist.clear = function(cb) {
+    let Player = Playlist.app.models.Player
+    let Counter = Playlist.app.models.Counter
+
+    Player.clearPromised()
+      .then(() => {
+        return Playlist.destroyAll({
+          index: {
+            gte: 0
+          }
+        })
+      })
+      .then((result) => {
+        return Counter.resetPromised('Playlist')
+      })
+      .then((result) => {
+        log('Playlist clear', result)
+        cb(null, result)
+      })
+      .catch((err) => {
+        cb(err)
+      })
+  }
+
+  Playlist.remoteMethod('clear', {
+    returns: {
+      arg: 'log',
+      type: 'object'
+    }
+  })
+
   Playlist.observe('before save', (ctx, next) => {
     let Counter = Playlist.app.models.Counter
 
@@ -60,8 +91,6 @@ module.exports = function(Playlist) {
     log('instance', ctx.instance)
     log('before save | ctx', _.keys(ctx))
     if (ctx.instance && ctx.isNewInstance) {
-      // next()
-      // return ctx.instance.setTime(next)
       Counter.autoIncIdPromised(ctx.instance)
         .then((instance) => {
           return ctx.instance.setTime(next)

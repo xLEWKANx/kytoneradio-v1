@@ -48,11 +48,10 @@ describe('Track test', () => {
     let endTime = Playlist.addSecond(startTime, 30 * 60)
     expect(moment(endTime).format("HH-mm")).toBe("12-30")
   })
-  it('should set index, startTime and endTime of track by previous', (done) => {
+  it('should set startTime and endTime of track by previous', (done) => {
 
     MOCK_PLAYLIST_TRACK.setTimePromised.call(MOCK_PLAYLIST_TRACK)
       .then((playlistTrack) => {
-        expect(playlistTrack.index).toBe(0)
         expect(simplifyTime(playlistTrack.startTime)).toBe(simplifyTime(TRACK_START))
         expect(simplifyTime(playlistTrack.endTime)).toBe(simplifyTime(TRACK_END))
         playlistTrack.track(MOCK_TRACK)
@@ -64,7 +63,6 @@ describe('Track test', () => {
       .then((playlistTrack) => {
         let endTime = Playlist.addSecond(TRACK_END, playlistTrack.track().duration).toString()
         console.log('track end', endTime)
-        expect(playlistTrack.index).toBe(1)
         expect(simplifyTime(playlistTrack.startTime)).toBe(simplifyTime(TRACK_END))
         expect(simplifyTime(playlistTrack.endTime)).toBe(simplifyTime(endTime))
       })

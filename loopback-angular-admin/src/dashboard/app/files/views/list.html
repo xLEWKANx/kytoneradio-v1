@@ -11,27 +11,20 @@
           </a>
         </span>
       </div>
-      <div class='list-group track-list' ng-model="ctrl.storage.tracks" as-sortable="ctrl.tracklistSortable">
+      <div class='list-group track-list' ng-model="ctrl.storage.tracks" >
         <div
           ng-repeat="item in ctrl.storage.tracks"
-          class=""
-          as-sortable-item
         >
-          <div as-sortable-item-handle>
-            <span class="pull-right btn-group">
-              <a href="" class="btn btn-xs btn-default" ui-sref="^.delete({fileName: item.name})">
-                <i class="fa fa-trash-o"></i>
-              </a>
-            </span>
-            <h4 class="list-group-item-heading">
-              <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
+          <span class="pull-right btn-group">
+            <button class="btn btn-xs btn-default" ng-click="item.addTrack()">
+              <i class="fa fa-arrow-right"></i>
+            </button>
+          </span>
+          <h4 class="list-group-item-heading">
+            <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
 
-
-              <a href="{{apiUrl}}/containers/files/download/{{item.name}}" target="_blank"><strong>{{item.name}}</strong></a>
-
-            </h4>
-          </div>
-
+            <strong>{{item.name}}</strong>
+          </h4>
         </div>
         <div ng-show="!ctrl.tracks.length" class="list-group-item">
           <h4 class="list-group-item-heading" translate>
@@ -67,7 +60,7 @@
             </p>
           </div>
       </div>
-        <div class='list-group playlist-container'
+        <div class='list-group'
           ng-model="ctrl.storage.playlist"
           as-sortable="ctrl.playlistSortable"
           ng-style="ctrl.containerStyle"

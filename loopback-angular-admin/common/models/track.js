@@ -5,7 +5,7 @@ import mm from 'musicmetadata'
 import fs from 'fs'
 import { default as debug } from 'debug'
 
-const log = debug('player:track')
+const log = debug('player:Track')
 const MUSIC_EXTENTION_REGEXP = /.mp3$/
 
 module.exports = function(Track) {
@@ -58,6 +58,7 @@ module.exports = function(Track) {
     let db = Track.app.dataSources.db;
     let app = Track.app
     let musicStorage = app.models.musicStorage
+    let Player = app.models.Player
 
     musicStorage.getFilesPromised('music')
       .filter(filterOnlyMusic)
@@ -79,6 +80,10 @@ module.exports = function(Track) {
       .map(file => {
         let track = fileToTrack(file)
         return Track.createPromised(track)
+      })
+      .then(files => {
+        return Player.updateDatabasePromised()
+          .then((msg) => { console.log(msg); return files })
       })
       .then(res => cb(null, res))
       .catch(err => cb(err))
@@ -113,16 +118,30 @@ module.exports = function(Track) {
     returns: { arg: 'body', type: 'array', root: true }
   })
 
-  Track.prototype.addToPlaylist = function(position, cb) {
+  Track.prototype.addToPlaylist = function(cb) {
+    let Player = Track.app.models.Player
+
     if (typeof position === 'function') {
       cb = position;
       position = null;
     }
-    this.playlist.create({
-      index: position,
-      name: this.name,
-      duration: this.duration
-    }, cb)
+    Player.addTrackPromised(this.name)
+      .then((log) => {
+        return this.playlist.create({
+          name: this.name,
+          duration: this.duration
+        })
+      })
+      .then((playlistTrack) => {
+        let state = Player.getState()
+        if (!state.isPlaying) {
+          return Player.playPromised().then(() => {
+            return cb(null, playlistTrack)
+          })
+        }
+        return cb(null, playlistTrack)
+      })
+      .catch(cb)
   }
 
   Track.remoteMethod('addToPlaylist', {

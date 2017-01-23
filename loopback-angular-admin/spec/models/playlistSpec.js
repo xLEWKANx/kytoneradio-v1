@@ -8,7 +8,7 @@ describe('Playlist test', () => {
   let Playlist = app.models.Playlist
   global.Promise = Promise
 
-  let db = app.dataSource('db', { connector: 'memory'})
+  let db = app.loopback.createDataSource('db', { connector: 'memory'})
 
   Playlist.attachTo(db)
 
