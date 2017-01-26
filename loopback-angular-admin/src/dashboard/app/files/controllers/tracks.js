@@ -1,6 +1,7 @@
 'use strict'
 import angular from 'angular'
 import moment from 'moment'
+import _ from 'lodash'
 
 const SECONDS_TO_PIXEL = (1200 / (24 * 60 * 60))
 const TIME_NOW = Date.now() / 1000
@@ -13,15 +14,17 @@ function timeToPx(time) {
   return `${SECONDS_TO_PIXEL * time}px`
 }
 
-function TracksCtrl($scope, tracks, Track, TracksService, Player, Playlist, $q) {
-  console.log(timeToPx(SECOND_FROM_START))
-
+function TracksCtrl($scope, tracks, Track, TracksService, Player, Playlist, PlaylistService, $q) {
+  console.log(_.keys(tracks[0]))
+  // tracks[0].$addToPlaylist()
   this.play = function() {
     Player.play();
   }
   this.stop = function() {
     Player.stop();
   }
+
+  this.clearPlaylist = PlaylistService.clear
 
   this.storage = { tracks }
   this.moment = moment

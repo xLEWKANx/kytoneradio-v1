@@ -23,34 +23,34 @@ describe('Playlist test', () => {
       processed: "true"
     }
 
-    // Playlist.addToQueuePromised(track)
-    //   .then((upsertedTrack) => {
-    //     expect(upsertedTrack.index).toBe(1)
-    //     expect(formatDate(upsertedTrack.startTime)).toEqual(formatDate(new Date))
-    //     expect(formatDate(upsertedTrack.endTime)).toEqual(addSecound(upsertedTrack.startTime, track.duration))
-    //     console.log('upsertedTrack', upsertedTrack instanceof Playlist )
-    //     firstTrack = upsertedTrack
-    //     return Playlist.addToQueuePromised(track)
-    //   })
-    //   .then((upsertedTrack) => {
-    //     expect(upsertedTrack.index).toBe(2)
-    //     expect(formatDate(upsertedTrack.startTime)).toEqual(formatDate(firstTrack.endTime))
-    //     expect(formatDate(upsertedTrack.endTime)).toEqual(addSecound(upsertedTrack.startTime, track.duration))
-    //     secondTrack = upsertedTrack
-    //     return Playlist.addToQueuePromised(track)
-    //   })
-    //   .then((upsertedTrack) => {
-    //     expect(upsertedTrack.index).toBe(3)
-    //     expect(formatDate(upsertedTrack.startTime)).toEqual(formatDate(secondTrack.endTime))
-    //     expect(formatDate(upsertedTrack.endTime)).toEqual(addSecound(upsertedTrack.startTime, track.duration))
-    //     thirdTrack = upsertedTrack
-    //     return done()
-    //   })
-    //   .catch((err) => {
-    //     console.log('error', err)
-    //     expect(err).not.toBeDefined()
-    //     return done()
-    //   })
+    Playlist.addToQueuePromised(track)
+      .then((upsertedTrack) => {
+        expect(upsertedTrack.index).toBe(1)
+        expect(formatDate(upsertedTrack.startTime)).toEqual(formatDate(new Date))
+        expect(formatDate(upsertedTrack.endTime)).toEqual(addSecound(upsertedTrack.startTime, track.duration))
+        console.log('upsertedTrack', upsertedTrack instanceof Playlist )
+        firstTrack = upsertedTrack
+        return Playlist.addToQueuePromised(track)
+      })
+      .then((upsertedTrack) => {
+        expect(upsertedTrack.index).toBe(2)
+        expect(formatDate(upsertedTrack.startTime)).toEqual(formatDate(firstTrack.endTime))
+        expect(formatDate(upsertedTrack.endTime)).toEqual(addSecound(upsertedTrack.startTime, track.duration))
+        secondTrack = upsertedTrack
+        return Playlist.addToQueuePromised(track)
+      })
+      .then((upsertedTrack) => {
+        expect(upsertedTrack.index).toBe(3)
+        expect(formatDate(upsertedTrack.startTime)).toEqual(formatDate(secondTrack.endTime))
+        expect(formatDate(upsertedTrack.endTime)).toEqual(addSecound(upsertedTrack.startTime, track.duration))
+        thirdTrack = upsertedTrack
+        return done()
+      })
+      .catch((err) => {
+        console.log('error', err)
+        expect(err).not.toBeDefined()
+        return done()
+      })
 
     function addSecound(date, duration) {
       return moment(date).add(duration, 'seconds').format('YY-MM-DD HH:mm:ss')
@@ -61,17 +61,4 @@ describe('Playlist test', () => {
     }
   })
 
-  it('should get prev track', (done) => {
-    // Playlist.getTrack(1, (err, first) => {
-    //   expect(err).not.toBeDefined()
-    //   first = first || {}
-    //   console.log('first', first, '\nfirstTrack', firstTrack)
-    //   expect(first).toEqual(jasmine.objectContaining({
-    //     startTime: first.startTime,
-    //     endTime: first.endTime,
-    //     index: first.index
-    //   }))
-      done()
-    // })
-  })
 })

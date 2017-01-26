@@ -16,7 +16,7 @@
           ng-repeat="item in ctrl.storage.tracks"
         >
           <span class="pull-right btn-group">
-            <button class="btn btn-xs btn-default" ng-click="item.addTrack()">
+            <button class="btn btn-xs btn-default" ng-click="item.$prototype$addToPlaylist()">
               <i class="fa fa-arrow-right"></i>
             </button>
           </span>
@@ -56,39 +56,36 @@
               <button ng-click="ctrl.savePlaylist(ctrl.storage.playlist)" class="btn btn-success" >
                 <i class="glyphicon glyphicon-saved"></i>
               </button>
+              <button ng-click="ctrl.clearPlaylist()" class="btn btn-danger" >
+                <i class="glyphicon glyphicon-remove"></i>
+              </button>
             </span>
             </p>
           </div>
       </div>
-        <div class='list-group'
-          ng-model="ctrl.storage.playlist"
-          as-sortable="ctrl.playlistSortable"
-          ng-style="ctrl.containerStyle"
+      <div class='list-group'
+        ng-model="ctrl.storage.playlist"
+        as-sortable="ctrl.playlistSortable"
+        ng-style="ctrl.containerStyle"
+      >
+        <div
+          ng-repeat="item in ctrl.storage.playlist"
+          class="playlist-item"
         >
-          <div
-            ng-repeat="item in ctrl.storage.playlist"
-            class="playlist-item"
-            as-sortable-item
-            is-disabled="{{true}}"
-            ng-click="ctrl.itemClick(item)"
-            >
-              <div ng-if="!item.isMock">
-                <div as-sortable-item-handle ng-style="{{ item.style }}" >
-                  <span class="pull-right btn-group">
-                    <button href="" class="btn btn-xs btn-default" ng-click="ctrl.delete($index)">
-                      <i class="fa fa-trash-o"></i>
-                    </button>
-                  </span>
-                  <h4 class="list-group-item-heading">
-                    <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
-                  <strong>{{item.name}}</strong>
-                  </h4>
-                </div>
-              </div>
-              <div ng-if="item.isMock" ng-style="{{ item.style }}" ></div>
-            </div>
-          </div>
+
+         <span class="pull-right btn-group">
+            <button class="btn btn-xs btn-default" ng-click="item.$prototype$addToPlaylist()">
+              <i class="fa fa-arrow-right"></i>
+            </button>
+          </span>
+          <h4 class="list-group-item-heading">
+            <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
+
+            <strong>{{item.name}}</strong>
+          </h4>
+
         </div>
+      </div>
     </div>
   </div>
 </div>

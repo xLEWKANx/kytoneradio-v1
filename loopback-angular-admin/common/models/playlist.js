@@ -32,7 +32,7 @@ module.exports = function(Playlist) {
       include: 'track'
     }, { skip: true })
       .then((lastPlaylistTrack) => {
-      console.log('lastPlaylistTrack', lastPlaylistTrack)
+
       if (!lastPlaylistTrack) {
         Object.assign(this, {
           startTime: new Date,
@@ -104,7 +104,6 @@ module.exports = function(Playlist) {
   Playlist.observe('before delete', (ctx, next) => {
     let Counter = Playlist.app.models.Counter
     Counter.autoDecId("Playlist", next)
-
   })
 
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })

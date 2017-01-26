@@ -70,6 +70,7 @@ gulp.task('serve', () => nodemon({
 // The default taks
 gulp.task('default', [
   'lint',
+  'loopback',
   'serve'
 ])
 
