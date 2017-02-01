@@ -20,7 +20,7 @@ app.config(($stateProvider) => $stateProvider
     controller: 'TracksCtrl',
     resolve: {
       tracks: (TracksService) => TracksService.getTracks(),
-      Player: (PlayerService) => PlayerService.getPlayer()
+      playlist: (PlaylistService) => PlaylistService.getPlaylist()
     },
   })
   .state('app.files.upload', {

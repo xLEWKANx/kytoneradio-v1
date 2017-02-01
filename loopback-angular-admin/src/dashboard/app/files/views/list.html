@@ -13,10 +13,10 @@
       </div>
       <div class='list-group track-list' ng-model="ctrl.storage.tracks" >
         <div
-          ng-repeat="item in ctrl.storage.tracks"
+          ng-repeat="item in ctrl.tracks"
         >
           <span class="pull-right btn-group">
-            <button class="btn btn-xs btn-default" ng-click="item.$prototype$addToPlaylist()">
+            <button class="btn btn-xs btn-default" ng-click="ctrl.addItemToPlaylist(item)">
               <i class="fa fa-arrow-right"></i>
             </button>
           </span>
@@ -39,51 +39,50 @@
   <div class="col-md-7">
     <div class="panel panel-default">
       <div class="panel-heading">
-        Plalist: {{ctrl.time}}
-        <div class="col-md-6 pull-right calendar">
-          <p class="input-group">
-            <input type="text" class="form-control" datepicker-popup="{{ctrl.format}}" ng-model="ctrl.dt"
-              disabled="true"
-              is-open="ctrl.opened"
-              show-button-bar="false"
-              datepicker-options="ctrl.dateOptions"
-              ng-required="true" close-text="Close"
-            />
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="ctrl.open($event)">
-                <i class="glyphicon glyphicon-calendar"></i>
-              </button>
-              <button ng-click="ctrl.savePlaylist(ctrl.storage.playlist)" class="btn btn-success" >
-                <i class="glyphicon glyphicon-saved"></i>
-              </button>
-              <button ng-click="ctrl.clearPlaylist()" class="btn btn-danger" >
-                <i class="glyphicon glyphicon-remove"></i>
-              </button>
-            </span>
-            </p>
-          </div>
+        <div class="row">
+          Plalist: {{ctrl.time}}
+          <div class="col-md-10 pull-right calendar">
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{ctrl.format}}"
+                ng-model="ctrl.dt"
+                disabled="true"
+                is-open="ctrl.opened"
+                show-button-bar="false"
+                datepicker-options="ctrl.dateOptions"
+                ng-required="true" close-text="Close"
+              />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="ctrl.open($event)">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+                <button ng-click="ctrl.savePlaylist(ctrl.storage.playlist)" class="btn btn-success" >
+                  <i class="glyphicon glyphicon-saved"></i>
+                </button>
+                <button ng-click="ctrl.clearPlaylist()" class="btn btn-danger" >
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+              </span>
+              </p>
+            </div>
+        </div>
       </div>
-      <div class='list-group'
-        ng-model="ctrl.storage.playlist"
-        as-sortable="ctrl.playlistSortable"
-        ng-style="ctrl.containerStyle"
-      >
+      <div class='list-group'>
         <div
-          ng-repeat="item in ctrl.storage.playlist"
+          ng-repeat="item in ctrl.playlist"
           class="playlist-item"
         >
-
          <span class="pull-right btn-group">
-            <button class="btn btn-xs btn-default" ng-click="item.$prototype$addToPlaylist()">
-              <i class="fa fa-arrow-right"></i>
+            <button class="btn btn-xs btn-default">
+              <i class="fa fa-trash" ng-click="ctrl.delete(item)"></i>
             </button>
           </span>
           <h4 class="list-group-item-heading">
-            <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
-
+            <strong>{{ctrl.formatTime(item.startTime)}}</strong>
+            -
+            <strong>{{ctrl.formatTime(item.endTime)}}</strong>
             <strong>{{item.name}}</strong>
+            <strong>{{item.index}}</strong>
           </h4>
-
         </div>
       </div>
     </div>
