@@ -6,6 +6,12 @@ describe('Playlist test', () => {
   let moment = require('moment')
   let app = require('../../server/server')
   let Playlist = app.models.Playlist
+  let Player = app.models.Player
+
+  Player.addTrackPromised = function(name, cb) {
+    return Promise.resolve()
+  }
+
   global.Promise = Promise
 
   let db = app.loopback.createDataSource('db', { connector: 'memory'})

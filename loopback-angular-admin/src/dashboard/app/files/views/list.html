@@ -1,88 +1,88 @@
-<button ng-click='ctrl.play()'>Play</button>
-<button ng-click='ctrl.stop()'>Stop</button>
 <div id="grid-container">
-  <div class="col-md-5">
-    <div class="panel panel-default" >
-      <div class="panel-heading">
-        Files
-        <span class="pull-right btn-group">
-          <a href="" class="btn btn-xs btn-success" ui-sref="^.upload()">
-            <i class="fa fa-plus"></i>
-          </a>
-        </span>
-      </div>
-      <div class='list-group track-list' ng-model="ctrl.storage.tracks" >
-        <div
-          ng-repeat="item in ctrl.tracks"
-        >
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default" >
+        <div class="panel-heading">
+          Files
           <span class="pull-right btn-group">
-            <button class="btn btn-xs btn-default" ng-click="ctrl.addItemToPlaylist(item)">
-              <i class="fa fa-arrow-right"></i>
+            <button class="btn btn-xs btn-success" ng-click="ctrl.scanDir()">
+              <i class="fa fa-plus"></i>
             </button>
           </span>
-          <h4 class="list-group-item-heading">
-            <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
-
-            <strong>{{item.name}}</strong>
-          </h4>
         </div>
-        <div ng-show="!ctrl.tracks.length" class="list-group-item">
-          <h4 class="list-group-item-heading" translate>
-            There are no files
-          </h4>
+        <div class='list-group track-list' ng-model="ctrl.storage.tracks" >
+          <div
+            ng-repeat="item in ctrl.tracks"
+          >
+            <span class="pull-right btn-group">
+              <button class="btn btn-xs btn-default" ng-click="ctrl.addItemToPlaylist(item)">
+                <i class="fa fa-arrow-right"></i>
+              </button>
+            </span>
+            <h4 class="list-group-item-heading">
+              <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
 
-          <p class="list-group-item-text" translate>Click <a href="" ui-sref="^.add">here</a> to add a file!</p>
+              <strong>{{item.name}}</strong>
+            </h4>
+          </div>
+          <div ng-show="!ctrl.tracks.length" class="list-group-item">
+            <h4 class="list-group-item-heading" translate>
+              There are no files
+            </h4>
+
+            <p class="list-group-item-text" translate>Click <a href="" ui-sref="^.add">here</a> to add a file!</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-7">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="row">
-          Plalist: {{ctrl.time}}
-          <div class="col-md-10 pull-right calendar">
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{ctrl.format}}"
-                ng-model="ctrl.dt"
-                disabled="true"
-                is-open="ctrl.opened"
-                show-button-bar="false"
-                datepicker-options="ctrl.dateOptions"
-                ng-required="true" close-text="Close"
-              />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="ctrl.open($event)">
-                  <i class="glyphicon glyphicon-calendar"></i>
-                </button>
-                <button ng-click="ctrl.savePlaylist(ctrl.storage.playlist)" class="btn btn-success" >
-                  <i class="glyphicon glyphicon-saved"></i>
-                </button>
-                <button ng-click="ctrl.clearPlaylist()" class="btn btn-danger" >
-                  <i class="glyphicon glyphicon-remove"></i>
-                </button>
-              </span>
-              </p>
-            </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            Plalist: {{ctrl.time}}
+            <div class="col-md-10 pull-right calendar">
+              <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="{{ctrl.format}}"
+                  ng-model="ctrl.dt"
+                  disabled="true"
+                  is-open="ctrl.opened"
+                  show-button-bar="false"
+                  datepicker-options="ctrl.dateOptions"
+                  ng-required="true" close-text="Close"
+                />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="ctrl.open($event)">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                  <button ng-click="ctrl.savePlaylist(ctrl.storage.playlist)" class="btn btn-success" >
+                    <i class="glyphicon glyphicon-saved"></i>
+                  </button>
+                  <button ng-click="ctrl.clearPlaylist(ctrl.playlist)" class="btn btn-danger" >
+                    <i class="glyphicon glyphicon-remove"></i>
+                  </button>
+                </span>
+                </p>
+              </div>
+          </div>
         </div>
-      </div>
-      <div class='list-group'>
-        <div
-          ng-repeat="item in ctrl.playlist"
-          class="playlist-item"
-        >
-         <span class="pull-right btn-group">
-            <button class="btn btn-xs btn-default">
-              <i class="fa fa-trash" ng-click="ctrl.delete(item)"></i>
-            </button>
-          </span>
-          <h4 class="list-group-item-heading">
-            <strong>{{item.index}}</strong>.
-            <strong>{{ctrl.formatTime(item.startTime)}}</strong>
-            -
-            <strong>{{ctrl.formatTime(item.endTime)}}</strong>
-            <strong>{{item.name}}</strong>
-          </h4>
+        <div class='list-group'>
+          <div
+            ng-repeat="item in ctrl.playlist"
+            class="playlist-item"
+          >
+          <span class="pull-right btn-group">
+              <button class="btn btn-xs btn-default">
+                <i class="fa fa-trash" ng-click="ctrl.delete(item)"></i>
+              </button>
+            </span>
+            <h4 class="list-group-item-heading">
+              <strong>{{item.index}}</strong>.
+              <strong>{{ctrl.formatTime(item.startTime)}}</strong>
+              -
+              <strong>{{ctrl.formatTime(item.endTime)}}</strong>
+              <strong>{{item.name}}</strong>
+            </h4>
+          </div>
         </div>
       </div>
     </div>

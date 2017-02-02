@@ -31,7 +31,8 @@ describe('Track test', () => {
     startTime: new Date(),
     endTime: new Date(),
     duration: TRACK_DURATION,
-    trackId: 0
+    trackId: 0,
+    index: 0
   })
   MOCK_PLAYLIST_TRACK.track(MOCK_TRACK)
 
@@ -78,10 +79,11 @@ describe('Track test', () => {
     MOCK_TRACK.addToPlaylistPromised()
     .then((playlistTrack) => {
       console.log('playlistTrack', playlistTrack)
-        expect(playlistTrack.index).toBe(1)
+      expect(playlistTrack.index).toBe(1)
 
     })
     .catch((err) => {
+      console.log('err', err)
         expect(err).toBe(null)
     })
     .finally(() => {

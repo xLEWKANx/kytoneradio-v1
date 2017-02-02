@@ -5,7 +5,7 @@ import moment from 'moment'
 
 console.log(moment().startOf('d').toDate(), moment().add(1, 'day').startOf('d').toDate())
 
-function PlaylistService(CoreService, Playlist, gettextCatalog) {
+function PlaylistService(CoreService, $q, Playlist, gettextCatalog) {
 
   this.Playlist = () => Playlist
 
@@ -13,7 +13,6 @@ function PlaylistService(CoreService, Playlist, gettextCatalog) {
     const TODAY = moment(date).startOf('d').toDate()
     const TOMORROW = moment(date).add(1, 'day').startOf('d').toDate()
 
-    console.log('today', TODAY, TOMORROW)
     return Playlist.find({
       filter: {
         where: {
@@ -31,16 +30,28 @@ function PlaylistService(CoreService, Playlist, gettextCatalog) {
     }).$promise
   }
 
-  this.clear = () => Playlist.clear().$promise
-    .then(() => CoreService.toastInfo(
-      gettextCatalog.getString('Playlist cleared')
-      )
+  this.clear = (playlist) => {
+    CoreService.toastInfo(
+      gettextCatalog.getString('Playlist'),
+      gettextCatalog.getString('Start clear playlist')
     )
-    .catch((err) => CoreService.toastSuccess(
-      gettextCatalog.getString('Error clear playlist'),
-      gettextCatalog.getString(err)
-      )
+    return Playlist.clear().$promise
+      .then(() => {
+        CoreService.toastInfo(
+          gettextCatalog.getString('Playlist'),
+          gettextCatalog.getString('Start cleared')
+        )
+      }
+    ).then(() => $q.resolve())
+      .catch((err) => {
+        CoreService.toastSuccess(
+          gettextCatalog.getString('Error clear playlist'),
+          gettextCatalog.getString(err)
+        )
+        $q.resolve()
+      }
     )
+  }
 }
 
 angular

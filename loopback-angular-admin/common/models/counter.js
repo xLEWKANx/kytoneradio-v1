@@ -24,6 +24,7 @@ module.exports = function (Counter) {
   Counter.autoIncId = function(instance, cb) {
     if (!instance) cb(new Error('instance do not specified'))
     let mongoConnector = Counter.app.dataSources.db.connector
+    log('Counter.autoInc collection', instance.constructor.definition.name)
     mongoConnector.collection("Counter").findAndModify(
       { collection: instance.constructor.definition.name },
       [ ['_id', 'asc'] ],
@@ -41,14 +42,15 @@ module.exports = function (Counter) {
     });
   }
 
-  Counter.autoDecId = function(collection, cb) {
+  Counter.autoDecId = function(collection, index, cb) {
     if (!collection) cb(new Error('collection do not specified'))
     let mongoConnector = Counter.app.dataSources.db.connector
+    log('Counter.autoDecId collection', collection)
 
     mongoConnector.collection("Counter").findAndModify(
-    { collection: collection},
+    { collection: collection },
     [ ['_id', 'asc'] ],
-    { $inc: { seq: -1 }},
+    { $set: { seq: index - 1 }},
     { new: true },
     (err, sequence) => {
       if(err) {
@@ -66,7 +68,7 @@ module.exports = function (Counter) {
     Counter.updateAll({
       collection: collection
     }, {
-      seq: -1
+      seq: 0
     }, (err, result) => {
       if (err) cb(err)
       log('Counter reset', result)

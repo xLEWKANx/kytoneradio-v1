@@ -1,0 +1,20 @@
+'use strict'
+import angular from 'angular'
+import moment from 'moment'
+import _ from 'lodash'
+
+
+function MpdCtrl($scope, Player) {
+  Player.getStatus().$promise.then((response) => {
+    this.status = response.status
+  })
+  Player.getCurrentPlaylist().$promise.then((response) => {
+    console.log(response)
+    this.mpdPlaylist = response.tracks
+  })
+}
+
+
+angular
+  .module('com.module.mpd.controllers.mpd', [])
+  .controller('MpdCtrl', MpdCtrl)

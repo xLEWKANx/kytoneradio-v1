@@ -132,15 +132,7 @@ module.exports = function(Track) {
           duration: this.duration
         })
       })
-      .then((playlistTrack) => {
-        let state = Player.getState()
-        if (!state.isPlaying) {
-          return Player.playPromised().then(() => {
-            return cb(null, playlistTrack)
-          })
-        }
-        return cb(null, playlistTrack)
-      })
+      .then((track) => cb(null, track))
       .catch(cb)
   }
 

@@ -14,14 +14,14 @@
     "url": "https://github.com/beeman/loopback-angular-admin/issues"
   },
   "scripts": {
-    "build": "rimraf dist/dashboard && webpack --bail --progress --profile",
-    "dev": "API_URL=http://localhost:3027/api/ gulp",
+    "build": "rimraf dist/dashboard && webpack --bail --progress --profile || true",
+    "dev": "API_URL=http://localhost:3027/api/ gulp || true",
     "dev-client": "webpack-dev-server",
-    "dev-debug": "DEBUG_API=1 API_URL=http://localhost:3027/api/ gulp",
-    "postinstall": "npm run build",
-    "pretest": "gulp lint",
-    "start": "./node_modules/.bin/babel-node server/server",
-    "test": "NODE_ENV=dev babel-node node_modules/.bin/jasmine"
+    "dev-debug": "DEBUG_API=1 API_URL=http://localhost:3027/api/ gulp || true",
+    "postinstall": "npm run build || true",
+    "pretest": "gulp lint || true",
+    "start": "./node_modules/.bin/babel-node server/server || true",
+    "test": "NODE_ENV=dev babel-node node_modules/.bin/jasmine || true"
   },
   "main": "server/server.js",
   "dependencies": {
@@ -100,6 +100,8 @@
     "autoprefixer": "6.3.6",
     "babel-eslint": "6.0.4",
     "babel-loader": "6.2.4",
+    "babel-node-debug": "^2.0.0",
+    "babel-register": "^6.22.0",
     "bootstrap": "3.3.6",
     "colors": "1.1.2",
     "copy-webpack-plugin": "2.1.3",

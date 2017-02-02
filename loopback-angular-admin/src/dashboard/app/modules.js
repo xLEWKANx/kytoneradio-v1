@@ -1,5 +1,5 @@
 import './about/'
-import './browser/'
+import './mpd/'
 import './core/'
 import './events/'
 import './files/'
@@ -13,7 +13,7 @@ import './users/'
 export const modules = [
   'com.module.core',
   'com.module.about',
-  'com.module.browser',
+  'com.module.mpd',
   'com.module.events',
   'com.module.files',
   'com.module.posts',

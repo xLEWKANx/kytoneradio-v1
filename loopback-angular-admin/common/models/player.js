@@ -69,7 +69,7 @@ module.exports = function(Player) {
     })
   }
 
-  Player.getCurrentPlaylist = function() {
+  Player.getCurrentPlaylist = function(cb) {
     client.sendCommand(mpd.cmd('playlistinfo', []), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
@@ -77,9 +77,9 @@ module.exports = function(Player) {
   }
 
   Player.remoteMethod('getCurrentPlaylist', {
-    accepts: {
+    returns: {
       arg: 'tracks',
-      type: 'array'
+      type: 'string'
     }
   })
 
@@ -117,6 +117,16 @@ module.exports = function(Player) {
       return cb(null, msg)
     })
   }
+
+  Player.remoteMethod('getStatus', {
+    http: {
+      verb: 'get'
+    },
+    returns: {
+      arg: 'status',
+      type: 'string'
+    }
+  })
 
   Player.updateDatabase = function(cb) {
     client.sendCommand(mpd.cmd('update', []), (err, msg) => {

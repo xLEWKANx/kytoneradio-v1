@@ -24,9 +24,15 @@ function TracksCtrl($scope, tracks, playlist, Track, TracksService, Player, Play
     PlaylistService.getPlaylist(date).then((res) => this.playlist = res)
   }
 
+  this.scanDir = function() {
+    Track.scanDir().$promise.then((tracks) => {
+      this.tracks = tracks
+    })
+  };
+
   this.addItemToPlaylist = function(item) {
     let playlistItem = angular.copy(item)
-    this.playlist.push(playlistItem)
+
     playlistItem.$prototype$addToPlaylist().then((responce) => {
       this.dt = responce.startTime
     }).catch((err) => {
@@ -38,9 +44,11 @@ function TracksCtrl($scope, tracks, playlist, Track, TracksService, Player, Play
     console.log(item)
     Playlist.deleteById({
       id: item.id
+    }).$promise.then(() => {
+      PlaylistService.getPlaylist(this.date).then((res) => this.playlist = res)
     })
   }
-
+  this.date = new Date()
   $scope.$watch(() => this.dt, (date) => {
     this.changeTime(date)
   });
@@ -56,7 +64,10 @@ function TracksCtrl($scope, tracks, playlist, Track, TracksService, Player, Play
     Player.stop();
   }
 
-  this.clearPlaylist = PlaylistService.clear
+  this.clearPlaylist = function() {
+    PlaylistService.clear()
+      .then(() => PlaylistService.getPlaylist(this.date).then((res) => this.playlist = res))
+  }
 
   this.storage = { tracks }
   this.moment = moment
