@@ -3,8 +3,6 @@ import './browser/'
 import './core/'
 import './events/'
 import './files/'
-import './notes/'
-import './pages/'
 import './posts/'
 import './products/'
 import './sandbox/'
@@ -18,8 +16,6 @@ export const modules = [
   'com.module.browser',
   'com.module.events',
   'com.module.files',
-  'com.module.notes',
-  'com.module.pages',
   'com.module.posts',
   'com.module.products',
   'com.module.sandbox',
