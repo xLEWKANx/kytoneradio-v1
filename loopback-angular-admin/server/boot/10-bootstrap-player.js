@@ -31,16 +31,11 @@ module.exports = function (app, next) {
         return Counter.initAutoIncPromised('Playlist').then(() => tracks)
       })
       .then((tracks) => {
-        let beginingTrack = {
-          endTime: new Date
-        }
-        tracks.reduce((prev, track) => track.setTime(prev), beginingTrack)
-        let promises = tracks.map(track => track.save())
-        return Promise.all(promises)
+        return Playlist.setTimeForTracksPromised(tracks, new Date)
       })
       .then((tracks) => {
         log('tracks', tracks)
-        if (tracks.length) Playlist.emit('playing', tracks[0]);
+        if (tracks.length) tracks[0].play();
         next()
       })
       .catch((err) => {

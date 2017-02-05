@@ -11,6 +11,8 @@ global.Promise = Promise
 
 module.exports = function (Playlist) {
 
+  let scheduleNext
+
   Playlist.createFakeTracks = function (count) {
     let Track = Playlist.app.models.Track;
 
@@ -91,65 +93,6 @@ module.exports = function (Playlist) {
     }
   })
 
-  Playlist.prototype.setTime = function (prev) {
-    return Object.assign(this, {
-      startTime: prev.endTime,
-      endTime: Playlist.addSecond(prev.endTime, this.duration)
-    })
-  }
-
-  Playlist.prototype.setTimeFromPrev = function (cb) {
-    log('set time for', this.index)
-    Playlist.findOnePromised({
-      where: {
-        and: [{
-          index: {
-            gte: 0
-          }
-        }, {
-          index: {
-            lte: this.index
-          }
-        }]
-      },
-      order: 'index DESC',
-      include: 'track'
-    }, { skip: true })
-      .then((lastPlaylistTrack) => {
-        log('lastPlaylistTrack', lastPlaylistTrack)
-        if (!lastPlaylistTrack) {
-          lastPlaylistTrack = {
-            endTime: new Date
-          }
-        }
-        this.setTime(lastPlaylistTrack)
-        log('setTime track:', this)
-        cb(null, this)
-      })
-      .catch((err) => {
-        cb(err)
-      })
-  }
-
-  Playlist.prototype.play = function () {
-    let Player = Playlist.app.models.Player
-    let triggerNext = this.endTime;
-
-    let j = schedule.scheduleJob(triggerNext, () => {
-      Playlist.findOnePromised({
-        where: {
-          index: 0
-        }
-      }).then((track) => {
-        if (!track) {
-          return Player.stopPromised()
-        } else {
-          Playlist.emit('playing', track)
-        }
-      }).catch((err) => Playlist.emit('error', err))
-    })
-  }
-
   Playlist.removeTimeAndIndex = function (index, cb) {
     Playlist.findPromised({
       where: {
@@ -197,6 +140,119 @@ module.exports = function (Playlist) {
       type: 'object'
     }
   })
+
+  Playlist.play = function (cb) {
+    Playlist.find({
+      where: {
+        index: {
+          gte: 0
+        }
+      }
+    }, (err, tracks) => {
+      if (err || !tracks.length) cb(new Error('Playlist.play | Cannot find track with index 0'))
+      Playlist.setTimeForTracks(tracks, new Date, (err, tracks) => {
+        if (err) return cb(err)
+        tracks[0].play()
+        return cb(null, tracks[0])
+      })
+    })
+  }
+
+  Playlist.remoteMethod('play', {
+    returns: {
+      arg: 'track',
+      type: 'object'
+    }
+  })
+
+  Playlist.stop = function (cb) {
+    let Player = Playlist.app.models.Player;
+    Player.stop()
+    if (scheduleNext) scheduleNext.cancel()
+    Playlist.findOne({
+      where: {
+        index: 0
+      }
+    }, cb)
+  }
+
+  Playlist.remoteMethod('stop', {
+    returns: {
+      arg: 'track',
+      type: 'obj'
+    }
+  })
+
+  Playlist.setTimeForTracks = function (tracks, startTime, cb) {
+    let beginingTrack = {
+      endTime: startTime
+    }
+    tracks.reduce((prev, track) => track.setTime(prev), beginingTrack)
+    let promises = tracks.map(track => track.save())
+    return Promise.all(promises).then((tracks) => cb(null, tracks)).catch(cb)
+  }
+
+  Playlist.prototype.setTime = function (prev) {
+    return Object.assign(this, {
+      startTime: prev.endTime,
+      endTime: Playlist.addSecond(prev.endTime, this.duration)
+    })
+  }
+
+  Playlist.prototype.setTimeFromPrev = function (cb) {
+    log('set time for', this.index)
+    Playlist.findOnePromised({
+      where: {
+        and: [{
+          index: {
+            gte: 0
+          }
+        }, {
+          index: {
+            lte: this.index
+          }
+        }]
+      },
+      order: 'index DESC',
+      include: 'track'
+    }, { skip: true })
+      .then((lastPlaylistTrack) => {
+        log('lastPlaylistTrack', lastPlaylistTrack)
+        if (!lastPlaylistTrack) {
+          lastPlaylistTrack = {
+            endTime: new Date
+          }
+        }
+        this.setTime(lastPlaylistTrack)
+        log('setTime track:', this)
+        cb(null, this)
+      })
+      .catch((err) => {
+        cb(err)
+      })
+  }
+
+  Playlist.prototype.play = function () {
+    let Player = Playlist.app.models.Player
+    let triggerNext = this.endTime;
+
+    Player.play()
+
+    scheduleNext = schedule.scheduleJob(triggerNext, () => {
+      Playlist.findOnePromised({
+        where: {
+          index: 1
+        }
+      }).then((track) => {
+        console.log('play next track', track)
+        if (!track) {
+          return Player.stopPromised()
+        } else {
+          Playlist.emit('playing', track)
+        }
+      }).catch((err) => Playlist.emit('error', err))
+    })
+  }
 
 
   Playlist.observe('before save', (ctx, next) => {

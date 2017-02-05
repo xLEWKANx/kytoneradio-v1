@@ -164,9 +164,5 @@ module.exports = function (Player) {
     Player.create(log, cb)
   }
 
-  Player.on('stop', () => {
-    Player.clear(() => console.log('Player stopped'))
-  })
-
   Promise.promisifyAll(Player, { suffix: 'Promised' })
 }
