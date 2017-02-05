@@ -3,25 +3,67 @@ import { default as debug } from 'debug'
 import Promise from 'bluebird'
 import moment from 'moment'
 import _ from 'lodash'
+import schedule from 'node-schedule'
+
 
 const log = debug('player:playlist')
 global.Promise = Promise
 
-module.exports = function(Playlist) {
-
-  Playlist.getTrack = (index, cb) => {
-    return Playlist.findOne({
-      where: { index },
-      include: ['track']
-    }, cb)
-  }
+module.exports = function (Playlist) {
 
   Playlist.addSecond = (date, duration) => {
     if (!date) throw new Error('date is', date)
     return moment(date).add(duration, 'seconds').toDate()
   }
 
-  Playlist.prototype.setTime = function(cb) {
+  Playlist.decIndexFrom = (index, cb) => {
+    let where = {
+      index: {
+        gte: index
+      }
+    }
+
+    if (index === undefined || typeof index === 'function') {
+      where = null;
+      cb = index;
+    }
+
+    Playlist.findPromised({
+      where: where,
+      order: 'index ASC'
+    }).then((tracks) => {
+      tracks = tracks.map((track) => {
+        track.index -= 1
+        return track
+      })
+      console.log('check indexes', tracks)
+      return tracks
+    }).mapSeries((track) => {
+      return track.savePromised()
+    }).then((tracks) => {
+      cb(null, tracks)
+    }).catch(cb)
+  }
+
+  Playlist.remoteMethod('decIndexFrom', {
+    accepts: {
+      arg: 'index',
+      type: 'number'
+    },
+    returns: {
+      arg: 'tracks',
+      type: 'array'
+    }
+  })
+
+  Playlist.prototype.setTime = function (prev) {
+    return Object.assign(this, {
+      startTime: prev.endTime,
+      endTime: Playlist.addSecond(prev.endTime, this.duration)
+    })
+  }
+
+  Playlist.prototype.setTimeFromPrev = function (cb) {
     log('set time for', this.index)
     Playlist.findOnePromised({
       where: {
@@ -38,29 +80,23 @@ module.exports = function(Playlist) {
       order: 'index DESC',
       include: 'track'
     }, { skip: true })
-    .then((lastPlaylistTrack) => {
-      log('lastPlaylistTrack', lastPlaylistTrack)
-      if (!lastPlaylistTrack) {
-        Object.assign(this, {
-          startTime: new Date,
-          endTime: Playlist.addSecond(new Date, this.duration)
-        })
-      }
-      else {
-        Object.assign(this, {
-          startTime: lastPlaylistTrack.endTime,
-          endTime: Playlist.addSecond(lastPlaylistTrack.endTime, this.duration)
-        })
-      }
-      log('setTime track:', this)
-      cb(null, this)
-    })
-    .catch((err) => {
-      cb(err)
-    })
+      .then((lastPlaylistTrack) => {
+        log('lastPlaylistTrack', lastPlaylistTrack)
+        if (!lastPlaylistTrack) {
+          lastPlaylistTrack = {
+            endTime: new Date
+          }
+        }
+        this.setTime(lastPlaylistTrack)
+        log('setTime track:', this)
+        cb(null, this)
+      })
+      .catch((err) => {
+        cb(err)
+      })
   }
 
-  Playlist.removeTimeAndIndex = function(index, cb) {
+  Playlist.removeTimeAndIndex = function (index, cb) {
     Playlist.findPromised({
       where: {
         index: {
@@ -75,22 +111,18 @@ module.exports = function(Playlist) {
       })
       return updatedTrack.savePromised()
     })
-    .then((track) => cb(null, track))
-    .catch(cb)
+      .then((track) => cb(null, track))
+      .catch(cb)
   }
 
-  Playlist.clear = function(cb) {
+  Playlist.clear = function (cb) {
     let Player = Playlist.app.models.Player
     let Counter = Playlist.app.models.Counter
 
     Player.clearPromised()
       .then(() => {
         log('before destroy')
-        return Playlist.destroyAllPromised({
-          index: {
-            gte: 1
-          }
-        }, { skip: true })
+        return Playlist.destroyAllPromised({}, { skip: true })
       })
       .then((result) => {
         log('destroy', result)
@@ -112,24 +144,46 @@ module.exports = function(Playlist) {
     }
   })
 
-  Playlist.observe('before save', (ctx, next) => {
-    let Counter = Playlist.app.models.Counter
+  Playlist.prototype.play = function (cb) {
+    let triggerNext = this.endTime;
 
+    let j = schedule.scheduleJob(triggerNext, () => {
+      Playlist.findOnePromised({
+        where: {
+          index: this.index + 1
+        }
+      }).then((track) => {
+        if (!track) Player.emit('stop')
+        Playlist.emit('playing', track)
+      })
+    }).catch(cb)
+  }
+
+  Playlist.observe('before save', (ctx, next) => {
     if (ctx.options.skip) return next()
-    log('instance', ctx.instance)
     log('before save | ctx', _.keys(ctx))
-    if (ctx.instance) {
-      Counter.autoIncIdPromised(ctx.instance)
-        .then((instance) => {
-          return ctx.instance.setTime(next)
-        })
-        .catch(next)
+    if (ctx.instance && ctx.isNewInstance) {
+      log('instance', ctx.instance)
+      return updateTrackInfo(ctx.instance, next)
     } else if (ctx.where && ctx.where.index) {
       next()
     } else {
       return next()
     }
   })
+
+  function updateTrackInfo(track, next) {
+    let Counter = Playlist.app.models.Counter
+
+    Counter.autoIncIdPromised(track)
+      .then((track) => {
+        if (!track.startTime || !track.endTime) {
+          return track.setTimeFromPrev(next)
+        }
+        return next()
+      })
+      .catch(next)
+  }
 
   Playlist.observe('before delete', (ctx, next) => {
     if (ctx.options.skip) return next()
@@ -144,12 +198,14 @@ module.exports = function(Playlist) {
       })
     }
   })
+
   Playlist.observe('after delete', (ctx, next) => {
     if (ctx.options.skip) return next()
     let Counter = Playlist.app.models.Counter
     log('ctx', ctx.where, ctx.hookState, Number.isInteger(ctx.hookState.deletedIndex))
     if (ctx.hookState && Number.isInteger(ctx.hookState.deletedIndex)) {
-      return updateNextTracks(ctx.hookState.deletedIndex, next)
+      // TODO: find gte than index, decrement indexes, set time for all
+      // return updateNextTracks(ctx.hookState.deletedIndex, next)
     }
     return next()
   })
@@ -159,15 +215,26 @@ module.exports = function(Playlist) {
 
     Counter.autoDecIdPromised("Playlist", index)
       .then(() => {
-        return Playlist.removeTimeAndIndexPromised(index)
+        // return Playlist.removeTimeAndIndexPromised(index)
+        return
       })
       .then((result) => {
         console.log('result', result)
         next()
       })
       .catch(next)
-
   }
+
+  Playlist.on('playing', (playlistTrack) => {
+    log('>>> Playling now', playlistTrack)
+    if (playlistTrack) {
+      playlistTrack.play((err) => console.error(err))
+      Playlist.decIndexFrom((err) => console.error(err))
+    } else {
+      console.error('Queue end')
+    }
+  })
+
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })
   Promise.promisifyAll(Playlist.prototype, { suffix: 'Promised' })
 }

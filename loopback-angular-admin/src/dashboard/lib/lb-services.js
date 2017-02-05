@@ -12708,6 +12708,45 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
+             * @name lbServices.Playlist#decIndexFrom
+             * @methodOf lbServices.Playlist
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             *  - `index` – `{number=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `tracks` – `{*=}` -
+             */
+            "decIndexFrom": {
+              url: urlBase + "/playlist/decIndexFrom",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
              * @name lbServices.Playlist#clear
              * @methodOf lbServices.Playlist
              *
@@ -13780,7 +13819,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * @param {Object} postData Request data.
              *
-             *  - `tracks` – `{*=}` -
+             * This method does not accept any data. Supply an empty object.
              *
              * @param {function(Object,Object)=} successCb
              *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -13792,7 +13831,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *   populated with the actual data once the response is returned
              *   from the server.
              *
-             * This method returns no data.
+             * Data properties:
+             *
+             *  - `tracks` – `{string=}` -
              */
             "getCurrentPlaylist": {
               url: urlBase + "/player/getCurrentPlaylist",

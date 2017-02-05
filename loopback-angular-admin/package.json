@@ -51,6 +51,7 @@
     "loopback-datasource-juggler": "2.46.0",
     "moment": "2.15.2",
     "mpd": "1.3.0",
+    "node-schedule": "^1.2.0",
     "nodemon": "1.9.2",
     "passport": "0.3.2",
     "passport-facebook": "2.1.0",

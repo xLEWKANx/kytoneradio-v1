@@ -6,14 +6,17 @@ import Promise from 'bluebird'
 const log = debug('player:Player')
 global.Promise = Promise
 
-module.exports = function(Player) {
+module.exports = function (Player) {
 
   let client = {};
   let state = {
     isPlaying: false
   }
+  Player.on('error', (err) => {
+    throw new Error('Mpd problem', err)
+  })
 
-  Player.bootstrap = function(cb) {
+  Player.bootstrap = function (cb) {
     client = mpd.connect({
       port: 6600,
       host: 'localhost',
@@ -24,12 +27,13 @@ module.exports = function(Player) {
     })
 
     client.on('ready', () => {
+      console.log('ready')
       cb(null, client)
     })
 
   }
 
-  Player.play = function(cb) {
+  Player.play = function (cb) {
     client.sendCommand(mpd.cmd('play', []), (err, msg) => {
       if (err) return cb(err)
       Player.emit('play')
@@ -45,7 +49,7 @@ module.exports = function(Player) {
     }
   })
 
-  Player.stop = function(cb) {
+  Player.stop = function (cb) {
     client.sendCommand(mpd.cmd('stop', []), (err, msg) => {
       if (err) return cb(err)
       Player.emit('stop')
@@ -61,15 +65,15 @@ module.exports = function(Player) {
     }
   })
 
-  Player.addTrack = function(name, cb) {
-    log(`Added ${name} to MPD playlist`)
+  Player.addTrack = function (name, cb) {
     client.sendCommand(mpd.cmd('add', [name]), (err, msg) => {
       if (err) return cb(err)
+      log(`Added ${name} to MPD playlist`, err, msg)
       return cb(null, msg)
     })
   }
 
-  Player.getCurrentPlaylist = function(cb) {
+  Player.getCurrentPlaylist = function (cb) {
     client.sendCommand(mpd.cmd('playlistinfo', []), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
@@ -83,7 +87,7 @@ module.exports = function(Player) {
     }
   })
 
-  Player.clear = function(cb) {
+  Player.clear = function (cb) {
     client.sendCommand(mpd.cmd('clear', []), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
@@ -97,21 +101,21 @@ module.exports = function(Player) {
     }
   })
 
-  Player.removeTrack = function(position, cb) {
+  Player.removeTrack = function (position, cb) {
     client.sendCommand(mpd.cmd('delete', position), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
     })
   }
 
-  Player.moveTrack = function(from, to, cb) {
+  Player.moveTrack = function (from, to, cb) {
     client.sendCommand(mpd.cmd('move', [from, to]), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
     })
   }
 
-  Player.getStatus = function(cb) {
+  Player.getStatus = function (cb) {
     client.sendCommand(mpd.cmd('status', []), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
@@ -128,7 +132,7 @@ module.exports = function(Player) {
     }
   })
 
-  Player.updateDatabase = function(cb) {
+  Player.updateDatabase = function (cb) {
     client.sendCommand(mpd.cmd('update', []), (err, msg) => {
       if (err) return cb(err)
       log('database updated', msg)
@@ -136,9 +140,13 @@ module.exports = function(Player) {
     })
   }
 
-  Player.getState = function() {
+  Player.getState = function () {
     return state;
   }
+
+  Player.on('stop', () => {
+    Player.clear(() => console.log('Player stopped'))
+  })
 
   Promise.promisifyAll(Player, { suffix: 'Promised' })
 }

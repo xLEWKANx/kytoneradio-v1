@@ -5,13 +5,18 @@ import _ from 'lodash'
 
 
 function MpdCtrl($scope, Player) {
-  Player.getStatus().$promise.then((response) => {
-    this.status = response.status
-  })
-  Player.getCurrentPlaylist().$promise.then((response) => {
-    console.log(response)
-    this.mpdPlaylist = response.tracks
-  })
+
+  this.mpdInfo = function() {
+    Player.getStatus().$promise.then((response) => {
+      this.status = response.status
+    })
+    Player.getCurrentPlaylist().$promise.then((response) => {
+      console.log(response)
+      this.mpdPlaylist = response.tracks
+    })
+  }
+
+  this.mpdInfo()
 }
 
 
