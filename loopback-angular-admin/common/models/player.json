@@ -7,29 +7,21 @@
     "validateUpsert": true
   },
   "properties": {
-
-    "startTime": {
-      "type": "date",
-      "required": true
+    "command": {
+      "type": "string"
     },
-    "endTime": {
-      "type": "date",
-      "required": true
+    "timestamp": {
+      "type": "date"
+    },
+    "error": {
+      "type": "object"
+    },
+    "message": {
+      "type": "string"
     }
   },
   "validations": [],
-  "relations": {
-    "track": {
-      "type": "hasOne",
-      "model": "Track",
-      "foreignKey": "playlistId"
-    },
-    "event": {
-      "type": "hasOne",
-      "model": "Event",
-      "foreignKey": ""
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

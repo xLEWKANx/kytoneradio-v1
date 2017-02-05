@@ -11,8 +11,44 @@ global.Promise = Promise
 
 module.exports = function (Playlist) {
 
+  Playlist.createFakeTracks = function (count) {
+    let Track = Playlist.app.models.Track;
+
+    const TRACK_DURATION = 60;
+
+    const MOCK_TRACK = new Track({
+      id: 0,
+      name: 'test track',
+      processed: true,
+      duration: TRACK_DURATION
+    })
+
+    let playlist = [];
+    let startTime = new Date()
+
+    for (let i = 0; i < count; i++) {
+      let endTime = Playlist.addSecond(startTime, TRACK_DURATION)
+
+      let MOCK_PLAYLIST_TRACK = new Playlist({
+        id: i,
+        name: 'test playlist track',
+        startTime: startTime,
+        endTime: endTime,
+        duration: TRACK_DURATION,
+        trackId: 0,
+        index: i
+      })
+
+      startTime = endTime
+
+      MOCK_PLAYLIST_TRACK.track(MOCK_TRACK)
+      playlist.push(MOCK_PLAYLIST_TRACK)
+    }
+    return playlist;
+  }
+
   Playlist.addSecond = (date, duration) => {
-    if (!date) throw new Error('date is', date)
+    if (!date) throw new Error(`date is ${date}`)
     return moment(date).add(duration, 'seconds').toDate()
   }
 
@@ -36,7 +72,6 @@ module.exports = function (Playlist) {
         track.index -= 1
         return track
       })
-      console.log('check indexes', tracks)
       return tracks
     }).mapSeries((track) => {
       return track.savePromised()
@@ -96,6 +131,25 @@ module.exports = function (Playlist) {
       })
   }
 
+  Playlist.prototype.play = function () {
+    let Player = Playlist.app.models.Player
+    let triggerNext = this.endTime;
+
+    let j = schedule.scheduleJob(triggerNext, () => {
+      Playlist.findOnePromised({
+        where: {
+          index: 0
+        }
+      }).then((track) => {
+        if (!track) {
+          return Player.stopPromised()
+        } else {
+          Playlist.emit('playing', track)
+        }
+      }).catch((err) => Playlist.emit('error', err))
+    })
+  }
+
   Playlist.removeTimeAndIndex = function (index, cb) {
     Playlist.findPromised({
       where: {
@@ -144,20 +198,6 @@ module.exports = function (Playlist) {
     }
   })
 
-  Playlist.prototype.play = function (cb) {
-    let triggerNext = this.endTime;
-
-    let j = schedule.scheduleJob(triggerNext, () => {
-      Playlist.findOnePromised({
-        where: {
-          index: this.index + 1
-        }
-      }).then((track) => {
-        if (!track) Player.emit('stop')
-        Playlist.emit('playing', track)
-      })
-    }).catch(cb)
-  }
 
   Playlist.observe('before save', (ctx, next) => {
     if (ctx.options.skip) return next()
@@ -225,11 +265,20 @@ module.exports = function (Playlist) {
       .catch(next)
   }
 
+  Playlist.playSequence = function (playlistTrack) {
+
+  }
+
   Playlist.on('playing', (playlistTrack) => {
     log('>>> Playling now', playlistTrack)
+    log('>>> Next track in: ', playlistTrack.endTime)
     if (playlistTrack) {
-      playlistTrack.play((err) => console.error(err))
-      Playlist.decIndexFrom((err) => console.error(err))
+      Playlist.decIndexFromPromised().then(() => {
+        playlistTrack.play()
+      }).catch((err) => {
+        console.log('on playing error', err)
+        throw err;
+      })
     } else {
       console.error('Queue end')
     }

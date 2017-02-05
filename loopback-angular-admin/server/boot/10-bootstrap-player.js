@@ -40,7 +40,7 @@ module.exports = function (app, next) {
       })
       .then((tracks) => {
         log('tracks', tracks)
-        Playlist.emit('playing', tracks[0]);
+        if (tracks.length) Playlist.emit('playing', tracks[0]);
         next()
       })
       .catch((err) => {

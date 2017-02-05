@@ -38,7 +38,9 @@ module.exports = function (Player) {
       if (err) return cb(err)
       Player.emit('play')
       state.isPlaying = true
-      return cb(null, msg)
+      Player.log({
+        command: 'play'
+      }, cb)
     })
   }
 
@@ -54,7 +56,9 @@ module.exports = function (Player) {
       if (err) return cb(err)
       Player.emit('stop')
       state.isPlaying = false
-      return cb(null, msg)
+      Player.log({
+        command: 'stop'
+      }, cb)
     })
   }
 
@@ -69,7 +73,10 @@ module.exports = function (Player) {
     client.sendCommand(mpd.cmd('add', [name]), (err, msg) => {
       if (err) return cb(err)
       log(`Added ${name} to MPD playlist`, err, msg)
-      return cb(null, msg)
+      Player.log({
+        command: 'play',
+        messange: name
+      }, cb)
     })
   }
 
@@ -90,7 +97,9 @@ module.exports = function (Player) {
   Player.clear = function (cb) {
     client.sendCommand(mpd.cmd('clear', []), (err, msg) => {
       if (err) return cb(err)
-      return cb(null, msg)
+      Player.log({
+        command: 'clear'
+      }, cb)
     })
   }
 
@@ -142,6 +151,17 @@ module.exports = function (Player) {
 
   Player.getState = function () {
     return state;
+  }
+
+  Player.log = function (info, cb) {
+    if (typeof error === 'function') {
+      cb = error
+      error = null
+    }
+    let log = Object.assign({
+      timestamp: new Date()
+    }, info)
+    Player.create(log, cb)
   }
 
   Player.on('stop', () => {
