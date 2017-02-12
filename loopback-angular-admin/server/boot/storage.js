@@ -30,10 +30,10 @@ module.exports = function (app) {
     });
   });
 
-  // app.models.Track.scanDir((err, result) => {
-  //   if (err) return console.log(err)
-  //   log('scanned at boot ', result.length)
-  // })
+  app.models.Track.scanDir((err, result) => {
+    if (err) return console.log(err)
+    log('scanned at boot ', result.length)
+  })
   // app.model(container)
 
 }

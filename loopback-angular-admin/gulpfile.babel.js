@@ -62,9 +62,9 @@ gulp.task('loopback:codegen', () => gulp
 gulp.task('serve', () => nodemon({
   exec,
   script: 'server/server.js',
-  watch: [ 'server/', 'common/' ],
+  watch: ['server/', 'common/'],
   ext: 'js json',
-  tasks: [ 'lint' ],
+  tasks: ['lint'],
 }))
 
 // The default taks
@@ -86,10 +86,10 @@ gulp.task('styles', () => gulp
   .src('src/client/styles/*.less')
   .pipe(less()).on('error', notify.onError('Error: <%= error.message %>'))
   .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-  .pipe(minifycss({keepSpecialComments: '0'}))
+  .pipe(minifycss({ keepSpecialComments: '0' }))
   .pipe(gulp.dest(
-      'dist/client/styles'
-    ))
+    'dist/client/styles'
+  ))
   .pipe(notify('Styles task complete'))
 )
 
@@ -100,7 +100,7 @@ gulp.task('app', () => gulp
     _paths.app_lib
   ])
   .pipe(concat('main.js')).on('error', notify.onError('Error: <%= error.message %>'))
-      // Annotate before uglify so the code get's min'd properly.
+  // Annotate before uglify so the code get's min'd properly.
   .pipe(ngAnnotate({
     // true helps add where @ngInject is not used. It infers.
     // Doesn't work with resolve, so we must be explicit there
@@ -108,8 +108,8 @@ gulp.task('app', () => gulp
   }))
   // .pipe(uglify()).on('error', notify.onError('Error: <%= error.message %>'))
   .pipe(gulp.dest(
-      'dist/client/app'
-    ))
+    'dist/client/app'
+  ))
 )
 
 gulp.task('app:lib', () => gulp
@@ -122,11 +122,11 @@ gulp.task('app:lib', () => gulp
   .pipe(concat('lib.js'))
   // .pipe(uglify())
   .pipe(gulp.dest(
-      'dist/client/app'
-    ))
+    'dist/client/app'
+  ))
 )
 
-gulp.task('img',() => gulp
+gulp.task('img', () => gulp
   .src(_paths.img + '/**/*')
   .pipe(gulp.dest(
     'dist/client/img'
@@ -142,15 +142,14 @@ gulp.task('watch:client', () => {
   //   lrserver.listen(livereloadport);
   // })
 
-  gulp.watch([_paths.styles + '/**/*'],['styles']);
+  gulp.watch(_paths.styles + '/**/*', ['styles']);
+  gulp.watch(_paths.app + '/**/*.js', ['app']);
 
-  gulp.watch([_paths.app + '/**/*.js'],['app']);
-
-  gulp.watch([_paths.app_lib + '/**/*.js'],['app:lib']);
+  gulp.watch(_paths.app_lib + '/**/*.js', ['app:lib']);
   //
   // gulp.watch([_paths.views + '/**/*.jade'],['views']);
   //
-  gulp.watch([_paths.img+'/**/*'],['img']);
+  gulp.watch(_paths.img + '/**/*', ['img']);
 
 });
 

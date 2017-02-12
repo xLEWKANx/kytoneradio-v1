@@ -1,8 +1,9 @@
 import 'dotenv/config'
 import loopback from 'loopback'
 import boot from 'loopback-boot'
-
+// import socket from 'socket.io'
 const app = module.exports = loopback()
+
 
 // start the web server
 app.start = () => app.listen(() => {
@@ -21,9 +22,14 @@ boot(app, __dirname, (err) => {
   if (err) {
     throw err
   }
-  app.emit('inititated')
   // start the server if `$ node server.js`
   if (require.main === module) {
-    app.start()
+
+    app.io = require('socket.io')(app.start());
+    app.emit('inititated')
+
+    app.io.on('error', (err) => {
+      console.error('SOCKET IO', err);
+    })
   }
 })

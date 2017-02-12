@@ -8,7 +8,7 @@ import { default as debug } from 'debug'
 const log = debug('player:Track')
 const MUSIC_EXTENTION_REGEXP = /.mp3$/
 
-module.exports = function(Track) {
+module.exports = function (Track) {
   Track.createFakeData = function (faker, count) {
     let name = `track # - ${count}.mp3`
     return Track.create({
@@ -18,17 +18,23 @@ module.exports = function(Track) {
     })
   }
 
-  Track.prototype.getMeta = function(cb) {
+  Track.prototype.getMeta = function (cb) {
     let readStream = fs.createReadStream(this.path)
     log('getting meta for', this)
     mm(readStream, { duration: true }, (err, meta) => {
+      let artist = meta.artist[0] || null
+      let title = meta.title || null
+      let songtitle = ''
+      if (artist && title) songtitle += artist + ' - ' + title
+      else songtitle = this.title
       let info = (err) ? {
         err: err.toString(),
         processed: false
       } : {
-        duration: meta.duration,
-        processed: true
-      }
+          duration: meta.duration,
+          title: songtitle,
+          processed: true
+        }
       Object.assign(this, info)
       log(`Track | Added meta to ${this.name}`)
       readStream.close()
@@ -54,7 +60,7 @@ module.exports = function(Track) {
     }
   })
 
-  Track.scanDir = function(cb) {
+  Track.scanDir = function (cb) {
     let db = Track.app.dataSources.db;
     let app = Track.app
     let musicStorage = app.models.musicStorage
@@ -88,29 +94,30 @@ module.exports = function(Track) {
       .then(res => cb(null, res))
       .catch(err => cb(err))
 
-      function fileToTrack(file){
-        let trackPath = `${app.get('STORAGE_PATH')}/music/${file.name}`
+    function fileToTrack(file) {
+      let trackPath = `${app.get('STORAGE_PATH')}/music/${file.name}`
 
-        return {
-          name: file.name,
-          path: trackPath,
-          container: file.container,
-          processed: false
-        }
+      return {
+        name: file.name,
+        title: file.name.replace(MUSIC_EXTENTION_REGEXP, ''),
+        path: trackPath,
+        container: file.container,
+        processed: false
       }
+    }
 
-      function filterOnlyMusic(file, tracks) {
-        if (!MUSIC_EXTENTION_REGEXP.test(file.name)) return false
-        else return true
-      }
+    function filterOnlyMusic(file, tracks) {
+      if (!MUSIC_EXTENTION_REGEXP.test(file.name)) return false
+      else return true
+    }
 
-      function filterProcessed(processed, files) {
-        return files.filter(file => {
-          return !processed.some(pFile =>  {
-            return pFile.name === file.name
-          })
+    function filterProcessed(processed, files) {
+      return files.filter(file => {
+        return !processed.some(pFile => {
+          return pFile.name === file.name
         })
-      }
+      })
+    }
   }
 
   Track.remoteMethod('scanDir', {
@@ -118,7 +125,7 @@ module.exports = function(Track) {
     returns: { arg: 'body', type: 'array', root: true }
   })
 
-  Track.prototype.addToPlaylist = function(cb) {
+  Track.prototype.addToPlaylist = function (cb) {
     let Player = Track.app.models.Player
 
     if (typeof position === 'function') {

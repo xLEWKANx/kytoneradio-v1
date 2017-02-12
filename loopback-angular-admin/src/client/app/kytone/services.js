@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
 
   angular.module('kytoneApp')
@@ -6,15 +6,15 @@
     .factory('Schedule', Schedule)
     .factory('postData', postData)
     .factory('postFunc', postFunc)
-    // .factory('socket', socket);
+    .factory('socket', socket);
 
   function Posters($resource) {
     return $resource('/api/posters/:outerIndex/:innerIndex', {}, {
-      'get': {method: 'GET', isArray: true}
+      'get': { method: 'GET', isArray: true }
     });
   }
 
-  function postData(){
+  function postData() {
     var postData = {
       postOpened: false,
       currentPost: {}
@@ -23,27 +23,27 @@
     return postData;
   }
 
-  function postFunc(Slide, postData, $window, $timeout){
+  function postFunc(Slide, postData, $window, $timeout) {
     var service = {
       openPost: openPost,
       closePost: closePost,
       isOpened: isOpened,
-      getHtmlContent : getHtmlContent
+      getHtmlContent: getHtmlContent
     };
     var lastScrollTop = 0;
     return service;
 
     function openPost($event, outerIndex, innerIndex, startCoords) {
-      if ($event.clientX == startCoords.x || outerIndex === 0  || $event.type === 'touchend') {
+      if ($event.clientX == startCoords.x || outerIndex === 0 || $event.type === 'touchend') {
         var post = Slide.find({
           filter: {
-              where: {
-                outerIndex: outerIndex,
-                innerIndex: innerIndex
-              }
+            where: {
+              outerIndex: outerIndex,
+              innerIndex: innerIndex
             }
-          },
-          function() {
+          }
+        },
+          function () {
             postData.currentPost = post[0];
             if (post[0].local) {
               postData.postOpened = true;
@@ -53,7 +53,7 @@
               $event.returnValue = false;
 
               lastScrollTop = $(window).scrollTop();
-              $timeout(function() {
+              $timeout(function () {
                 window.scrollTo(0, 0);
               }, 10)
             } else if ($event.type === 'touchend' && !post[0].local) {
@@ -65,7 +65,7 @@
       };
     }
 
-    function getHtmlContent(){
+    function getHtmlContent() {
       return postData.currentPost.content
     }
 
@@ -84,13 +84,13 @@
 
   function Schedule($resource) {
     return $resource('/api/playlist/next', {}, {
-      'get': {method: 'GET', isArray: true}
+      'get': { method: 'GET', isArray: true }
     });
   }
 
-  // function socket(socketFactory) {
-  //   return socketFactory({
-  //   });
-  // };
+  function socket(socketFactory) {
+    return socketFactory({
+    });
+  };
 
 })();

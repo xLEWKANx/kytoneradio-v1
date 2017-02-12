@@ -12646,6 +12646,42 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
+             * @name lbServices.Playlist#now
+             * @methodOf lbServices.Playlist
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Playlist` object.)
+             * </em>
+             */
+            "now": {
+              url: urlBase + "/playlist/now",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
              * @name lbServices.Playlist#nextTrack
              * @methodOf lbServices.Playlist
              *
@@ -12672,10 +12708,47 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * Data properties:
              *
-             *  - `track` – `{obj=}` -
+             *  - `track` – `{object=}` -
              */
             "nextTrack": {
               url: urlBase + "/playlist/nextTrack",
+              method: "GET",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist#getSchedule
+             * @methodOf lbServices.Playlist
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Playlist` object.)
+             * </em>
+             */
+            "getSchedule": {
+              isArray: true,
+              url: urlBase + "/playlist/getSchedule",
               method: "GET",
             },
 
@@ -13744,7 +13817,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * @param {Object} postData Request data.
              *
-             *  - `index` – `{undefined=}` -
+             *  - `index` – `{number=}` -
              *
              * @param {function(Object,Object)=} successCb
              *   Success callback with two arguments: `value`, `responseHeaders`.

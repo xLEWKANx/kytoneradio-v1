@@ -14,8 +14,20 @@ module.exports = function (Playlist) {
   let scheduleNext
   Playlist.currentTrack = null;
 
-  Playlist.now = function (cb) {
-    cb(null, Playlist.currentTrack)
+  Playlist.getCurrentTrack = function (cb) {
+    let Player = Playlist.app.models.Player
+
+    Player.currentTrackIndexPromised()
+      .then(index => {
+        return Playlist.findOne({
+          where: {
+            index: index
+          },
+          include: ['track']
+        })
+      })
+      .then((track) => cb(null, track))
+      .catch(cb)
   }
 
   Playlist.remoteMethod('now', {
@@ -34,7 +46,6 @@ module.exports = function (Playlist) {
 
     Player.nextTrackIndexPromised()
       .then(index => {
-        console.log('index', index)
         return Playlist.findOnePromised({ where: { index: index } })
       })
       .then(track => cb(null, track))
@@ -48,6 +59,34 @@ module.exports = function (Playlist) {
     returns: {
       arg: 'track',
       type: 'object'
+    }
+  })
+
+  Playlist.getSchedule = function (cb) {
+    let Player = Playlist.app.models.Player
+
+    Player.currentTrackIndexPromised()
+      .then(index => Playlist.findPromised({
+        where: {
+          index: {
+            gt: index
+          }
+        },
+        include: ['track'],
+        limit: 5
+      }))
+      .then(tracks => cb(null, tracks))
+      .catch(cb)
+  }
+
+  Playlist.remoteMethod('getSchedule', {
+    http: {
+      verb: 'get'
+    },
+    returns: {
+      arg: 'tracks',
+      root: true,
+      type: 'array'
     }
   })
 
@@ -90,35 +129,6 @@ module.exports = function (Playlist) {
   Playlist.addSecond = (date, duration) => {
     if (!date) throw new Error(`date is ${date}`)
     return moment(date).add(duration, 'seconds').toDate()
-  }
-
-  Playlist.decIndexFrom = (index, cb) => {
-    let where = {
-      index: {
-        gte: index
-      }
-    }
-
-    if (index === undefined || typeof index === 'function') {
-      where = null;
-      cb = index;
-    }
-
-    Playlist.updateAll(where,
-      {
-
-        $inc: {
-          index: -1
-        }
-
-
-
-      }, (err, result) => {
-        if (err) return cb(err);
-        log('result', result)
-        cb(null, result)
-      })
-
   }
 
   Playlist.remoteMethod('decIndexFrom', {
@@ -320,7 +330,7 @@ module.exports = function (Playlist) {
     scheduleNext = schedule.scheduleJob(triggerNext, () => {
       Playlist.nextTrackPromised()
         .then((track) => {
-          console.log('play next track', track)
+          log('play next track', track)
           if (!track) {
             console.log('>>> !! QUEUE END')
             return Player.stopPromised()
@@ -411,6 +421,15 @@ module.exports = function (Playlist) {
     log('>>> Next track in: ', playlistTrack.endTime)
 
     Playlist.currentTrack = playlistTrack
+    playlistTrack.track((err, track) => {
+      if (err) return console.error(err);
+      Playlist.app.io.emit('track', track);
+    })
+
+    Playlist.getSchedulePromised()
+      .then((tracks) => {
+        Playlist.app.io.emit('playlist', tracks);
+      })
 
     playlistTrack.playNext()
   })
@@ -418,7 +437,4 @@ module.exports = function (Playlist) {
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })
   Promise.promisifyAll(Playlist.prototype, { suffix: 'Promised' })
 
-  function getDeletedIndex(id, cb) {
-    Playlist.findById(id, cb);
-  }
 }

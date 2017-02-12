@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
 
   angular.module('kytoneApp')
@@ -7,10 +7,10 @@
     .controller('postCtrl', postCtrl)
     .controller('scheduleCtrl', scheduleCtrl);
 
-  function mainCtrl($scope, localStorageService, Setting){
+  function mainCtrl($scope, localStorageService, Setting) {
     var vm = this;
 
-    Setting.findById({id: 1}, function(result) {
+    Setting.findById({ id: 1 }, function (result) {
       vm.slidersArr = result.options
       for (var key in result.options) {
         if (result.options[key].isBig) {
@@ -19,7 +19,7 @@
       }
 
       vm.playerStatus = 'Loading';
-      vm.control = function(target) {
+      vm.control = function (target) {
         function playStatus(val) {
           return localStorageService.set('isPlaying', val);
         }
@@ -38,7 +38,7 @@
 
   }
 
-  function postersCtrl($scope, Slide, postFunc){
+  function postersCtrl($scope, Slide, postFunc) {
     var vm = this;
     vm.postersArr = Slide.find({
       filter: {
@@ -46,20 +46,20 @@
           outerIndex: $scope.$parent.$index
         }
       }
-    }, function() {
+    }, function () {
       vm.count = vm.postersArr.length;
     });
     vm.count = [];
     vm.elemReady = false;
     vm.startCoords = {}
-    vm.writeCoords = function(x) {
+    vm.writeCoords = function (x) {
       vm.startCoords.x = x.clientX
       vm.startCoords.y = x.clientY
     }
     vm.openPost = postFunc.openPost;
   }
 
-  function postCtrl($scope, postData, postFunc){
+  function postCtrl($scope, postData, postFunc) {
     var vm = this;
     vm.postData = postData;
     vm.getContent = postFunc.getHtmlContent;
@@ -67,17 +67,22 @@
     vm.closePost = postFunc.closePost;
     vm.openPost = postFunc.openPost
     vm.startCoords = {}
-    vm.writeCoords = function(x) {
+    vm.writeCoords = function (x) {
       vm.startCoords.x = x.clientX
       vm.startCoords.y = x.clientY
     }
   }
 
-  function scheduleCtrl($scope, /* socket, */ Schedule) {
+  function scheduleCtrl($scope, socket, Schedule) {
     var vm = this;
-    // socket.on('playlist', function(data) {
-    //   vm.next = data;
-    // })
+    socket.on('playlist', function (data) {
+      data.forEach(function (track) {
+
+        track.startTime = moment(track.startTime).format('HH:mm')
+        track.endTime = moment(track.endTime).format('HH:mm')
+      })
+      vm.next = data;
+    })
 
   }
 })();

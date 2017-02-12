@@ -11,14 +11,17 @@ module.exports = function (app, next) {
 
   Player.bootstrap((err, msg) => {
     if (err) next(err)
-    Playlist.findPromised({
-      where: {
-        index: {
-          gte: 0
-        }
-      },
-      order: 'index ASC'
-    })
+    Player.clearPromised()
+      .then(() => {
+        return Playlist.findPromised({
+          where: {
+            index: {
+              gte: 0
+            }
+          },
+          order: 'index ASC'
+        })
+      })
       .then((tracks) => {
         let promises = tracks.map((track) => Player.addTrackPromised(track.name))
         return Promise.all(promises).then(() => tracks)
@@ -35,5 +38,19 @@ module.exports = function (app, next) {
         console.error('Bootstrap mpd error:', err)
         next(err);
       })
+  })
+
+  app.on('inititated', () => {
+    app.io.on('connection', () => {
+      Playlist.getCurrentTrackPromised()
+        .then((track) => {
+          if (track) Playlist.app.io.emit('track', track.track());
+        })
+
+      Playlist.getSchedulePromised()
+        .then((tracks) => {
+          Playlist.app.io.emit('playlist', tracks);
+        })
+    })
   })
 }

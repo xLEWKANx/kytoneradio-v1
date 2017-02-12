@@ -38,10 +38,10 @@
       tr
         td(colspan="2").playlist-section#plPlace
           table#playlist.playlist-table
-            tr.playlist-track(ng-repeat="track in schedule.next | reverse")
-              td.track-time {{track.fTime}}
+            tr.playlist-track(ng-repeat="playlist in schedule.next | reverse")
+              td.track-time {{playlist.startTime}} - {{playlist.endTime}}
               td.track-title.scroll-left
-                div(scroll) {{track.artist}} - {{track.title}}
+                div(scroll) {{playlist.track.title}}
       tr.bottom-row
         td
           .logo-cell

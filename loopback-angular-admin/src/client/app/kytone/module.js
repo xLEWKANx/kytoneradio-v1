@@ -1,4 +1,4 @@
-(function(){
+(function () {
   'use strict';
 
   angular.module('kytoneApp', [
@@ -10,7 +10,7 @@
     'ngResource',
     'slick',
     'hc.marked',
-    // 'btford.socket-io',
+    'btford.socket-io',
     'LocalStorageModule',
     'lbServices'
   ]);
@@ -24,18 +24,18 @@
     $locationProvider,
     $sceProvider,
     localStorageServiceProvider
-    ) {
+  ) {
 
-      $routeProvider
-        .when('/posters', {
-          templateUrl: 'partials/postersLine',
-          controller: 'postersCtrl'
-        })
-        .otherwise({redirectTo: '/'});
+    $routeProvider
+      .when('/posters', {
+        templateUrl: 'partials/postersLine',
+        controller: 'postersCtrl'
+      })
+      .otherwise({ redirectTo: '/' });
 
-      $sceProvider.enabled(false);
+    $sceProvider.enabled(false);
 
-      localStorageServiceProvider
-        .setPrefix('kytone');
-    }
+    localStorageServiceProvider
+      .setPrefix('kytone');
+  }
 })();
