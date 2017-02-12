@@ -7,7 +7,7 @@ const SECONDS_TO_PIXEL = (1200 / (24 * 60 * 60))
 const TIME_NOW = Date.now() / 1000
 const SECOND_FROM_START = moment().diff(moment().startOf('day'), 'seconds')
 
-const TINE_END = function(time) {
+const TINE_END = function (time) {
   return +moment(time)
 }
 
@@ -20,17 +20,17 @@ function TracksCtrl($scope, tracks, playlist, Track, TracksService, Player, Play
 
   this.playlist = playlist
   this.tracks = tracks
-  this.changeTime = function(date) {
+  this.changeTime = function (date) {
     PlaylistService.getPlaylist(date).then((res) => this.playlist = res)
   }
 
-  this.scanDir = function() {
+  this.scanDir = function () {
     Track.scanDir().$promise.then((tracks) => {
       this.tracks = tracks
     })
   };
 
-  this.addItemToPlaylist = function(item) {
+  this.addItemToPlaylist = function (item) {
     let playlistItem = angular.copy(item)
 
     playlistItem.$prototype$addToPlaylist().then((responce) => {
@@ -40,7 +40,7 @@ function TracksCtrl($scope, tracks, playlist, Track, TracksService, Player, Play
     })
   }
 
-  this.delete = function(item) {
+  this.delete = function (item) {
     console.log(item)
     Playlist.deleteById({
       id: item.id
@@ -57,14 +57,14 @@ function TracksCtrl($scope, tracks, playlist, Track, TracksService, Player, Play
     return moment(date).format("HH:mm")
   }
 
-  this.play = function() {
-    Player.play();
+  this.play = function () {
+    Playlist.play();
   }
-  this.stop = function() {
-    Player.stop();
+  this.stop = function () {
+    Playlist.stop();
   }
 
-  this.clearPlaylist = function() {
+  this.clearPlaylist = function () {
     PlaylistService.clear()
       .then(() => PlaylistService.getPlaylist(this.date).then((res) => this.playlist = res))
   }
@@ -74,7 +74,7 @@ function TracksCtrl($scope, tracks, playlist, Track, TracksService, Player, Play
   this.formats = [
     'dd.MM.yyyy'
   ]
-  this.format = this.formats[ 0 ]
+  this.format = this.formats[0]
   this.today = () => {
     this.dt = moment()
   }

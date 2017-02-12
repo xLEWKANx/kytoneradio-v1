@@ -119,8 +119,8 @@ module.exports = function (Player) {
     }
   })
 
-  Player.removeTrack = function (position, cb) {
-    client.sendCommand(mpd.cmd('delete', position), (err, msg) => {
+  Player.deleteTrack = function (position, cb) {
+    client.sendCommand(mpd.cmd('delete', [position]), (err, msg) => {
       if (err) return cb(err)
       return cb(null, msg)
     })
@@ -151,9 +151,17 @@ module.exports = function (Player) {
     }
   })
 
+  Player.currentTrackIndex = function (cb) {
+    Player.getStatus((err, status) => {
+      if (err) return cb(err)
+      return cb(null, status.song || 0)
+    })
+  }
+
   Player.nextTrackIndex = function (cb) {
     Player.getStatus((err, status) => {
       if (err) return cb(err)
+      if (!status.nextsong) cb('Player.nextTrackIndex | no next song')
       return cb(null, status.nextsong)
     })
   }

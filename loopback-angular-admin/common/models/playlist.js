@@ -157,21 +157,31 @@ module.exports = function (Playlist) {
   })
 
   Playlist.play = function (cb) {
-    Playlist.find({
-      where: {
-        index: {
-          gte: 0
-        }
-      }
-    }, (err, tracks) => {
-      if (err || !tracks.length) cb(new Error('Playlist.play | Cannot find track with index 0'))
-      Playlist.setTimeForTracks(tracks, new Date, (err, tracks) => {
-        if (err) return cb(err)
-        tracks[0].playPromised()
-          .then(() => cb(null, tracks[0]))
-          .catch(cb)
+    if (!cb) cb = function () { }
+    let Player = Playlist.app.models.Player
+    Player.currentTrackIndexPromised()
+      .then((index) => {
+        log('static play | index:', index)
+        return Playlist.findPromised({
+          where: {
+            index: {
+              gte: index
+            }
+          }
+        })
       })
-    })
+      .then((tracks) => {
+        log('static play | tracks', tracks)
+        return Playlist.updateTimeAndIndexPromised(tracks, { startTime: new Date })
+      })
+      .then((tracks) => {
+        if (tracks.length) {
+          return tracks[0].playPromised().then(track => cb(null, track))
+        } else {
+          cb('static play | No tracks to play')
+        }
+      })
+      .catch(cb)
   }
 
   Playlist.remoteMethod('play', {
@@ -185,12 +195,8 @@ module.exports = function (Playlist) {
     let Player = Playlist.app.models.Player;
     if (scheduleNext) scheduleNext.cancel()
     Player.stopPromised()
-      .then(() => {
-        return Playlist.findOnePromised({
-          where: {
-            index: 0
-          }
-        })
+      .then((msg) => {
+        cb(null, msg)
       }).catch(cb)
   }
 
@@ -320,7 +326,7 @@ module.exports = function (Playlist) {
             return Player.stopPromised()
           } else {
             Playlist.emit('playing', track)
-            return this.destroyPromised()
+            // return this.destroyPromised()
           }
         }).catch((err) => Playlist.emit('error', err))
     })
@@ -350,6 +356,8 @@ module.exports = function (Playlist) {
   }
 
   Playlist.observe('before delete', (ctx, next) => {
+    let Player = Playlist.app.models.Player
+
     if (ctx.options.skip) return next()
     if (ctx.where && ctx.where.id) {
       log('before delete', ctx.where)
@@ -358,6 +366,9 @@ module.exports = function (Playlist) {
         .then(track => {
           console.log('track', track)
           ctx.hookState.deletedIndex = track.index
+          return Player.deleteTrackPromised(track.index)
+        })
+        .then(track => {
           return Playlist.findOnePromised({ where: { index: track.index - 1 } })
         })
         .then(prev => {
@@ -373,22 +384,24 @@ module.exports = function (Playlist) {
     log('after delete', ctx.where, ctx.hookState)
     if (ctx.hookState && isFinite(ctx.hookState.deletedIndex)) {
       let index = ctx.hookState.deletedIndex
-      Playlist.find({
+      Playlist.findPromised({
         where: {
           index: {
             gte: index
           }
         }
-      }, (err, tracks) => {
-        if (err) return next(err)
-        log('after delete: update tracks', tracks)
-        log('after delete: prev track', ctx.hookState.prevTrack)
-        let startTime = ctx.hookState.prevTrack ? ctx.hookState.prevTrack.endTime : new Date
-        Playlist.updateTimeAndIndex(tracks, {
-          startTime: startTime,
-          index: index
-        }, next)
       })
+        .then((tracks) => {
+          log('after delete: update tracks', tracks)
+          log('after delete: prev track', ctx.hookState.prevTrack)
+          let startTime = ctx.hookState.prevTrack ? ctx.hookState.prevTrack.endTime : new Date
+          return Playlist.updateTimeAndIndexPromised(tracks, {
+            startTime: startTime,
+            index: index
+          })
+        })
+        .then(() => next())
+        .catch(next)
     } else
       return next()
   })
