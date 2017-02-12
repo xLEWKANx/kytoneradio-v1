@@ -27,15 +27,12 @@ module.exports = function (app, next) {
         return Promise.all(promises).then(() => res.tracks)
       })
       .then((tracks) => {
-        Player.play(() => { });
-        return Counter.initAutoIncPromised('Playlist').then(() => tracks)
-      })
-      .then((tracks) => {
+        Player.play((err, res) => { console.log(err, res) });
         return Playlist.setTimeForTracksPromised(tracks, new Date)
       })
       .then((tracks) => {
         log('tracks', tracks)
-        if (tracks.length) tracks[0].play();
+        if (tracks.length) tracks[0].play((err, res) => { console.log(err, res) });
         next()
       })
       .catch((err) => {

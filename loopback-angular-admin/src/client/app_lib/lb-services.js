@@ -7783,37 +7783,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               url: urlBase + "/playlist/:id/event",
               method: "DELETE",
             },
-
-            // INTERNAL. Use Player.event() instead.
-            "::get::Player::event": {
-              url: urlBase + "/player/:id/event",
-              method: "GET",
-            },
-
-            // INTERNAL. Use Player.event.create() instead.
-            "::create::Player::event": {
-              url: urlBase + "/player/:id/event",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Player.event.createMany() instead.
-            "::createMany::Player::event": {
-              isArray: true,
-              url: urlBase + "/player/:id/event",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Player.event.update() instead.
-            "::update::Player::event": {
-              url: urlBase + "/player/:id/event",
-              method: "PUT",
-            },
-
-            // INTERNAL. Use Player.event.destroy() instead.
-            "::destroy::Player::event": {
-              url: urlBase + "/player/:id/event",
-              method: "DELETE",
-            },
           }
         );
 
@@ -11748,37 +11717,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               url: urlBase + "/playlist/:id/track",
               method: "GET",
             },
-
-            // INTERNAL. Use Player.track() instead.
-            "::get::Player::track": {
-              url: urlBase + "/player/:id/track",
-              method: "GET",
-            },
-
-            // INTERNAL. Use Player.track.create() instead.
-            "::create::Player::track": {
-              url: urlBase + "/player/:id/track",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Player.track.createMany() instead.
-            "::createMany::Player::track": {
-              isArray: true,
-              url: urlBase + "/player/:id/track",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Player.track.update() instead.
-            "::update::Player::track": {
-              url: urlBase + "/player/:id/track",
-              method: "PUT",
-            },
-
-            // INTERNAL. Use Player.track.destroy() instead.
-            "::destroy::Player::track": {
-              url: urlBase + "/player/:id/track",
-              method: "DELETE",
-            },
           }
         );
 
@@ -12784,6 +12722,84 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist#play
+             * @methodOf lbServices.Playlist
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `track` – `{object=}` -
+             */
+            "play": {
+              url: urlBase + "/playlist/play",
+              method: "POST",
+            },
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Playlist#stop
+             * @methodOf lbServices.Playlist
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             * This method does not accept any data. Supply an empty object.
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `track` – `{obj=}` -
+             */
+            "stop": {
+              url: urlBase + "/playlist/stop",
+              method: "POST",
+            },
+
             // INTERNAL. Use Event.playlist() instead.
             "::get::Event::playlist": {
               url: urlBase + "/events/:id/playlist",
@@ -13252,54 +13268,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         urlBase + "/player/:id",
           { 'id': '@id' },
           {
-
-            // INTERNAL. Use Player.track() instead.
-            "prototype$__get__track": {
-              url: urlBase + "/player/:id/track",
-              method: "GET",
-            },
-
-            // INTERNAL. Use Player.track.create() instead.
-            "prototype$__create__track": {
-              url: urlBase + "/player/:id/track",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Player.track.update() instead.
-            "prototype$__update__track": {
-              url: urlBase + "/player/:id/track",
-              method: "PUT",
-            },
-
-            // INTERNAL. Use Player.track.destroy() instead.
-            "prototype$__destroy__track": {
-              url: urlBase + "/player/:id/track",
-              method: "DELETE",
-            },
-
-            // INTERNAL. Use Player.event() instead.
-            "prototype$__get__event": {
-              url: urlBase + "/player/:id/event",
-              method: "GET",
-            },
-
-            // INTERNAL. Use Player.event.create() instead.
-            "prototype$__create__event": {
-              url: urlBase + "/player/:id/event",
-              method: "POST",
-            },
-
-            // INTERNAL. Use Player.event.update() instead.
-            "prototype$__update__event": {
-              url: urlBase + "/player/:id/event",
-              method: "PUT",
-            },
-
-            // INTERNAL. Use Player.event.destroy() instead.
-            "prototype$__destroy__event": {
-              url: urlBase + "/player/:id/event",
-              method: "DELETE",
-            },
 
             /**
              * @ngdoc method
@@ -14055,396 +14023,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         */
         R.modelName = "Player";
 
-    /**
-     * @ngdoc object
-     * @name lbServices.Player.track
-     * @header lbServices.Player.track
-     * @object
-     * @description
-     *
-     * The object `Player.track` groups methods
-     * manipulating `Track` instances related to `Player`.
-     *
-     * Call {@link lbServices.Player#track Player.track()}
-     * to query all related instances.
-     */
-
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player#track
-             * @methodOf lbServices.Player
-             *
-             * @description
-             *
-             * Fetches hasOne relation track.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             *  - `refresh` – `{boolean=}` -
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::get::Player::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.track#create
-             * @methodOf lbServices.Player.track
-             *
-             * @description
-             *
-             * Creates a new instance in track of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track.create = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::create::Player::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.track#createMany
-             * @methodOf lbServices.Player.track
-             *
-             * @description
-             *
-             * Creates a new instance in track of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Array.<Object>,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Array.<Object>} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track.createMany = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::createMany::Player::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.track#destroy
-             * @methodOf lbServices.Player.track
-             *
-             * @description
-             *
-             * Deletes track of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * This method returns no data.
-             */
-        R.track.destroy = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::destroy::Player::track"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.track#update
-             * @methodOf lbServices.Player.track
-             *
-             * @description
-             *
-             * Update track of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Track` object.)
-             * </em>
-             */
-        R.track.update = function() {
-          var TargetResource = $injector.get("Track");
-          var action = TargetResource["::update::Player::track"];
-          return action.apply(R, arguments);
-        };
-    /**
-     * @ngdoc object
-     * @name lbServices.Player.event
-     * @header lbServices.Player.event
-     * @object
-     * @description
-     *
-     * The object `Player.event` groups methods
-     * manipulating `Event` instances related to `Player`.
-     *
-     * Call {@link lbServices.Player#event Player.event()}
-     * to query all related instances.
-     */
-
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player#event
-             * @methodOf lbServices.Player
-             *
-             * @description
-             *
-             * Fetches hasOne relation event.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             *  - `refresh` – `{boolean=}` -
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Event` object.)
-             * </em>
-             */
-        R.event = function() {
-          var TargetResource = $injector.get("Event");
-          var action = TargetResource["::get::Player::event"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.event#create
-             * @methodOf lbServices.Player.event
-             *
-             * @description
-             *
-             * Creates a new instance in event of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Event` object.)
-             * </em>
-             */
-        R.event.create = function() {
-          var TargetResource = $injector.get("Event");
-          var action = TargetResource["::create::Player::event"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.event#createMany
-             * @methodOf lbServices.Player.event
-             *
-             * @description
-             *
-             * Creates a new instance in event of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Array.<Object>,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Array.<Object>} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Event` object.)
-             * </em>
-             */
-        R.event.createMany = function() {
-          var TargetResource = $injector.get("Event");
-          var action = TargetResource["::createMany::Player::event"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.event#destroy
-             * @methodOf lbServices.Player.event
-             *
-             * @description
-             *
-             * Deletes event of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * This method returns no data.
-             */
-        R.event.destroy = function() {
-          var TargetResource = $injector.get("Event");
-          var action = TargetResource["::destroy::Player::event"];
-          return action.apply(R, arguments);
-        };
-
-            /**
-             * @ngdoc method
-             * @name lbServices.Player.event#update
-             * @methodOf lbServices.Player.event
-             *
-             * @description
-             *
-             * Update event of this model.
-             *
-             * @param {Object=} parameters Request parameters.
-             *
-             *  - `id` – `{*}` - PersistedModel id
-             *
-             * @param {Object} postData Request data.
-             *
-             * This method expects a subset of model properties as request parameters.
-             *
-             * @param {function(Object,Object)=} successCb
-             *   Success callback with two arguments: `value`, `responseHeaders`.
-             *
-             * @param {function(Object)=} errorCb Error callback with one argument:
-             *   `httpResponse`.
-             *
-             * @returns {Object} An empty reference that will be
-             *   populated with the actual data once the response is returned
-             *   from the server.
-             *
-             * <em>
-             * (The remote method definition does not provide any description.
-             * This usually means the response is a `Event` object.)
-             * </em>
-             */
-        R.event.update = function() {
-          var TargetResource = $injector.get("Event");
-          var action = TargetResource["::update::Player::event"];
-          return action.apply(R, arguments);
-        };
 
 
         return R;

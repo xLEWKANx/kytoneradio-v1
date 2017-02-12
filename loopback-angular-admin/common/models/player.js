@@ -159,9 +159,11 @@ module.exports = function (Player) {
       error = null
     }
     let log = Object.assign({
-      timestamp: new Date()
+      timestamp: new Date
     }, info)
-    Player.create(log, cb)
+    // Player.create(log, cb)
+    cb()
+    // cb(null, [])
   }
 
   Promise.promisifyAll(Player, { suffix: 'Promised' })

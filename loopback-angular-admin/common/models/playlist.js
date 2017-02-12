@@ -66,20 +66,21 @@ module.exports = function (Playlist) {
       cb = index;
     }
 
-    Playlist.findPromised({
-      where: where,
-      order: 'index ASC'
-    }).then((tracks) => {
-      tracks = tracks.map((track) => {
-        track.index -= 1
-        return track
+    Playlist.updateAll(where,
+      {
+
+        $inc: {
+          duration: -1
+        }
+
+
+
+      }, (err, result) => {
+        if (err) return cb(err);
+        log('result', result)
+        cb(null, result)
       })
-      return tracks
-    }).mapSeries((track) => {
-      return track.savePromised()
-    }).then((tracks) => {
-      cb(null, tracks)
-    }).catch(cb)
+
   }
 
   Playlist.remoteMethod('decIndexFrom', {
@@ -93,37 +94,13 @@ module.exports = function (Playlist) {
     }
   })
 
-  Playlist.removeTimeAndIndex = function (index, cb) {
-    Playlist.findPromised({
-      where: {
-        index: {
-          gte: index
-        }
-      }
-    }).mapSeries((track) => {
-      let updatedTrack = Object.assign(track, {
-        startTime: null,
-        endTime: null,
-        index: null
-      })
-      return updatedTrack.savePromised()
-    })
-      .then((track) => cb(null, track))
-      .catch(cb)
-  }
-
   Playlist.clear = function (cb) {
     let Player = Playlist.app.models.Player
-    let Counter = Playlist.app.models.Counter
 
     Player.clearPromised()
       .then(() => {
         log('before destroy')
         return Playlist.destroyAllPromised({}, { skip: true })
-      })
-      .then((result) => {
-        log('destroy', result)
-        return Counter.resetPromised('Playlist')
       })
       .then((result) => {
         log('Playlist clear', result)
@@ -152,8 +129,9 @@ module.exports = function (Playlist) {
       if (err || !tracks.length) cb(new Error('Playlist.play | Cannot find track with index 0'))
       Playlist.setTimeForTracks(tracks, new Date, (err, tracks) => {
         if (err) return cb(err)
-        tracks[0].play()
-        return cb(null, tracks[0])
+        tracks[0].playPromised()
+          .then(() => cb(null, tracks[0]))
+          .catch(cb)
       })
     })
   }
@@ -167,13 +145,15 @@ module.exports = function (Playlist) {
 
   Playlist.stop = function (cb) {
     let Player = Playlist.app.models.Player;
-    Player.stop()
     if (scheduleNext) scheduleNext.cancel()
-    Playlist.findOne({
-      where: {
-        index: 0
-      }
-    }, cb)
+    Player.stopPromised()
+      .then(() => {
+        return Playlist.findOnePromised({
+          where: {
+            index: 0
+          }
+        })
+      }).catch(cb)
   }
 
   Playlist.remoteMethod('stop', {
@@ -182,6 +162,27 @@ module.exports = function (Playlist) {
       type: 'obj'
     }
   })
+
+  Playlist.getIndex = function (cb) {
+    Playlist.count({
+      index: {
+        gte: 0
+      }
+    }, cb)
+  }
+
+  Playlist.prototype.setIndex = function (cb) {
+    Playlist.count({
+      index: {
+        gte: 0
+      }
+    }, (err, count) => {
+      if (err) return cb(err)
+      log('set index', count)
+      this.index = count
+      return cb(null, this)
+    })
+  }
 
   Playlist.setTimeForTracks = function (tracks, startTime, cb) {
     let beginingTrack = {
@@ -200,7 +201,7 @@ module.exports = function (Playlist) {
   }
 
   Playlist.prototype.setTimeFromPrev = function (cb) {
-    log('set time for', this.index)
+    log('set time for', this)
     Playlist.findOnePromised({
       where: {
         and: [{
@@ -209,16 +210,16 @@ module.exports = function (Playlist) {
           }
         }, {
           index: {
-            lte: this.index
+            lt: this.index
           }
         }]
       },
       order: 'index DESC',
       include: 'track'
-    }, { skip: true })
+    })
       .then((lastPlaylistTrack) => {
         log('lastPlaylistTrack', lastPlaylistTrack)
-        if (!lastPlaylistTrack) {
+        if (!lastPlaylistTrack || lastPlaylistTrack.endTime < Date.now()) {
           lastPlaylistTrack = {
             endTime: new Date
           }
@@ -236,12 +237,14 @@ module.exports = function (Playlist) {
     let Player = Playlist.app.models.Player
     let triggerNext = this.endTime;
 
-    Player.play()
+    Player.playPromised()
 
     scheduleNext = schedule.scheduleJob(triggerNext, () => {
       Playlist.findOnePromised({
         where: {
-          index: 1
+          index: {
+            gte: 1
+          }
         }
       }).then((track) => {
         console.log('play next track', track)
@@ -269,61 +272,27 @@ module.exports = function (Playlist) {
   })
 
   function updateTrackInfo(track, next) {
-    let Counter = Playlist.app.models.Counter
-
-    Counter.autoIncIdPromised(track)
+    return track.setIndexPromised()
       .then((track) => {
-        if (!track.startTime || !track.endTime) {
-          return track.setTimeFromPrev(next)
-        }
-        return next()
+        return track.setTimeFromPrevPromised()
       })
       .catch(next)
   }
 
   Playlist.observe('before delete', (ctx, next) => {
     if (ctx.options.skip) return next()
-    if (ctx.where && ctx.where.id) {
-      Playlist.findById(ctx.where.id, (err, track) => {
-        if (err) next(err)
-        log('before delete track', track)
-        if (track) {
-          ctx.hookState.deletedIndex = track.index
-        }
-        return next()
-      })
-    }
+    log('before delete', ctx.where, ctx.hookState, Number.isInteger(ctx.hookState.deletedIndex))
+    next()
   })
 
   Playlist.observe('after delete', (ctx, next) => {
     if (ctx.options.skip) return next()
-    let Counter = Playlist.app.models.Counter
-    log('ctx', ctx.where, ctx.hookState, Number.isInteger(ctx.hookState.deletedIndex))
-    if (ctx.hookState && Number.isInteger(ctx.hookState.deletedIndex)) {
-      // TODO: find gte than index, decrement indexes, set time for all
-      // return updateNextTracks(ctx.hookState.deletedIndex, next)
+    log('after delete', ctx.where, ctx.hookState)
+    if (ctx.hookState && ctx.hookState.nextTrack) {
+
     }
     return next()
   })
-
-  function updateNextTracks(index, next) {
-    let Counter = Playlist.app.models.Counter
-
-    Counter.autoDecIdPromised("Playlist", index)
-      .then(() => {
-        // return Playlist.removeTimeAndIndexPromised(index)
-        return
-      })
-      .then((result) => {
-        console.log('result', result)
-        next()
-      })
-      .catch(next)
-  }
-
-  Playlist.playSequence = function (playlistTrack) {
-
-  }
 
   Playlist.on('playing', (playlistTrack) => {
     log('>>> Playling now', playlistTrack)

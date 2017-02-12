@@ -20,6 +20,16 @@ module.exports = function (app) {
   app.set('STORAGE_PATH', STORAGE_PATH)
 
   Promise.promisifyAll(app.models.musicStorage, { suffix: 'Promised' });
+  let dataSource = app.dataSources.db
+
+  dataSource.isActual((err, actual) => {
+    console.log(`check datasource: ${err}, \n is Actual: ${actual}`)
+    if (!actual) {
+      dataSource.autoupdate((err, result) => {
+        console.log(`autoupdate ${err}, ${result}`)
+      });
+    }
+  });
 
   // app.models.Track.scanDir((err, result) => {
   //   if (err) return console.log(err)

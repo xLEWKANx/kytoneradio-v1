@@ -14,7 +14,9 @@
     "index": {
       "type": "number",
       "required": true,
-      "index": { "unique": true }
+      "index": {
+        "unique": true
+      }
     },
     "name": {
       "type": "string"

@@ -1,7 +1,7 @@
 <div id="grid-container">
   <div class="row">
     <div class="col-md-6">
-      <div class="panel panel-default" >
+      <div class="panel panel-default">
         <div class="panel-heading">
           Files
           <span class="pull-right btn-group">
@@ -10,10 +10,8 @@
             </button>
           </span>
         </div>
-        <div class='list-group track-list' ng-model="ctrl.storage.tracks" >
-          <div
-            ng-repeat="item in ctrl.tracks"
-          >
+        <div class='list-group track-list' ng-model="ctrl.storage.tracks">
+          <div ng-repeat="item in ctrl.tracks">
             <span class="pull-right btn-group">
               <button class="btn btn-xs btn-default" ng-click="ctrl.addItemToPlaylist(item)">
                 <i class="fa fa-arrow-right"></i>
@@ -42,43 +40,36 @@
             Plalist: {{ctrl.time}}
             <div class="col-md-10 pull-right calendar">
               <p class="input-group">
-                <input type="text" class="form-control" datepicker-popup="{{ctrl.format}}"
-                  ng-model="ctrl.dt"
-                  disabled="true"
-                  is-open="ctrl.opened"
-                  show-button-bar="false"
-                  datepicker-options="ctrl.dateOptions"
-                  ng-required="true" close-text="Close"
-                />
+                <input type="text" class="form-control" datepicker-popup="{{ctrl.format}}" ng-model="ctrl.dt" disabled="true" is-open="ctrl.opened"
+                  show-button-bar="false" datepicker-options="ctrl.dateOptions" ng-required="true" close-text="Close" />
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="ctrl.open($event)">
                     <i class="glyphicon glyphicon-calendar"></i>
                   </button>
-                  <button ng-click="ctrl.savePlaylist(ctrl.storage.playlist)" class="btn btn-success" >
-                    <i class="glyphicon glyphicon-saved"></i>
+                  <button ng-click="ctrl.play()" class="btn btn-default" >
+                    <i class="fa fa-play"></i>
+                  </button>
+                  <button ng-click="ctrl.stop()" class="btn btn-default" >
+                    <i class="fa fa-stop"></i>
                   </button>
                   <button ng-click="ctrl.clearPlaylist(ctrl.playlist)" class="btn btn-danger" >
                     <i class="glyphicon glyphicon-remove"></i>
                   </button>
                 </span>
-                </p>
-              </div>
+              </p>
+            </div>
           </div>
         </div>
         <div class='list-group'>
-          <div
-            ng-repeat="item in ctrl.playlist"
-            class="playlist-item"
-          >
-          <span class="pull-right btn-group">
+          <div ng-repeat="item in ctrl.playlist" class="playlist-item">
+            <span class="pull-right btn-group">
               <button class="btn btn-xs btn-default">
                 <i class="fa fa-trash" ng-click="ctrl.delete(item)"></i>
               </button>
             </span>
             <h4 class="list-group-item-heading">
               <strong>{{item.index}}</strong>.
-              <strong>{{ctrl.formatTime(item.startTime)}}</strong>
-              -
+              <strong>{{ctrl.formatTime(item.startTime)}}</strong> -
               <strong>{{ctrl.formatTime(item.endTime)}}</strong>
               <strong>{{item.name}}</strong>
             </h4>
