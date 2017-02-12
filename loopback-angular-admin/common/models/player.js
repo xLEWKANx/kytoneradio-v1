@@ -33,8 +33,13 @@ module.exports = function (Player) {
 
   }
 
-  Player.play = function (cb) {
-    client.sendCommand(mpd.cmd('play', []), (err, msg) => {
+  Player.play = function (index, cb) {
+    if (typeof index === 'function') {
+      cb = index
+      index = undefined
+    }
+    let arg = index === undefined ? [] : [index]
+    client.sendCommand(mpd.cmd('play', arg), (err, msg) => {
       if (err) return cb(err)
       Player.emit('play')
       state.isPlaying = true
@@ -45,6 +50,10 @@ module.exports = function (Player) {
   }
 
   Player.remoteMethod('play', {
+    accepts: {
+      arg: 'index',
+      type: 'number'
+    },
     returns: {
       arg: 'message',
       type: 'string',
@@ -127,6 +136,7 @@ module.exports = function (Player) {
   Player.getStatus = function (cb) {
     client.sendCommand(mpd.cmd('status', []), (err, msg) => {
       if (err) return cb(err)
+      msg = mpd.parseKeyValueMessage(msg)
       return cb(null, msg)
     })
   }
@@ -140,6 +150,13 @@ module.exports = function (Player) {
       type: 'string'
     }
   })
+
+  Player.nextTrackIndex = function (cb) {
+    Player.getStatus((err, status) => {
+      if (err) return cb(err)
+      return cb(null, status.nextsong)
+    })
+  }
 
   Player.updateDatabase = function (cb) {
     client.sendCommand(mpd.cmd('update', []), (err, msg) => {

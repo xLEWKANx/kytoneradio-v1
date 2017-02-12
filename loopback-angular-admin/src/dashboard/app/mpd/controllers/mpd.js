@@ -6,9 +6,9 @@ import _ from 'lodash'
 
 function MpdCtrl($scope, Player) {
 
-  this.mpdInfo = function() {
+  this.mpdInfo = function () {
     Player.getStatus().$promise.then((response) => {
-      this.status = response.status
+      this.status = JSON.stringify(response.status, null, 2)
     })
     Player.getCurrentPlaylist().$promise.then((response) => {
       console.log(response)

@@ -1,5 +1,5 @@
 'use strict'
-const mpd =  require('mpd')
+const mpd = require('mpd')
 const repl = require('repl');
 
 global.Promise = Promise
@@ -30,6 +30,8 @@ client.on('ready', () => {
 function cb(err, msg) {
   if (err) console.error(err)
   console.log('messsage', msg)
+  msg = mpd.parseKeyValueMessage(msg)
+  console.log('parsed', msg)
 }
 
 

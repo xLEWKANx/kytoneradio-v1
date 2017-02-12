@@ -11,24 +11,20 @@ module.exports = function (app, next) {
 
   Player.bootstrap((err, msg) => {
     if (err) next(err)
-    Promise.props({
-      clear: Player.clearPromised(),
-      tracks: Playlist.find({
-        where: {
-          index: {
-            gte: 0
-          }
-        },
-        order: 'index ASC'
-      })
+    Playlist.findPromised({
+      where: {
+        index: {
+          gte: 0
+        }
+      },
+      order: 'index ASC'
     })
-      .then((res) => {
-        let promises = res.tracks.map((track) => Player.addTrackPromised(track.name))
-        return Promise.all(promises).then(() => res.tracks)
+      .then((tracks) => {
+        let promises = tracks.map((track) => Player.addTrackPromised(track.name))
+        return Promise.all(promises).then(() => tracks)
       })
       .then((tracks) => {
-        Player.play((err, res) => { console.log(err, res) });
-        return Playlist.setTimeForTracksPromised(tracks, new Date)
+        return Playlist.updateTimeAndIndexPromised(tracks, { startTime: new Date })
       })
       .then((tracks) => {
         log('tracks', tracks)

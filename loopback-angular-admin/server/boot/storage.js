@@ -24,11 +24,10 @@ module.exports = function (app) {
 
   dataSource.isActual((err, actual) => {
     console.log(`check datasource: ${err}, \n is Actual: ${actual}`)
-    if (!actual) {
-      dataSource.autoupdate((err, result) => {
-        console.log(`autoupdate ${err}, ${result}`)
-      });
-    }
+
+    dataSource.autoupdate((err, result) => {
+      console.log(`autoupdate ${err}, ${result}`)
+    });
   });
 
   // app.models.Track.scanDir((err, result) => {

@@ -12,6 +12,44 @@ global.Promise = Promise
 module.exports = function (Playlist) {
 
   let scheduleNext
+  Playlist.currentTrack = null;
+
+  Playlist.now = function (cb) {
+    cb(null, Playlist.currentTrack)
+  }
+
+  Playlist.remoteMethod('now', {
+    http: {
+      verb: 'get'
+    },
+    returns: {
+      arg: 'track',
+      root: true,
+      type: 'obj'
+    }
+  })
+
+  Playlist.nextTrack = function (cb) {
+    let Player = Playlist.app.models.Player
+
+    Player.nextTrackIndexPromised()
+      .then(index => {
+        console.log('index', index)
+        return Playlist.findOnePromised({ where: { index: index } })
+      })
+      .then(track => cb(null, track))
+      .catch(cb)
+  }
+
+  Playlist.remoteMethod('nextTrack', {
+    http: {
+      verb: 'get'
+    },
+    returns: {
+      arg: 'track',
+      type: 'object'
+    }
+  })
 
   Playlist.createFakeTracks = function (count) {
     let Track = Playlist.app.models.Track;
@@ -70,7 +108,7 @@ module.exports = function (Playlist) {
       {
 
         $inc: {
-          duration: -1
+          index: -1
         }
 
 
@@ -184,13 +222,36 @@ module.exports = function (Playlist) {
     })
   }
 
-  Playlist.setTimeForTracks = function (tracks, startTime, cb) {
+  Playlist.setTimeForTracks = function (tracks, startTime) {
     let beginingTrack = {
       endTime: startTime
     }
     tracks.reduce((prev, track) => track.setTime(prev), beginingTrack)
-    let promises = tracks.map(track => track.save())
-    return Promise.all(promises).then((tracks) => cb(null, tracks)).catch(cb)
+    return tracks
+  }
+
+  Playlist.setIndexesForTracks = function (tracks, startIndex) {
+    tracks.reduce(
+      (prev, track) => Object.assign(track, { index: prev.index + 1 }),
+      { index: startIndex - 1 }
+    )
+    return tracks
+  }
+
+  Playlist.saveTracks = function (tracks, cb) {
+    return Promise.all(tracks)
+      .mapSeries(track => track.savePromised())
+      .then(tracks => cb(null, tracks))
+      .catch(cb)
+  }
+
+  Playlist.updateTimeAndIndex = function (tracks, options, cb) {
+    let index = options.index
+    let startTime = options.startTime
+    if (isFinite(index)) tracks = Playlist.setIndexesForTracks(tracks, index)
+    if (startTime) tracks = Playlist.setTimeForTracks(tracks, startTime)
+    log('updateTimeAndIndex | track updated', tracks)
+    return Playlist.saveTracks(tracks, cb)
   }
 
   Playlist.prototype.setTime = function (prev) {
@@ -233,30 +294,39 @@ module.exports = function (Playlist) {
       })
   }
 
-  Playlist.prototype.play = function () {
+  Playlist.prototype.play = function (cb) {
     let Player = Playlist.app.models.Player
-    let triggerNext = this.endTime;
+    let index = this.index
 
-    Player.playPromised()
+    Player.playPromised(index)
+      .then(() => {
+        Playlist.emit('playing', this)
+        return cb(null, this)
+      })
+      .catch(cb)
+  }
+  Playlist.prototype.playNext = function (cb) {
+    let Player = Playlist.app.models.Player
+    let triggerNext = this.endTime
+
+    if (scheduleNext) scheduleNext.cancel()
 
     scheduleNext = schedule.scheduleJob(triggerNext, () => {
-      Playlist.findOnePromised({
-        where: {
-          index: {
-            gte: 1
+      Playlist.nextTrackPromised()
+        .then((track) => {
+          console.log('play next track', track)
+          if (!track) {
+            console.log('>>> !! QUEUE END')
+            return Player.stopPromised()
+          } else {
+            Playlist.emit('playing', track)
+            return this.destroyPromised()
           }
-        }
-      }).then((track) => {
-        console.log('play next track', track)
-        if (!track) {
-          return Player.stopPromised()
-        } else {
-          Playlist.emit('playing', track)
-        }
-      }).catch((err) => Playlist.emit('error', err))
+        }).catch((err) => Playlist.emit('error', err))
     })
-  }
 
+    if (cb) return cb(null, 'success')
+  }
 
   Playlist.observe('before save', (ctx, next) => {
     if (ctx.options.skip) return next()
@@ -281,34 +351,61 @@ module.exports = function (Playlist) {
 
   Playlist.observe('before delete', (ctx, next) => {
     if (ctx.options.skip) return next()
-    log('before delete', ctx.where, ctx.hookState, Number.isInteger(ctx.hookState.deletedIndex))
-    next()
+    if (ctx.where && ctx.where.id) {
+      log('before delete', ctx.where)
+      let id = ctx.where.id
+      Playlist.findByIdPromised(id)
+        .then(track => {
+          console.log('track', track)
+          ctx.hookState.deletedIndex = track.index
+          return Playlist.findOnePromised({ where: { index: track.index - 1 } })
+        })
+        .then(prev => {
+          ctx.hookState.prevTrack = prev
+        })
+        .catch(next)
+        .finally(() => next())
+    } else next()
   })
 
   Playlist.observe('after delete', (ctx, next) => {
     if (ctx.options.skip) return next()
     log('after delete', ctx.where, ctx.hookState)
-    if (ctx.hookState && ctx.hookState.nextTrack) {
-
-    }
-    return next()
+    if (ctx.hookState && isFinite(ctx.hookState.deletedIndex)) {
+      let index = ctx.hookState.deletedIndex
+      Playlist.find({
+        where: {
+          index: {
+            gte: index
+          }
+        }
+      }, (err, tracks) => {
+        if (err) return next(err)
+        log('after delete: update tracks', tracks)
+        log('after delete: prev track', ctx.hookState.prevTrack)
+        let startTime = ctx.hookState.prevTrack ? ctx.hookState.prevTrack.endTime : new Date
+        Playlist.updateTimeAndIndex(tracks, {
+          startTime: startTime,
+          index: index
+        }, next)
+      })
+    } else
+      return next()
   })
 
   Playlist.on('playing', (playlistTrack) => {
     log('>>> Playling now', playlistTrack)
     log('>>> Next track in: ', playlistTrack.endTime)
-    if (playlistTrack) {
-      Playlist.decIndexFromPromised().then(() => {
-        playlistTrack.play()
-      }).catch((err) => {
-        console.log('on playing error', err)
-        throw err;
-      })
-    } else {
-      console.error('Queue end')
-    }
+
+    Playlist.currentTrack = playlistTrack
+
+    playlistTrack.playNext()
   })
 
   Promise.promisifyAll(Playlist, { suffix: 'Promised' })
   Promise.promisifyAll(Playlist.prototype, { suffix: 'Promised' })
+
+  function getDeletedIndex(id, cb) {
+    Playlist.findById(id, cb);
+  }
 }
