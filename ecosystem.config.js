@@ -31,7 +31,7 @@ module.exports = {
       repo: "git@github.com:bigcup/kytoneradio.git",
       path: "/var/www/production",
       "pre-deploy": "source ~/.bashrc",
-      "post-deploy": "cd web || npm install && pm2 startOrRestart ../ecosystem.config.js --env production"
+      "post-deploy": "cd web && npm install && pm2 startOrRestart ../ecosystem.config.js --env production"
     },
     dev: {
       user: "curator",
@@ -41,9 +41,11 @@ module.exports = {
       repo: "git@github.com:bigcup/kytoneradio.git",
       path: "/var/www/development",
       "pre-deploy": "source ~/.bashrc",
-      "post-deploy": "cd web || npm install && pm2 startOrRestart ../ecosystem.config.js --env dev",
+      "post-deploy": "cd web && npm install && babel-cli && pm2 startOrRestart ../ecosystem.config.js --env dev",
       env: {
-        NODE_ENV: "dev"
+        NODE_ENV: "dev",
+        MONGODB_URL: "mongodb://localhost:27017/kytone",
+        PATH: "web/node_modules/.bin"
       }
     }
   }
