@@ -8,7 +8,7 @@ module.exports = {
     // First application
     {
       name: "Kytone Radio",
-      script: "dist/server.js",
+      script: "web/dist/server.js",
       env: {
         COMMON_VARIABLE: "true"
       },
@@ -41,7 +41,7 @@ module.exports = {
       repo: "git@github.com:bigcup/kytoneradio.git",
       path: "/var/www/development",
       "pre-deploy": "source ~/.bashrc",
-      "post-deploy": "cd web && npm install && npm run build-server && cd .. && pm2 startOrRestart ecosystem.config.js --env dev",
+      "post-deploy": "cd web && npm install && npm run build-server && pm2 startOrRestart ecosystem.config.js --env dev",
       env: {
         NODE_ENV: "dev",
         MONGODB_URL: "mongodb://localhost:27017/kytone",
