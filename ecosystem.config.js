@@ -30,7 +30,7 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:bigcup/kytoneradio.git",
       path: "/var/www/production",
-      "post-deploy": "cd web || npm install && pm2 startOrRestart ecosystem.config.json --env production"
+      "post-deploy": "cd web || npm install && pm2 startOrRestart ../ecosystem.config.js --env production"
     },
     dev: {
       user: "curator",
@@ -39,7 +39,7 @@ module.exports = {
       ref: "origin/loopback-integration",
       repo: "git@github.com:bigcup/kytoneradio.git",
       path: "/var/www/development",
-      "post-deploy": "cd web || npm install && pm2 startOrRestart ecosystem.config.json --env dev",
+      "post-deploy": "cd web || npm install && pm2 startOrRestart ../ecosystem.config.js --env dev",
       env: {
         NODE_ENV: "dev"
       }
