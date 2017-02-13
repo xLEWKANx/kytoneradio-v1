@@ -30,4 +30,4 @@ client/coverage
 .env
 client/lib/lb-services.js
 .vscode
-ecosystem.config.js
+./ecosystem.config.js
