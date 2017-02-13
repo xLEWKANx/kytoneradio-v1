@@ -10,7 +10,8 @@ module.exports = {
       name: "Kytone Radio",
       script: "web/dist/server.js",
       env: {
-        COMMON_VARIABLE: "true"
+        COMMON_VARIABLE: "true",
+        STORAGE_PATH: "/home/curator/storage"
       },
       env_production: {
         NODE_ENV: "production"
