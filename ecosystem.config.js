@@ -46,7 +46,7 @@ module.exports = {
         NODE_ENV: "dev",
         MONGODB_URL: "mongodb://localhost:27017/kytone",
         PATH: "web/node_modules/.bin",
-        PRIVET: "aaa"
+        STORAGE_PATH: "/home/curator/storage"
       }
     }
   }
