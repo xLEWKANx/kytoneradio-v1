@@ -32,7 +32,14 @@ module.exports = {
       repo: "git@github.com:bigcup/kytoneradio.git",
       path: "/var/www/production",
       "pre-deploy": "source ~/.bashrc",
-      "post-deploy": "cd web && npm install && pm2 startOrRestart ecosystem.config.js --env production"
+      "post-deploy": "cd web && npm install && npm run build-server && cd .. && pm2 startOrRestart ecosystem.config.js --env production",
+      env: {
+        NODE_ENV: "production",
+        MONGODB_URL: "mongodb://localhost:27017/kytone",
+        PATH: "web/node_modules/.bin",
+        STORAGE_PATH: "/home/curator/storage",
+        MPD_PORT: 15601
+      }
     },
     dev: {
       user: "curator",
