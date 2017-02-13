@@ -3,8 +3,6 @@ import './mpd/'
 import './core/'
 import './events/'
 import './files/'
-import './posts/'
-import './products/'
 import './sandbox/'
 import './settings/'
 import './slides/'
@@ -16,8 +14,6 @@ export const modules = [
   'com.module.mpd',
   'com.module.events',
   'com.module.files',
-  'com.module.posts',
-  'com.module.products',
   'com.module.sandbox',
   'com.module.settings',
   'com.module.slides',

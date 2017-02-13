@@ -46,23 +46,11 @@
     "dataSource": "db",
     "public": false
   },
-  "Post": {
-    "dataSource": "db",
-    "public": true
-  },
   "Slide": {
     "dataSource": "db",
     "public": true
   },
   "Setting": {
-    "dataSource": "db",
-    "public": true
-  },
-  "Product": {
-    "dataSource": "db",
-    "public": true
-  },
-  "Category": {
     "dataSource": "db",
     "public": true
   },
@@ -96,10 +84,6 @@
   },
   "musicStorage": {
     "dataSource": "storage",
-    "public": true
-  },
-  "Counter": {
-    "dataSource": "db",
     "public": true
   }
 }

@@ -10,10 +10,10 @@ module.exports = function (app) {
 
   const Setting = app.models.Setting
 
-  function loadDefaultSettings () {
+  function loadDefaultSettings() {
     console.error('Creating default settings')
 
-    const settings = [ {
+    const settings = [{
       type: 'string',
       key: 'appName',
       value: 'LoopBack Admin',
@@ -44,7 +44,7 @@ module.exports = function (app) {
         isBig: false,
         pauseOnHove: true,
         rtl: false,
-        playerPlaceShow: false
+        playerPlaceShow: true
       }, {
         outerIndex: 1,
         autoplay: true,
@@ -52,7 +52,7 @@ module.exports = function (app) {
         isBig: true,
         pauseOnHove: true,
         rtl: false,
-        playerPlaceShow: true
+        playerPlaceShow: false
       }, {
         outerIndex: 2,
         autoplay: true,
@@ -73,7 +73,7 @@ module.exports = function (app) {
     })
   }
 
-  function loadExistingSettings () {
+  function loadExistingSettings() {
     console.error('Loading existing settings')
     Setting.find((data) => log(data))
   }
@@ -83,7 +83,7 @@ module.exports = function (app) {
       console.error(err)
     }
     if (result < 1) {
-      // loadDefaultSettings()
+      loadDefaultSettings()
     } else {
       loadExistingSettings()
     }

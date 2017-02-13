@@ -1,13 +1,13 @@
-(function(){
+(function () {
   'use strict';
 
   angular.module('kytoneApp')
     .filter('reverse', reverse);
 
   function reverse() {
-    return function(array) {
+    return function (array) {
       if (array) {
-        return array.slice(1).reverse();
+        return array.slice().reverse();
       }
     }
   }
