@@ -47,7 +47,8 @@ module.exports = {
         NODE_ENV: "dev",
         MONGODB_URL: "mongodb://localhost:27017/kytone",
         PATH: "web/node_modules/.bin",
-        STORAGE_PATH: "/home/curator/storage"
+        STORAGE_PATH: "/home/curator/storage",
+        MPD_PORT: 15601
       }
     }
   }
