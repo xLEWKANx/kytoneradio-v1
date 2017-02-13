@@ -41,7 +41,7 @@ module.exports = {
       ref: "origin/loopback-integration",
       repo: "git@github.com:bigcup/kytoneradio.git",
       path: "/var/www/development",
-      "pre-deploy": "source ~/.bashrc && mpd",
+      "pre-deploy": "source ~/.bashrc",
       "post-deploy": "cd web && npm install && npm run build-server && cd .. && pm2 startOrRestart ecosystem.config.js --env dev",
       env: {
         NODE_ENV: "dev",
