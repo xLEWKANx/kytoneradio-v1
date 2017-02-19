@@ -4,7 +4,6 @@ module.exports = {
    * http://pm2.keymetrics.io/docs/usage/application-declaration/
    */
   apps: [
-
     // First application
     {
       name: "Kytone Radio",
@@ -37,7 +36,8 @@ module.exports = {
         MONGODB_URL: "mongodb://localhost:27017/kytone",
         PATH: "web/node_modules/.bin",
         STORAGE_PATH: "/home/curator/storage",
-        MPD_PORT: 15601
+        MPD_PORT: 15601,
+        API_URL: "localhost:80/api"
       }
     },
     dev: {
@@ -58,4 +58,4 @@ module.exports = {
       }
     }
   }
-}
+};
