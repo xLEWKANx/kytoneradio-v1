@@ -1,7 +1,7 @@
 "use strict";
 import angular from "angular";
 
-function RouteCtrl(ApiService, AppAuth, $location) {
+function RouteCtrl(AppAuth, $location) {
   $location.path("/app");
 }
 
