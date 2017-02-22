@@ -1,100 +1,114 @@
-import angular from 'angular'
+import angular from "angular";
 
-function LoginCtrl ($scope, $routeParams, $location, CoreService, User, AppAuth, AuthProvider, gettextCatalog) {
-
-  const TWO_WEEKS = 1000 * 60 * 60 * 24 * 7 * 2
+function LoginCtrl(
+  $scope,
+  $routeParams,
+  $location,
+  CoreService,
+  User,
+  AppAuth,
+  AuthProvider,
+  gettextCatalog
+) {
+  const TWO_WEEKS = 1000 * 60 * 60 * 24 * 7 * 2;
 
   $scope.credentials = {
     ttl: TWO_WEEKS,
-    rememberMe: true,
-  }
+    rememberMe: true
+  };
 
-  if (CoreService.env.name === 'development') {
-    $scope.credentials.email = 'admin@admin.com'
-    $scope.credentials.password = 'admin'
-  }
+  // if (CoreService.env.name === 'development') {
+  //   $scope.credentials.email = 'admin@admin.com'
+  //   $scope.credentials.password = 'admin'
+  // }
 
-  $scope.schema = [ {
-    label: '',
-    property: 'email',
-    placeholder: gettextCatalog.getString('Email'),
-    type: 'email',
-    attr: {
-      required: true,
-      ngMinlength: 4,
+  $scope.schema = [
+    {
+      label: "",
+      property: "email",
+      placeholder: gettextCatalog.getString("Email"),
+      type: "email",
+      attr: {
+        required: true,
+        ngMinlength: 4
+      },
+      msgs: {
+        required: gettextCatalog.getString("You need an email address"),
+        email: gettextCatalog.getString("Email address needs to be valid"),
+        valid: gettextCatalog.getString("Nice email address!")
+      }
     },
-    msgs: {
-      required: gettextCatalog.getString('You need an email address'),
-      email: gettextCatalog.getString('Email address needs to be valid'),
-      valid: gettextCatalog.getString('Nice email address!'),
+    {
+      label: "",
+      property: "password",
+      placeholder: gettextCatalog.getString("Password"),
+      type: "password",
+      attr: {
+        required: true
+      }
     },
-  }, {
-    label: '',
-    property: 'password',
-    placeholder: gettextCatalog.getString('Password'),
-    type: 'password',
-    attr: {
-      required: true,
-    },
-  }, {
-    property: 'rememberMe',
-    label: gettextCatalog.getString('Stay signed in'),
-    type: 'checkbox',
-  } ]
+    {
+      property: "rememberMe",
+      label: gettextCatalog.getString("Stay signed in"),
+      type: "checkbox"
+    }
+  ];
 
   $scope.options = {
     validation: {
       enabled: true,
-      showMessages: false,
+      showMessages: false
     },
     layout: {
-      type: 'basic',
+      type: "basic",
       labelSize: 3,
-      inputSize: 9,
-    },
-  }
-
-  $scope.socialLogin = (provider) => {
-    window.location = CoreService.env.siteUrl + provider.authPath
-  }
-
-  AuthProvider.count((result) => {
-    if (result.count > 0) {
-      AuthProvider.find((result) => {
-        $scope.authProviders = result
-      })
+      inputSize: 9
     }
-  })
+  };
+
+  $scope.socialLogin = provider => {
+    window.location = CoreService.env.siteUrl + provider.authPath;
+  };
+
+  AuthProvider.count(result => {
+    if (result.count > 0) {
+      AuthProvider.find(result => {
+        $scope.authProviders = result;
+      });
+    }
+  });
 
   $scope.login = () => {
     $scope.loginResult = User.login(
       {
-        include: 'user',
-        rememberMe: $scope.credentials.rememberMe,
+        include: "user",
+        rememberMe: $scope.credentials.rememberMe
       },
       $scope.credentials,
-      (user) => {
-        console.log(user.id) // => acess token
-        console.log(user.ttl) // => 1209600 time to live
-        console.log(user.created) // => 2013-12-20T21:10:20.377Z
-        console.log(user.userId) // => 1
-        let next = $location.nextAfterLogin || '/'
-        $location.nextAfterLogin = null
-        AppAuth.currentUser = $scope.loginResult.user
-        CoreService.toastSuccess(gettextCatalog.getString('Logged in'),
-          gettextCatalog.getString('You are logged in!'))
-        if (next === '/login') {
-          next = '/'
+      user => {
+        console.log(user.id); // => acess token
+        console.log(user.ttl); // => 1209600 time to live
+        console.log(user.created); // => 2013-12-20T21:10:20.377Z
+        console.log(user.userId); // => 1
+        let next = $location.nextAfterLogin || "/";
+        $location.nextAfterLogin = null;
+        AppAuth.currentUser = $scope.loginResult.user;
+        CoreService.toastSuccess(
+          gettextCatalog.getString("Logged in"),
+          gettextCatalog.getString("You are logged in!")
+        );
+        if (next === "/login") {
+          next = "/";
         }
-        $location.path(next)
+        $location.path(next);
       },
-      (res) => {
-        $scope.loginError = res.data.error
-      })
-  }
-
+      res => {
+        $scope.loginError = res.data.error;
+      }
+    );
+  };
 }
 
 angular
-  .module('com.module.users.controllers.login', [])
-  .controller('LoginCtrl', LoginCtrl)
+  .module("com.module.users.controllers.login", [])
+  .controller("LoginCtrl", LoginCtrl);

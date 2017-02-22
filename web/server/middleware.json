@@ -23,13 +23,20 @@
     }
   },
   "files": {
-    "loopback#static": [{
-      "params": "$!../dist/client",
-      "paths": ["/"]
-    }, {
-      "params": "$!../dist/dashboard",
-      "paths": ["/dashboard"]
-    }]
+    "loopback#static": [
+      {
+        "paths": [
+          "/"
+        ],
+        "params": "$!../dist/client"
+      },
+      {
+        "paths": [
+          "/dashboard"
+        ],
+        "params": "$!../dist/dashboard"
+      }
+    ]
   },
   "final": {
     "loopback#urlNotFound": {},
