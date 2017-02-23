@@ -6,17 +6,30 @@
           Files
           <span class="pull-right btn-group">
             <button class="btn btn-xs btn-success" ng-click="ctrl.scanDir()">
-              <i class="fa fa-plus"></i>
+              <i class="fa fa-refresh"></i>
             </button>
+            <label class="btn btn-xs btn-success fa fa-plus">
+              <input multiple type="file" style="display: none;" nv-file-select uploader="ctrl.uploader"/>
+            </label>
           </span>
         </div>
         <div class='list-group track-list' ng-model="ctrl.storage.tracks">
+          <div ng-repeat="item in ctrl.uploader.queue">
+            <strong>{{ item.file.name }} :</strong></td>
+            <div class="progress" style="margin-bottom: 0;">
+              <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+            </div>
+          </div>
           <div ng-repeat="item in ctrl.tracks">
             <span class="pull-right btn-group">
+              <button class="btn btn-xs btn-warning" ng-click="ctrl.deleteTrack(item)">
+                <i class="fa fa-trash"></i>
+              </button>
               <button class="btn btn-xs btn-default" ng-click="ctrl.addItemToPlaylist(item)">
                 <i class="fa fa-arrow-right"></i>
               </button>
             </span>
+
             <h4 class="list-group-item-heading">
               <span class="track-duration">{{ctrl.moment().startOf('day').add(item.duration, 's').format('HH:mm:ss')}} - </span>
 
@@ -28,7 +41,7 @@
               There are no files
             </h4>
 
-            <p class="list-group-item-text" translate>Click <a href="" ui-sref="^.add">here</a> to add a file!</p>
+            <p class="list-group-item-text" translate>Click<a href="" ui-sref="^.add">here</a> to add a file!</p>
           </div>
         </div>
       </div>

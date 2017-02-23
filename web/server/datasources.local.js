@@ -12,6 +12,7 @@ module.exports = {
     'name': 'trackStorage',
     'provider': 'filesystem',
     'connector': 'loopback-component-storage',
-    'root': STORAGE_PATH
+    'root': STORAGE_PATH,
+    "maxFileSize": "524288000"
   }
 }

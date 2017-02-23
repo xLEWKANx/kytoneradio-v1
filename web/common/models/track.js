@@ -60,6 +60,29 @@ module.exports = function (Track) {
     }
   })
 
+  Track.beforeRemote('deleteById', (ctx, instance, next) => {
+    if (ctx.options.skip) return next()
+    log('after remote | ctx', _.keys(ctx))
+    let Storage = Track.app.models.musicStorage
+    let id = ctx.args.id
+
+    Track.findById(id, {
+      include: ['playlist']
+    }).then((track) => {
+
+      if (track.playlist()) return Promise.all(track.playlist())
+        .map((playlist) => playlist.destroyPromised()).then(() => track);
+      else return track;
+    }).then((track) => {
+      return Storage.removeFilePromised('music', track.name)
+    })
+    .then(next)
+      .catch((err) => {
+      console.error('delete error', err)
+    })
+    console.log('ctx.where', instance, ctx.args, ctx.methodString)
+  })
+
   Track.scanDir = function (cb) {
     let db = Track.app.dataSources.db;
     let app = Track.app

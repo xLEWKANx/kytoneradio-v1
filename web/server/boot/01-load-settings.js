@@ -60,7 +60,7 @@ module.exports = function (app) {
         isBig: false,
         pauseOnHove: true,
         rtl: false,
-        playerPlaceShow: false
+        playerPlaceShow: true
       }]
     }]
 
